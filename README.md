@@ -33,7 +33,7 @@ Satisfactory Modding project using **Unreal Engine 5.6.1-CSS** and matching SML 
 
 ## Bug reports
 
-[Open an issue](https://github.com/kellykiller/SlideMomentum/issues) with your game
+[Open an issue](https://github.com/kellykiller/Uphill-Sliding/issues) with your game
 version and a short description of how to reproduce the problem.
 
 ---
