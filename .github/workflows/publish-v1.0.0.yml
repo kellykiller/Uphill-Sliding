@@ -1,11 +1,10 @@
-name: Publish Uphill Sliding 1.0.0
+name: Finalize Uphill Sliding 1.0.0
 
 "on":
   push:
     branches: [main]
     paths:
       - .github/workflows/publish-v1.0.0.yml
-  workflow_dispatch:
 
 permissions: {}
 
@@ -20,47 +19,46 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Publish source release
+      - name: Finalize the requested 1.0.0 source reference
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
-          if gh release view v1.0.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release view v1.0.0 --repo "$GITHUB_REPOSITORY" --json body --jq .body \
-              > "$RUNNER_TEMP/uphill-sliding-release-existing.md"
-            sed -i 's|kellykiller/SlideMomentum|kellykiller/Uphill-Sliding|g' \
-              "$RUNNER_TEMP/uphill-sliding-release-existing.md"
-            gh release edit v1.0.0 --repo "$GITHUB_REPOSITORY" \
-              --notes-file "$RUNNER_TEMP/uphill-sliding-release-existing.md"
-            echo "Updated repository links; existing tag and assets retained."
-            exit 0
+          expected="1d19efed2508573fa1bc0c24c6c5889bbf159eac"
+          current="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/v1.0.0" --jq .object.sha)"
+          if [ "$current" != "$expected" ] && [ "$current" != "$GITHUB_SHA" ]; then
+            echo "The release tag changed independently; refusing to overwrite it."
+            exit 1
+          fi
+          if [ "$current" != "$GITHUB_SHA" ]; then
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/v1.0.0" \
+              -f sha="$GITHUB_SHA" -F force=true >/dev/null
           fi
           cat > "$RUNNER_TEMP/uphill-sliding-release.md" <<'RELEASE_NOTES'
           ![Uphill Sliding](https://raw.githubusercontent.com/kellykiller/Uphill-Sliding/v1.0.0/Media/UphillSliding.png)
-          
+
           Keep your speed when the terrain turns uphill.
-          
+
           **Uphill Sliding** lets you slide across walkable uphill slopes without abruptly
           losing horizontal momentum. Carry your downhill speed into the next incline and
           chain Satisfactory's existing slide jumps across uneven terrain.
-          
+
           - Normal crouch and jump controls; no unlocks required.
           - Release crouch or use reverse movement input to brake.
           - Existing slide-jump boosts and downhill acceleration remain unchanged.
-          
-          **Compatibility:** Windows singleplayer, tested on Satisfactory 1.2.4.0
-          (build 502094), Epic Games, with SML 3.12.0. Movement changes are inactive
-          in multiplayer and on dedicated servers.
-          
-          The downloads below contain the complete **source code** for version 1.0.0.
-          A compiled installation package is not included in this source release.
-          
+
+          **Compatibility:** Windows singleplayer. Tested on Satisfactory 1.2.4.0
+          (build 502094), Epic Games, with SML 3.12.0. The installation package includes
+          Epic Games and Steam client builds. Movement changes are inactive in multiplayer
+          and on dedicated servers.
+
+          **Download:** `UphillSliding.zip` is the compiled Windows installation package.
+          The source archives contain the complete plugin source and development assets.
+
+          [Mod page](https://ficsit.app/mod/FKXKumYqzkUAhw) ·
           [Report a bug](https://github.com/kellykiller/Uphill-Sliding/issues).
           RELEASE_NOTES
-          gh release create v1.0.0 \
-            --repo "$GITHUB_REPOSITORY" \
-            --target "$GITHUB_SHA" \
+          gh release edit v1.0.0 --repo "$GITHUB_REPOSITORY" \
             --title "Uphill Sliding 1.0.0" \
-            --notes-file "$RUNNER_TEMP/uphill-sliding-release.md" \
-            --latest
+            --notes-file "$RUNNER_TEMP/uphill-sliding-release.md"

@@ -28,7 +28,7 @@ The game's existing slide-jump boosts and downhill acceleration stay unchanged.
 ## Source code
 
 This repository contains the mod plugin, including its C++ source and assets.
-For development, place it in `Mods/GameFeatures/SlideMomentum` inside a compatible
+For development, place it in `Mods/GameFeatures/UphillSliding` inside a compatible
 Satisfactory Modding project using **Unreal Engine 5.6.1-CSS** and matching SML headers.
 
 ## Bug reports

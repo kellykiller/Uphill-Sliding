@@ -1,0 +1,35 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0.0",
+  "FriendlyName": "Uphill Sliding",
+  "Description": "Slide uphill while preserving horizontal momentum in singleplayer.",
+  "Category": "Modding",
+  "CreatedBy": "Kellykiller",
+  "CreatedByURL": "https://github.com/kellykiller",
+  "DocsURL": "https://github.com/kellykiller/Uphill-Sliding#readme",
+  "MarketplaceURL": "",
+  "SupportURL": "https://github.com/kellykiller/Uphill-Sliding/issues",
+  "CanContainContent": true,
+  "IsBetaVersion": false,
+  "IsExperimentalVersion": false,
+  "Installed": false,
+  "Modules": [
+    {
+      "Name": "SlideMomentum",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ],
+  "BuiltInInitialFeatureState": "Active",
+  "Plugins": [
+    {
+      "Name": "SML",
+      "Enabled": true,
+      "SemVersion": "^3.12.0"
+    }
+  ],
+  "SemVersion": "1.0.0",
+  "GameVersion": ">=502094",
+  "RequiredOnRemote": false
+}
