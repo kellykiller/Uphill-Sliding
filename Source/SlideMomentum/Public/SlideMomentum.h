@@ -3,6 +3,10 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
+#if !WITH_EDITOR && !UE_SERVER
+class UFGCharacterMovementComponent;
+#endif
+
 class FSlideMomentumModule : public IModuleInterface
 {
 public:
@@ -10,8 +14,14 @@ public:
     virtual void ShutdownModule() override;
 
 private:
+#if !WITH_EDITOR && !UE_SERVER
+    template <typename TScope>
+    static void CallWithWideSlideAngle(
+        TScope& Scope, const UFGCharacterMovementComponent* Movement, const TCHAR* Name);
+
     FDelegateHandle CanSlideHook;
     FDelegateHandle CanStartSlideHook;
     FDelegateHandle GetMaxSpeedHook;
     FDelegateHandle CalcVelocityHook;
+#endif
 };

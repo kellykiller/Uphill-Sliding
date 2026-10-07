@@ -2,14 +2,14 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0.0",
-	"FriendlyName": "SlideMomentum",
-	"Description": "Preserves slide momentum on uphill slopes.",
+	"FriendlyName": "Uphill Sliding",
+	"Description": "Slide uphill while preserving horizontal momentum in singleplayer.",
 	"Category": "Modding",
 	"CreatedBy": "Kellykiller",
-	"CreatedByURL": "",
-	"DocsURL": "",
+	"CreatedByURL": "https://github.com/kellykiller",
+	"DocsURL": "https://github.com/kellykiller/SlideMomentum#readme",
 	"MarketplaceURL": "",
-	"SupportURL": "",
+	"SupportURL": "https://github.com/kellykiller/SlideMomentum/issues",
 	"CanContainContent": true,
 	"IsBetaVersion": false,
 	"IsExperimentalVersion": false,
@@ -30,5 +30,6 @@
 		}
 	],
 	"SemVersion": "1.0.0",
-	"GameVersion": ">=502094"
+	"GameVersion": ">=502094",
+	"RequiredOnRemote": false
 }

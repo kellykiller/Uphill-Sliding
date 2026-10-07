@@ -1,52 +1,41 @@
-# SlideMomentum
+# Uphill Sliding
 
-A Satisfactory mod that lets you slide uphill while preserving horizontal momentum.
+<img src="Media/UphillSliding.png" alt="Uphill Sliding" width="640">
+
+Keep your speed when the terrain turns uphill.
+
+**Uphill Sliding** lets you continue sliding across uphill slopes in Satisfactory
+without abruptly losing your horizontal momentum. Carry the speed you built on
+a downhill stretch into the next incline, and keep chaining the game's existing
+slide jumps across uneven terrain.
 
 ## Features
 
-- Continue sliding across walkable uphill slopes.
-- Retain horizontal speed during uphill slides instead of losing momentum abruptly.
-- Chain the game's existing slide jumps across gentle inclines.
-- Release crouch or apply reverse movement input to brake normally.
+- Slide uphill on surfaces the game considers walkable.
+- Preserve horizontal momentum when an incline would normally slow your slide.
+- Keep normal braking: release crouch or apply reverse movement input.
+- Use the game's normal crouch and jump controls; no unlocks are required.
 
-The mod does not change the game's slide-jump multipliers or downhill acceleration.
+The game's existing slide-jump boosts and downhill acceleration stay unchanged.
 
 ## Compatibility
 
-- **Singleplayer only.** Movement changes are enabled only in standalone play.
-- **Windows client.**
-- Tested in Satisfactory **1.2.4.0, build 502094**, using the **Epic Games** version.
-- Satisfactory Mod Loader dependency: **^3.12.0**.
-- Multiplayer, dedicated servers, Steam and Experimental have not been tested.
+- Windows, **singleplayer only**.
+- Tested with the Epic Games version of **Satisfactory 1.2.4.0, build 502094**.
+- Requires **Satisfactory Mod Loader 3.12.0 or a compatible later 3.x version**.
+- Movement changes are inactive in multiplayer and on dedicated servers.
 
-## Usage
+## Source code
 
-The mod is enabled by default. Use the game's normal crouch and jump controls.
-No milestone or unlock is required.
-
-Console variables, when a console is available:
-
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `SlideMomentum.Enabled` | `1` | Set to `0` to disable the movement changes. |
-| `SlideMomentum.Debug` | `0` | Set to `1` to log uphill slide checks and speed corrections. |
-
-## Development
-
-This repository is intended to contain the **SlideMomentum plugin**, not the whole FactoryGame starter project.
-
-Place the plugin in `Mods/GameFeatures/SlideMomentum` inside a compatible Satisfactory Modding starter project. Use the Coffee Stain Unreal Engine **5.6.1-CSS** build and the matching SML development environment.
-
-Build the editor target for development. Package with **Alpakit Release**, selecting **Windows** only for this singleplayer version. The combined `SlideMomentum.zip` is the package intended for upload to ficsit.app; an Alpakit Dev package is for local testing.
+This repository contains the mod plugin, including its C++ source and assets.
+For development, place it in `Mods/GameFeatures/SlideMomentum` inside a compatible
+Satisfactory Modding project using **Unreal Engine 5.6.1-CSS** and matching SML headers.
 
 ## Bug reports
 
-Please [open an issue](https://github.com/kellykiller/SlideMomentum/issues) with your game build, launcher, SML version, installed movement mods, and steps to reproduce the problem.
+[Open an issue](https://github.com/kellykiller/SlideMomentum/issues) with your game
+version and a short description of how to reproduce the problem.
 
-## AI assistance
-
-OpenAI ChatGPT/Codex assisted with source code, installation scripts, documentation and release text. The author compiled the mod and tested its behavior in the game.
-
-## Release status
-
-The mod has been tested locally. Publication on ficsit.app is being prepared.
+---
+Created by **Kellykiller** with assistance from OpenAI ChatGPT/Codex for code,
+artwork and documentation.

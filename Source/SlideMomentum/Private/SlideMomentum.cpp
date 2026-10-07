@@ -1,5 +1,7 @@
 #include "SlideMomentum.h"
 
+#if !WITH_EDITOR && !UE_SERVER
+
 #include "Engine/World.h"
 #include "FGCharacterMovementComponent.h"
 #include "GameFramework/Character.h"
@@ -59,54 +61,48 @@ namespace
     }
 }
 
-void FSlideMomentumModule::StartupModule()
+template <typename TScope>
+void FSlideMomentumModule::CallWithWideSlideAngle(
+    TScope& Scope, const UFGCharacterMovementComponent* Movement, const TCHAR* Name)
 {
-    // Hooks belong in the packaged game. The editor uses FactoryGame stubs.
-    if (WITH_EDITOR)
+    if (!IsUphillCrouch(Movement))
     {
-        return;
+        return; // SML forwards the call automatically.
     }
 
+    // FactoryGame declares mMaxSlideAngle in radians. PI allows any uphill angle;
+    // the original method still checks speed, floor eligibility and other conditions.
+    // This helper is a module member because the field is private and the module
+    // is its AccessTransformers friend. Restore the field after this invocation.
+    auto* MutableMovement = const_cast<UFGCharacterMovementComponent*>(Movement);
+    TGuardValue<float> AngleGuard(MutableMovement->mMaxSlideAngle, PI);
+    const bool Result = Scope(Movement);
+    if (CVarSlideMomentumDebug.GetValueOnGameThread() != 0)
+    {
+        UE_LOG(LogSlideMomentum, Display,
+            TEXT("%s uphill: allowed=%d speed=%.1f cm/s"),
+            Name, Result ? 1 : 0, Movement->Velocity.Size2D());
+    }
+}
+
+#endif // !WITH_EDITOR && !UE_SERVER
+
+void FSlideMomentumModule::StartupModule()
+{
+#if !WITH_EDITOR && !UE_SERVER
+    // The editor uses FactoryGame stubs; dedicated servers do not use this mod.
     CanSlideHook = SUBSCRIBE_METHOD(
         UFGCharacterMovementComponent::CanSlide,
         [](auto& Scope, const UFGCharacterMovementComponent* Movement)
         {
-            if (!IsUphillCrouch(Movement))
-            {
-                return; // SML forwards the call automatically.
-            }
-
-            // Preserve the original eligibility checks; only widen the angle limit.
-            // The original field is restored as soon as this invocation finishes.
-            auto* MutableMovement = const_cast<UFGCharacterMovementComponent*>(Movement);
-            TGuardValue<float> AngleGuard(MutableMovement->mMaxSlideAngle, PI);
-            const bool Result = Scope(Movement);
-            if (CVarSlideMomentumDebug.GetValueOnGameThread() != 0)
-            {
-                UE_LOG(LogSlideMomentum, Display,
-                    TEXT("CanSlide uphill: allowed=%d speed=%.1f cm/s"),
-                    Result ? 1 : 0, Movement->Velocity.Size2D());
-            }
+            CallWithWideSlideAngle(Scope, Movement, TEXT("CanSlide"));
         });
 
     CanStartSlideHook = SUBSCRIBE_METHOD(
         UFGCharacterMovementComponent::CanStartSlide,
         [](auto& Scope, const UFGCharacterMovementComponent* Movement)
         {
-            if (!IsUphillCrouch(Movement))
-            {
-                return;
-            }
-
-            auto* MutableMovement = const_cast<UFGCharacterMovementComponent*>(Movement);
-            TGuardValue<float> AngleGuard(MutableMovement->mMaxSlideAngle, PI);
-            const bool Result = Scope(Movement);
-            if (CVarSlideMomentumDebug.GetValueOnGameThread() != 0)
-            {
-                UE_LOG(LogSlideMomentum, Display,
-                    TEXT("CanStartSlide uphill: allowed=%d speed=%.1f cm/s"),
-                    Result ? 1 : 0, Movement->Velocity.Size2D());
-            }
+            CallWithWideSlideAngle(Scope, Movement, TEXT("CanStartSlide"));
         });
 
     GetMaxSpeedHook = SUBSCRIBE_UOBJECT_METHOD(
@@ -119,6 +115,8 @@ void FSlideMomentumModule::StartupModule()
                 ? static_cast<float>(Movement->Velocity.Size2D()) : 0.0f;
             const float OriginalMaxSpeed = Scope(Movement);
 
+            // Scope may invoke other mods' hooks as well as the const original.
+            // Recheck eligibility before applying our override.
             if (PreserveMomentum && IsUphillSlide(Movement))
             {
                 Scope.Override(FMath::Max(OriginalMaxSpeed, IncomingSpeed));
@@ -131,19 +129,21 @@ void FSlideMomentumModule::StartupModule()
         [](auto& Scope, UFGCharacterMovementComponent* Movement,
            float DeltaTime, float Friction, bool IsFluid, float BrakingDeceleration)
         {
-            const bool PreserveMomentum = !IsFluid && DeltaTime > 0.0f &&
-                IsUphillSlide(Movement);
+            if (IsFluid || DeltaTime <= 0.0f || !IsUphillSlide(Movement))
+            {
+                return; // SML forwards the unmodified call automatically.
+            }
+
             const FVector Before(Movement->Velocity.X, Movement->Velocity.Y, 0.0);
+            const FVector Acceleration = Movement->GetCurrentAcceleration();
 
             // Reverse input is allowed to brake the slide.
             const bool IsBraking = FVector::DotProduct(
-                FVector(Movement->GetCurrentAcceleration().X,
-                        Movement->GetCurrentAcceleration().Y, 0.0),
-                Before) < -KINDA_SMALL_NUMBER;
+                FVector(Acceleration.X, Acceleration.Y, 0.0), Before) < -KINDA_SMALL_NUMBER;
 
             Scope(Movement, DeltaTime, Friction, IsFluid, BrakingDeceleration);
 
-            if (!PreserveMomentum || IsBraking || !IsUphillSlide(Movement))
+            if (IsBraking || !IsUphillSlide(Movement))
             {
                 return;
             }
@@ -179,16 +179,15 @@ void FSlideMomentumModule::StartupModule()
         });
 
     UE_LOG(LogSlideMomentum, Display,
-        TEXT("SlideMomentum uphill test build loaded (singleplayer, CL502094)."));
+        TEXT("SlideMomentum loaded (standalone singleplayer)."));
+#endif
 }
 
 void FSlideMomentumModule::ShutdownModule()
 {
-    if (WITH_EDITOR)
-    {
-        return;
-    }
-
+#if !WITH_EDITOR && !UE_SERVER
+    // SML 3.12 removes handlers directly; its unsubscribe macros do not fetch a CDO.
+    // Retain cleanup so unloading this module cannot leave callbacks into its code.
     if (CalcVelocityHook.IsValid())
     {
         UNSUBSCRIBE_UOBJECT_METHOD(UFGCharacterMovementComponent, CalcVelocity, CalcVelocityHook);
@@ -209,6 +208,7 @@ void FSlideMomentumModule::ShutdownModule()
         UNSUBSCRIBE_METHOD(UFGCharacterMovementComponent::CanSlide, CanSlideHook);
         CanSlideHook.Reset();
     }
+#endif
 }
 
 IMPLEMENT_MODULE(FSlideMomentumModule, SlideMomentum)
