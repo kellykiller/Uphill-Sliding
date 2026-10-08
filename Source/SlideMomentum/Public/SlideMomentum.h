@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
-#if !WITH_EDITOR && !UE_SERVER
+#if !WITH_EDITOR
 class UFGCharacterMovementComponent;
 #endif
 
@@ -14,7 +14,7 @@ public:
     virtual void ShutdownModule() override;
 
 private:
-#if !WITH_EDITOR && !UE_SERVER
+#if !WITH_EDITOR
     template <typename TScope>
     static void CallWithWideSlideAngle(
         TScope& Scope, const UFGCharacterMovementComponent* Movement, const TCHAR* Name);

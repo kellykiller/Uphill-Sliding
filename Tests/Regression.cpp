@@ -76,19 +76,15 @@ int main()
     CheckGate("downhill",[](auto& m){m.CurrentFloor.HitResult.ImpactNormal={.2,0,std::sqrt(.96)};});
     CheckGate("airborne",[](auto& m){m.grounded=false;});
     CheckGate("crouch released",[](auto& m){m.bWantsToCrouch=false;});
-    CheckGate("client",[](auto& m){m.world.mode=NM_Client;});
-    CheckGate("listen server",[](auto& m){m.world.mode=NM_ListenServer;});
-    CheckGate("dedicated server",[](auto& m){m.world.mode=NM_DedicatedServer;});
-    CheckGate("remote player",[](auto& m){m.owner.local=false;});
+    CheckGate("simulated remote player",[](auto& m){m.world.mode=NM_Client;m.owner.local=false;m.owner.role=ROLE_SimulatedProxy;});
+    CheckGate("non-owning autonomous proxy",[](auto& m){m.world.mode=NM_Client;m.owner.local=false;m.owner.role=ROLE_AutonomousProxy;});
+    CheckGate("role none",[](auto& m){m.owner.role=ROLE_None;});
     CheckGate("AI",[](auto& m){m.owner.player=false;});
     CheckGate("no slide",[](auto& m){m.sliding=false;});
     CheckGate("unwalkable",[](auto& m){m.CurrentFloor.walkable=false;});
     CheckGate("no world",[](auto& m){m.noWorld=true;});
     CheckGate("no owner",[](auto& m){m.noOwner=true;});
     CheckGate("invalid normal",[](auto& m){m.CurrentFloor.HitResult.ImpactNormal={-.2,0,0};});
-    CVarSlideMomentumEnabled.value=0;
-    CheckGate("disabled",[](auto&){});
-    CVarSlideMomentumEnabled.value=1;
     { Movement m;Calc(m);assert(Near(m.Velocity.X,1000)&&m.Velocity.Z==70);assert(m.accelerationReads==1);assert(MaxSpeed(m)==1000);++scenarios; }
     { Movement m;m.CurrentFloor.HitResult.ImpactNormal={-.0002,0,std::sqrt(1-.0002*.0002)};Calc(m);assert(Near(m.Velocity.X,1000));++scenarios; }
     { Movement m;m.acceleration={-1,0,0};Calc(m);assert(Near(m.Velocity.X,400));assert(m.accelerationReads==1);++scenarios; }
@@ -108,6 +104,63 @@ int main()
     { Movement m;m.eligible=false;const float angle=m.OriginalAngle();assert(!SlideMomentumTestHarness::Slide(m,false));assert(m.OriginalAngle()==angle);assert(!SlideMomentumTestHarness::Slide(m,true));assert(m.OriginalAngle()==angle);++scenarios; }
     { Movement m;const float angle=m.OriginalAngle();assert(SlideMomentumTestHarness::Slide(m,false,[&](const Movement*){assert(m.OriginalAngle()==PI);const bool result=SlideMomentumTestHarness::Slide(m,true);assert(m.OriginalAngle()==PI);return result;}));assert(m.OriginalAngle()==angle);++scenarios; }
     { Movement m;m.bWantsToCrouch=false;assert(!SlideMomentumTestHarness::Slide(m,false));assert(!SlideMomentumTestHarness::Slide(m,true));++scenarios; }
+    auto CheckNetworkRole = [&](const char* name, NetMode mode, ENetRole role, bool local)
+    {
+        Movement m;
+        m.world.mode = mode;
+        m.owner.role = role;
+        m.owner.local = local;
+        assert(IsUphillCrouch(&m));
+        const float angle = m.OriginalAngle();
+        assert(SlideMomentumTestHarness::Slide(m, true));
+        assert(SlideMomentumTestHarness::Slide(m, false));
+        assert(m.OriginalAngle() == angle);
+        assert(MaxSpeed(m) == 1000);
+        Calc(m);
+        assert(Near(m.Velocity.X, 1000) && m.Velocity.Z == 70);
+        std::cout << "PASS " << name << '\n';
+        ++scenarios;
+    };
+    CheckNetworkRole("standalone authority", NM_Standalone, ROLE_Authority, true);
+    CheckNetworkRole("owning client prediction", NM_Client, ROLE_AutonomousProxy, true);
+    CheckNetworkRole("listen host", NM_ListenServer, ROLE_Authority, true);
+    CheckNetworkRole("listen server remote player", NM_ListenServer, ROLE_Authority, false);
+    CheckNetworkRole("dedicated server remote player", NM_DedicatedServer, ROLE_Authority, false);
+
+    // Identical supplied inputs/state must yield identical hook decisions on both sides.
+    // This does not simulate packets, engine saved moves or UE collision physics.
+    for (int scenario = 0; scenario < 7; ++scenario)
+    {
+        Movement client, server;
+        client.world.mode = NM_Client;
+        client.owner.role = ROLE_AutonomousProxy;
+        server.world.mode = NM_DedicatedServer;
+        server.owner.local = false;
+        if (scenario == 1) { client.acceleration = server.acceleration = {-1, 0, 0}; }
+        if (scenario == 2) { client.CurrentFloor.HitResult.ImpactNormal = server.CurrentFloor.HitResult.ImpactNormal = {0, 0, 1}; }
+        if (scenario == 3) { client.CurrentFloor.HitResult.ImpactNormal = server.CurrentFloor.HitResult.ImpactNormal = {.2, 0, std::sqrt(.96)}; }
+        if (scenario == 4) { client.bWantsToCrouch = server.bWantsToCrouch = false; }
+        if (scenario == 5) { client.turnRadians = server.turnRadians = PI / 6; }
+        if (scenario == 6) { client.interrupt = server.interrupt = true; }
+        for (int step = 0; step < 8; ++step)
+        {
+            assert(SlideMomentumTestHarness::Slide(client, true) == SlideMomentumTestHarness::Slide(server, true));
+            assert(SlideMomentumTestHarness::Slide(client, false) == SlideMomentumTestHarness::Slide(server, false));
+            assert(Near(MaxSpeed(client), MaxSpeed(server)));
+            const Movement before = client;
+            Calc(client);
+            Calc(server);
+            assert(Near(client.Velocity.X, server.Velocity.X));
+            assert(Near(client.Velocity.Y, server.Velocity.Y));
+            assert(Near(client.Velocity.Z, server.Velocity.Z));
+            Movement replay = before;
+            Calc(replay);
+            assert(Near(client.Velocity.X, replay.Velocity.X));
+            assert(Near(client.Velocity.Y, replay.Velocity.Y));
+            assert(Near(client.Velocity.Z, replay.Velocity.Z));
+        }
+        ++scenarios;
+    }
     assert(!IsUphillCrouch(nullptr));
     assert(!IsUphillSlide(nullptr));
     ++scenarios;

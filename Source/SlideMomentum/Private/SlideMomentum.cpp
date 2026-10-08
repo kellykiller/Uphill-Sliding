@@ -1,6 +1,6 @@
 #include "SlideMomentum.h"
 
-#if !WITH_EDITOR && !UE_SERVER
+#if !WITH_EDITOR
 
 #include "Engine/World.h"
 #include "FGCharacterMovementComponent.h"
@@ -13,12 +13,6 @@ DEFINE_LOG_CATEGORY_STATIC(LogSlideMomentum, Log, All);
 
 namespace
 {
-    TAutoConsoleVariable<int32> CVarSlideMomentumEnabled(
-        TEXT("SlideMomentum.Enabled"),
-        1,
-        TEXT("Enable uphill slide momentum in standalone singleplayer: 0=off, 1=on."),
-        ECVF_Default);
-
     TAutoConsoleVariable<int32> CVarSlideMomentumDebug(
         TEXT("SlideMomentum.Debug"),
         0,
@@ -27,8 +21,7 @@ namespace
 
     bool IsUphillCrouch(const UFGCharacterMovementComponent* Movement)
     {
-        if (CVarSlideMomentumEnabled.GetValueOnGameThread() == 0 ||
-            Movement == nullptr || !Movement->bWantsToCrouch ||
+        if (Movement == nullptr || !Movement->bWantsToCrouch ||
             !Movement->IsMovingOnGround() ||
             !Movement->CurrentFloor.IsWalkableFloor())
         {
@@ -37,9 +30,17 @@ namespace
 
         const UWorld* World = Movement->GetWorld();
         const ACharacter* Character = Movement->GetCharacterOwner();
-        if (World == nullptr || World->GetNetMode() != NM_Standalone ||
-            Character == nullptr || !Character->IsLocallyControlled() ||
-            !Character->IsPlayerControlled())
+        if (World == nullptr || Character == nullptr || !Character->IsPlayerControlled())
+        {
+            return false;
+        }
+
+        // Apply identical rules to client prediction/replay and server authority.
+        // Remote client pawns are simulated proxies: their movement is replicated
+        // and must not receive a second local momentum correction.
+        const bool IsOwningClient = Character->GetLocalRole() == ROLE_AutonomousProxy &&
+            Character->IsLocallyControlled();
+        if (!Character->HasAuthority() && !IsOwningClient)
         {
             return false;
         }
@@ -85,12 +86,13 @@ void FSlideMomentumModule::CallWithWideSlideAngle(
     }
 }
 
-#endif // !WITH_EDITOR && !UE_SERVER
+#endif // !WITH_EDITOR
 
 void FSlideMomentumModule::StartupModule()
 {
-#if !WITH_EDITOR && !UE_SERVER
-    // The editor uses FactoryGame stubs; dedicated servers do not use this mod.
+#if !WITH_EDITOR
+    // The editor uses FactoryGame stubs. Game and dedicated-server builds install
+    // the same hooks, using state already carried by normal character movement.
     CanSlideHook = SUBSCRIBE_METHOD(
         UFGCharacterMovementComponent::CanSlide,
         [](auto& Scope, const UFGCharacterMovementComponent* Movement)
@@ -179,13 +181,13 @@ void FSlideMomentumModule::StartupModule()
         });
 
     UE_LOG(LogSlideMomentum, Display,
-        TEXT("SlideMomentum loaded (standalone singleplayer)."));
+        TEXT("Uphill Sliding multiplayer prototype loaded (client/server movement rules)."));
 #endif
 }
 
 void FSlideMomentumModule::ShutdownModule()
 {
-#if !WITH_EDITOR && !UE_SERVER
+#if !WITH_EDITOR
     // SML 3.12 removes handlers directly; its unsubscribe macros do not fetch a CDO.
     // Retain cleanup so unloading this module cannot leave callbacks into its code.
     if (CalcVelocityHook.IsValid())

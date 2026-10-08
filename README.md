@@ -18,12 +18,20 @@ slide jumps across uneven terrain.
 
 The game's existing slide-jump boosts and downhill acceleration stay unchanged.
 
-## Compatibility
+## Multiplayer prototype — 1.1.0-beta.1
 
-- Windows, **singleplayer only**.
-- Tested with the Epic Games version of **Satisfactory 1.2.4.0, build 502094**.
-- Requires **Satisfactory Mod Loader 3.12.0 or a compatible later 3.x version**.
-- Movement changes are inactive in multiplayer and on dedicated servers.
+This development branch enables the movement rules on the owning client and on
+server authority, including remote players on dedicated and listen servers.
+Install **the same beta version on every client and the server**.
+
+Build targets: Windows client (Steam and Epic), Windows dedicated server and
+Linux x86_64 dedicated server. The platform builds and real network movement
+still need testing; these are intended targets, not verified compatibility claims.
+See [MULTIPLAYER.md](MULTIPLAYER.md) for setup, test cases and current results.
+
+Version [1.0.0](https://github.com/kellykiller/Uphill-Sliding/releases/tag/v1.0.0)
+remains the tested Windows singleplayer release. Its movement changes are inactive
+in multiplayer. Development uses **UE 5.6.1-CSS** and **SML 3.12.x**.
 
 ## Source code
 
