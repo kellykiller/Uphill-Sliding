@@ -1,0 +1,58 @@
+name: Prepare Uphill Sliding 1.1.0 release
+
+"on":
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/prepare-release.yml
+
+permissions: {}
+
+concurrency:
+  group: uphill-sliding-release-v1.1.0
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    if: github.repository == 'kellykiller/Uphill-Sliding' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Run movement regression and compilation guard checks
+        run: bash Tests/run-tests.sh
+      - name: Check release metadata
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          plugin = json.loads(Path('UphillSliding.uplugin').read_text())
+          assert plugin['SemVersion'] == plugin['VersionName'] == '1.1.0'
+          assert plugin['Version'] == 2
+          assert plugin['RequiredOnRemote'] is True
+          assert plugin['IsBetaVersion'] is plugin['IsExperimentalVersion'] is False
+          assert Path('RELEASE_NOTES.md').is_file()
+          PY
+      - name: Create or refresh the 1.1.0 draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view v1.1.0 --repo "$GITHUB_REPOSITORY" --json isDraft > "$RUNNER_TEMP/uphill-release.json"; then
+            if [ "$(jq -r .isDraft "$RUNNER_TEMP/uphill-release.json")" != true ]; then
+              echo 'The 1.1.0 release is already published; refusing to replace it.'
+              exit 1
+            fi
+            gh release edit v1.1.0 --repo "$GITHUB_REPOSITORY" --draft \
+              --target "$GITHUB_SHA" --title 'Uphill Sliding 1.1.0' \
+              --notes-file RELEASE_NOTES.md
+          else
+            gh release create v1.1.0 --repo "$GITHUB_REPOSITORY" --draft \
+              --target "$GITHUB_SHA" --title 'Uphill Sliding 1.1.0' \
+              --notes-file RELEASE_NOTES.md
+          fi
