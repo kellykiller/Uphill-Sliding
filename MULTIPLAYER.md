@@ -2,7 +2,9 @@
 
 The first real-engine client/server build and archive verification passed on
 2026-10-09. The Linux Docker server subsequently loaded the native module and activated the
-beta successfully. Client connection and movement tests are still pending.
+beta successfully. The author then joined from the Epic Windows client and
+reported successful uphill sliding. A comparison with both SML and the mod
+removed reproduced the immediate stop on a slight uphill slope.
 The stable 1.0.0 release stays singleplayer only.
 
 ## How movement is applied
@@ -115,9 +117,9 @@ and joining player. Linux success alone does not validate those session types.
 | Actual source against mock engine/SML headers | 47 scenarios passed |
 | Actual source with `UE_SERVER=1` against mocks | 47 scenarios passed; hooks active |
 | Editor build against minimal mock core headers | Passed; movement hooks excluded |
-| Real Windows clients (Epic and Steam), Shipping | Build/archive checks passed 2026-10-09; game tests pending |
+| Real Windows clients (Epic and Steam), Shipping | Both builds passed; Epic client join/uphill comparison passed by author report 2026-10-09; Steam runtime pending |
 | Real Windows dedicated, Shipping | Build/archive checks passed 2026-10-09; session pending |
-| Real Linux dedicated x86_64, Shipping | Build/archive checks and Docker module startup passed 2026-10-09; client join/movement pending |
+| Real Linux dedicated x86_64, Shipping | Build, Docker startup, Epic client join and first uphill comparison passed 2026-10-09; remaining acceptance tests pending |
 | Real listen-server host and guest | Pending |
 | Network correction/ping tests | Pending |
 
@@ -136,13 +138,23 @@ SML 3.12.0, beta 1.1.0-beta.1 and the feature transitioning to `Active`. The
 container remained running with restart count 0 and exit code 0. This test profile
 contains SML plus the manually installed beta; SmartFoundations is not installed.
 Startup emitted localization and primary-asset warnings before the successful
-`Active` transition. Client joining, movement prediction and server corrections
-have not yet been tested.
+`Active` transition.
+
+The author installed the matching Windows beta, joined the Linux server and
+reported that uphill sliding worked. For the comparison, the server plugin was
+moved outside `FactoryGame/Mods`. Pausing the client mod through Mod Manager also
+left that client without SML, so server SML was subsequently moved outside the
+Mods directory to permit a vanilla connection. In the comparison session, the
+author reported that even a slight uphill slope immediately stopped movement
+again. This supports the intended effect in this Epic-client/Linux-server test.
+The movement result is a manual author report, not an independently inspected
+client log, video or network trace. Two simultaneous players, systematic braking,
+collision and respawn checks, and measured correction/latency tests are pending.
 
 Mock tests establish role routing and algorithm regression behavior. They do not
 establish real packet prediction or multiplayer compatibility. The real Linux
-startup adds evidence of native module initialization, but movement behavior
-still requires the network tests above.
+startup and manual comparison add evidence for the first Linux dedicated test;
+the remaining acceptance tests and other session types are still pending.
 Only update the compatibility claims after the corresponding real tests pass.
 
 ## Rollback
