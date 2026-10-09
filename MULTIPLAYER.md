@@ -1,4 +1,4 @@
-# Multiplayer development — 1.1.0-beta.1
+# Multiplayer validation and development — 1.1.0
 
 The first real-engine client/server build and archive verification passed on
 2026-10-09. The Linux Docker server subsequently loaded the native module and activated the
@@ -9,7 +9,10 @@ The author also completed a Windows Server 2025 dedicated test with the Epic
 Windows client: vanilla uphill sliding stopped as expected, then the matching
 beta worked after installation on client and server. The author reported success
 when asked about joining, retained speed, jitter and position resets.
-The stable 1.0.0 release stays singleplayer only.
+The 1.1.0 release source retains the tested beta movement rules. Diagnostic
+console options and per-slide logs are removed, and release metadata is finalized.
+Final real-engine 1.1.0 packaging is pending; existing beta ZIPs stay beta packages.
+The published 1.0.0 package remains singleplayer only.
 
 ## How movement is applied
 
@@ -27,10 +30,10 @@ first implementation; real server corrections must still be measured.
 The normal collision solver and position validation stay enabled. Walkability,
 reverse-input braking, sharp-turn checks, and original slide eligibility remain.
 The former local Enabled console variable is removed to prevent divergent rules.
-There are no player configuration options. Diagnostic logging defaults to off.
+There are no player configuration or diagnostic console options in 1.1.0.
 
 `RequiredOnRemote` is true. `RemoteVersionRange` is omitted, so SML requires the
-exact same mod version on both sides. Do not mix this beta with 1.0.0.
+exact same mod version on both sides. Do not mix 1.1.0, its beta packages or 1.0.0 in a session.
 
 ## Build on Windows
 
@@ -42,14 +45,14 @@ Official downloads and setup:
 - [Satisfactory modding requirements](https://docs.ficsit.app/satisfactory-modding/latest/Development/BeginnersGuide/dependencies.html#_clang_toolchain_for_linux_dedicated_server_support)
 - [Epic toolchain table for UE 5.6](https://dev.epicgames.com/documentation/en-us/unreal-engine/linux-development-requirements-for-unreal-engine?application_version=5.6)
 
-`Tools/Prepare-Multiplayer.ps1` is a standalone PowerShell 5.1 updater for an
+`Tools/Prepare-Release.ps1` is a standalone PowerShell 5.1 updater for an
 existing `Mods/GameFeatures/UphillSliding` plugin. It downloads pinned and hashed
 source files, backs up the replaced files and existing archives, and then calls
 Alpakit. It does not alter other mods, feature assets, game installs or server
 containers. Close Unreal Editor and Satisfactory first.
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Prepare-Multiplayer.ps1 -Build
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Prepare-Release.ps1 -Build
 ```
 
 The default build includes Windows clients (Steam and Epic) plus Windows and
@@ -67,7 +70,7 @@ Expected outputs under `Saved/ArchivedPlugins/UphillSliding/`:
 | `UphillSliding-WindowsServer.zip` | Windows server plugin | Windows dedicated server |
 | `UphillSliding-LinuxServer.zip` | Linux server plugin | Linux x86_64 dedicated server |
 
-The script verifies beta metadata, required-on-remote policy, game-feature
+The release script verifies 1.1.0 metadata, required-on-remote policy, game-feature
 marking, native module manifests and binary presence for each selected target.
 A build/verification failure is not a distributable package. Retain the full log.
 
@@ -91,13 +94,18 @@ A build/verification failure is not a distributable package. Retain the full log
 5. Ensure readable file permissions for the server's container user. Keep the
    same beta package on both sides. Do not reapply an SMM profile that replaces
    the manually installed development package with stable 1.0.0.
-6. Start the server and client. Both logs must show `Uphill Sliding multiplayer
-   prototype loaded`. Join the new test save.
+6. Start the server and client. Both logs must show `Uphill Sliding loaded (client/server movement rules).`
+   for 1.1.0 (`Uphill Sliding multiplayer prototype loaded` for the tested beta).
+   Join the new test save.
 
 Exact copy commands depend on the actual Docker paths and container lifecycle.
 They should be prepared after inspecting the new environment.
 
-## Windows dedicated prototype installation
+## Historical beta installation tools
+
+The `Tools/*Prototype*` installers and `Prepare-Multiplayer.ps1` are pinned to
+1.1.0-beta.1 for reproducing the recorded tests; they do not install the final
+1.1.0 release. Use Mod Manager for published releases.
 
 `Tools/Install-WindowsServer-Prototype.ps1` accepts a plugin-root
 `UphillSliding-WindowsServer.zip` and a dedicated game root containing
@@ -142,6 +150,7 @@ server success alone does not validate listen-host and guest behavior.
 | Real Linux dedicated x86_64, Shipping | Build, Docker startup, Epic client join and first uphill comparison passed 2026-10-09; remaining acceptance tests pending |
 | Real listen-server host and guest | Pending |
 | Network correction/ping tests | Pending |
+| Final 1.1.0 real-engine build and package checks | Pending; use `Tools/Prepare-Release.ps1 -Build` |
 
 The author supplied the complete Windows Alpakit log: `BUILD SUCCESSFUL`,
 AutomationTool exit code 0, and successful archive verification for Windows,

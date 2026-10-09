@@ -5,7 +5,6 @@
 #include "Engine/World.h"
 #include "FGCharacterMovementComponent.h"
 #include "GameFramework/Character.h"
-#include "HAL/IConsoleManager.h"
 #include "Templates/UnrealTemplate.h"
 #include "Patching/NativeHookManager.h"
 
@@ -13,12 +12,6 @@ DEFINE_LOG_CATEGORY_STATIC(LogSlideMomentum, Log, All);
 
 namespace
 {
-    TAutoConsoleVariable<int32> CVarSlideMomentumDebug(
-        TEXT("SlideMomentum.Debug"),
-        0,
-        TEXT("Log uphill slide checks and velocity corrections: 0=off, 1=on."),
-        ECVF_Default);
-
     bool IsUphillCrouch(const UFGCharacterMovementComponent* Movement)
     {
         if (Movement == nullptr || !Movement->bWantsToCrouch ||
@@ -64,7 +57,7 @@ namespace
 
 template <typename TScope>
 void FSlideMomentumModule::CallWithWideSlideAngle(
-    TScope& Scope, const UFGCharacterMovementComponent* Movement, const TCHAR* Name)
+    TScope& Scope, const UFGCharacterMovementComponent* Movement)
 {
     if (!IsUphillCrouch(Movement))
     {
@@ -77,13 +70,7 @@ void FSlideMomentumModule::CallWithWideSlideAngle(
     // is its AccessTransformers friend. Restore the field after this invocation.
     auto* MutableMovement = const_cast<UFGCharacterMovementComponent*>(Movement);
     TGuardValue<float> AngleGuard(MutableMovement->mMaxSlideAngle, PI);
-    const bool Result = Scope(Movement);
-    if (CVarSlideMomentumDebug.GetValueOnGameThread() != 0)
-    {
-        UE_LOG(LogSlideMomentum, Display,
-            TEXT("%s uphill: allowed=%d speed=%.1f cm/s"),
-            Name, Result ? 1 : 0, Movement->Velocity.Size2D());
-    }
+    Scope(Movement);
 }
 
 #endif // !WITH_EDITOR
@@ -97,14 +84,14 @@ void FSlideMomentumModule::StartupModule()
         UFGCharacterMovementComponent::CanSlide,
         [](auto& Scope, const UFGCharacterMovementComponent* Movement)
         {
-            CallWithWideSlideAngle(Scope, Movement, TEXT("CanSlide"));
+            CallWithWideSlideAngle(Scope, Movement);
         });
 
     CanStartSlideHook = SUBSCRIBE_METHOD(
         UFGCharacterMovementComponent::CanStartSlide,
         [](auto& Scope, const UFGCharacterMovementComponent* Movement)
         {
-            CallWithWideSlideAngle(Scope, Movement, TEXT("CanStartSlide"));
+            CallWithWideSlideAngle(Scope, Movement);
         });
 
     GetMaxSpeedHook = SUBSCRIBE_UOBJECT_METHOD(
@@ -172,16 +159,10 @@ void FSlideMomentumModule::StartupModule()
             // Keep Z unchanged. The normal movement solver handles ramps and collisions
             // after CalcVelocity. No velocity is restored after moving into a wall.
 
-            if (CVarSlideMomentumDebug.GetValueOnGameThread() != 0)
-            {
-                UE_LOG(LogSlideMomentum, Display,
-                    TEXT("Uphill slide: %.1f -> %.1f cm/s; retained %.1f cm/s"),
-                    BeforeSpeed, AfterSpeed, Movement->Velocity.Size2D());
-            }
         });
 
     UE_LOG(LogSlideMomentum, Display,
-        TEXT("Uphill Sliding multiplayer prototype loaded (client/server movement rules)."));
+        TEXT("Uphill Sliding loaded (client/server movement rules)."));
 #endif
 }
 

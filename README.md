@@ -13,36 +13,51 @@ slide jumps across uneven terrain.
 
 - Slide uphill on surfaces the game considers walkable.
 - Preserve horizontal momentum when an incline would normally slow your slide.
-- Keep normal braking: release crouch or apply reverse movement input.
-- Use the game's normal crouch and jump controls; no unlocks are required.
+- Release crouch or apply reverse movement input to brake.
+- Use the normal crouch and jump controls; no unlocks or configuration required.
+- Play in singleplayer or with matching mod versions on clients and the server.
 
 The game's existing slide-jump boosts and downhill acceleration stay unchanged.
 
-## Multiplayer prototype — 1.1.0-beta.1
+## Multiplayer
 
-This development branch enables the movement rules on the owning client and on
-server authority, including remote players on dedicated and listen servers.
-Install **the same beta version on every client and the server**.
+Version **1.1.0** adds multiplayer support. Install **the same version on every
+player's client and on the dedicated server**, with compatible SML versions.
+For directly hosted co-op, install it on both the host and joining players.
 
-Build targets: Windows client (Steam and Epic), Windows dedicated server and
-Linux x86_64 dedicated server. The platform builds and real network movement
-still need testing; these are intended targets, not verified compatibility claims.
-See [MULTIPLAYER.md](MULTIPLAYER.md) for setup, test cases and current results.
+| Mode | Test status |
+| --- | --- |
+| Windows singleplayer | Tested in 1.0.0; movement rules retained in 1.1.0 |
+| Linux dedicated server | Initial join and uphill comparison tested with the 1.1.0 beta |
+| Windows dedicated server | Initial join and uphill comparison tested with the 1.1.0 beta |
+| Directly hosted co-op | Supported by the code; host/guest session not yet tested |
 
-Version [1.0.0](https://github.com/kellykiller/Uphill-Sliding/releases/tag/v1.0.0)
-remains the tested Windows singleplayer release. Its movement changes are inactive
-in multiplayer. Development uses **UE 5.6.1-CSS** and **SML 3.12.x**.
+Dedicated-server sessions were tested using the Epic Games Windows client.
+The Steam client package builds successfully; Steam runtime testing is pending.
+Additional latency, two-player, collision and respawn testing is still welcome.
+
+Test environment: **Satisfactory 1.2.4.0 (build 502094)** and **SML 3.12.0**.
+
+## Download
+
+[Mod page on ficsit.app](https://ficsit.app/mod/FKXKumYqzkUAhw) ·
+[GitHub releases](https://github.com/kellykiller/Uphill-Sliding/releases)
+
+Install published versions through the **Satisfactory Mod Manager**. The old
+**1.0.0** package supports singleplayer only; use **1.1.0** for multiplayer once
+the compiled release is available.
 
 ## Source code
 
-This repository contains the mod plugin, including its C++ source and assets.
-For development, place it in `Mods/GameFeatures/UphillSliding` inside a compatible
-Satisfactory Modding project using **Unreal Engine 5.6.1-CSS** and matching SML headers.
+This repository contains the complete mod plugin, C++ source and assets.
+Place it in `Mods/GameFeatures/UphillSliding` inside a compatible Satisfactory
+Modding project using **Unreal Engine 5.6.1-CSS** and matching SML headers.
+See [MULTIPLAYER.md](MULTIPLAYER.md) for development, build steps and test results.
 
 ## Bug reports
 
-[Open an issue](https://github.com/kellykiller/Uphill-Sliding/issues) with your game
-version and a short description of how to reproduce the problem.
+[Open an issue](https://github.com/kellykiller/Uphill-Sliding/issues) with your
+game/mod versions, session type and steps to reproduce the problem.
 
 ---
 Created by **Kellykiller** with assistance from OpenAI ChatGPT/Codex for code,

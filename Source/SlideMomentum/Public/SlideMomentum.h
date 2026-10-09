@@ -17,7 +17,7 @@ private:
 #if !WITH_EDITOR
     template <typename TScope>
     static void CallWithWideSlideAngle(
-        TScope& Scope, const UFGCharacterMovementComponent* Movement, const TCHAR* Name);
+        TScope& Scope, const UFGCharacterMovementComponent* Movement);
 
     FDelegateHandle CanSlideHook;
     FDelegateHandle CanStartSlideHook;

@@ -1,16 +1,16 @@
 # Changelog
 
-## 1.1.0-beta.1 — multiplayer prototype (unreleased)
+## 1.1.0 — release prepared 2026-10-09
 
-- Run the same uphill sliding rules for owning-client prediction and server authority.
-- Include remote players on listen servers and dedicated servers.
-- Leave simulated client proxies to standard replicated movement.
-- Enable Windows client, Windows server and Linux server packaging.
-- Require the identical beta version on the remote side.
-- Remove the local enable toggle so client and server rules cannot be switched independently.
-- Add role, paired input/state and replay checks using mock engine headers.
+- Add multiplayer support using matching uphill sliding rules on clients and the server.
+- Add packages for Windows and Linux dedicated servers alongside Windows clients.
+- Require the same mod version on every client and server.
+- Keep the existing uphill momentum, braking, steering and walkable-surface rules.
+- Remove diagnostic console options and per-slide debug logging.
 
-Real engine builds and multiplayer sessions are pending.
+Initial join and uphill comparison tests passed on Windows and Linux dedicated
+servers with the Epic Windows client using 1.1.0-beta.1. Directly hosted co-op is
+supported by the code but has not been tested. Final 1.1.0 packaging is pending.
 
 ## 1.0.0 — 2026-10-07
 
