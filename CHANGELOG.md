@@ -7,6 +7,8 @@
 - Require the same mod version on every client and server.
 - Keep the existing uphill momentum, braking, steering and walkable-surface rules.
 - Remove diagnostic console options and per-slide debug logging.
+- Correct the plugin descriptor's numeric Version to match SemVersion major 1
+  for ficsit.app uploads; native binaries and gameplay are unchanged.
 
 Initial join and uphill comparison tests passed on Windows and Linux dedicated
 servers with the Epic Windows client using 1.1.0-beta.1. Directly hosted co-op is

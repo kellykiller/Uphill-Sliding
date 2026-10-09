@@ -1,0 +1,71 @@
+name: Repair 1.1.0 ficsit metadata
+
+"on":
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/repair-release-metadata.yml
+
+permissions: {}
+
+concurrency:
+  group: uphill-sliding-release-v1.1.0
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    if: github.repository == 'kellykiller/Uphill-Sliding' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Validate source and repair only the uploaded descriptor metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/releases/408289080" > "$RUNNER_TEMP/release-before.json"
+          jq -e '.id == 408289080 and .tag_name == "v1.1.0" and .draft == false and .immutable == false and ([.assets[] | select(.id == 626082823 and .name == "UphillSliding.zip" and .digest == "sha256:ca3d3fd80aef764485ef6080c122b787aa865279adcafd8c5678cd3b8ea2b466")] | length == 1)' "$RUNNER_TEMP/release-before.json"
+          tag_sha=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/v1.1.0" --jq .object.sha)
+          test "$tag_sha" = fe7ca3c26ee671350256a429920681512768489c
+          mkdir -p "$RUNNER_TEMP/uphill-original" "$RUNNER_TEMP/uphill-repaired"
+          gh release download v1.1.0 --repo "$GITHUB_REPOSITORY" \
+            --pattern UphillSliding.zip --dir "$RUNNER_TEMP/uphill-original"
+          python3 Tools/Repair-Release-Metadata.py \
+            "$RUNNER_TEMP/uphill-original/UphillSliding.zip" \
+            "$RUNNER_TEMP/uphill-repaired/UphillSliding-Metadata-Fixed.zip"
+          python3 - <<'PY'
+          import hashlib, json, re
+          from pathlib import Path
+          p = json.loads(Path('UphillSliding.uplugin').read_text())
+          assert p['Version'] == int(p['SemVersion'].split('.')[0]) == 1
+          assert p['SemVersion'] == p['VersionName'] == '1.1.0'
+          assert hashlib.sha256(Path('Source/SlideMomentum/Private/SlideMomentum.cpp').read_bytes()).hexdigest() == 'cddcde27bb450108693308beacd13ac6e863b04de1893dea8eef1299163c1402'
+          assert hashlib.sha256(Path('Source/SlideMomentum/Public/SlideMomentum.h').read_bytes()).hexdigest() == '56056c21073b2493e54ae1f349cda52a1631b95090e7fe03946c55486d586bf8'
+          script = Path('Tools/Prepare-Release.ps1').read_text()
+          assert "$sourceCommit = '44f6e2546074d77d7c3ab9a321fc4d7d7b58d420'" in script
+          PY
+          corrected="$RUNNER_TEMP/uphill-repaired/UphillSliding-Metadata-Fixed.zip"
+          sha=$(sha256sum "$corrected" | cut -d ' ' -f 1)
+          gh release upload v1.1.0 "$corrected" --repo "$GITHUB_REPOSITORY"
+          gh api "repos/$GITHUB_REPOSITORY/releases/408289080" > "$RUNNER_TEMP/release-staged.json"
+          new_id=$(jq -er --arg digest "sha256:$sha" '.assets[] | select(.name == "UphillSliding-Metadata-Fixed.zip" and .state == "uploaded" and .digest == $digest) | .id' "$RUNNER_TEMP/release-staged.json")
+          old_digest=$(gh api "repos/$GITHUB_REPOSITORY/releases/assets/626082823" --jq .digest)
+          test "$old_digest" = sha256:ca3d3fd80aef764485ef6080c122b787aa865279adcafd8c5678cd3b8ea2b466
+          # Advance only the known tag to its descendant; never force or change v1.0.0.
+          gh api --method PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/v1.1.0" \
+            -f sha="$GITHUB_SHA" -F force=false
+          # Keep the old download until the corrected upload has been verified.
+          gh api --method DELETE "repos/$GITHUB_REPOSITORY/releases/assets/626082823"
+          gh api --method PATCH "repos/$GITHUB_REPOSITORY/releases/assets/$new_id" \
+            -f name=UphillSliding.zip
+          cp RELEASE_NOTES.md "$RUNNER_TEMP/release-notes.md"
+          gh release edit v1.1.0 --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" --notes-file "$RUNNER_TEMP/release-notes.md"
+          gh api "repos/$GITHUB_REPOSITORY/releases/408289080" \
+            --jq '{url: .html_url, target: .target_commitish, assets: [.assets[] | {name, size, digest, browser_download_url}]}'

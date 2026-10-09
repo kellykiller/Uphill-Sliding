@@ -221,6 +221,17 @@ separate outstanding checks. `Tools/Install-Windows-Release.ps1` installs the
 final Windows client archive, requiring SML and a closed game, with staging and
 backup outside the Mods directory.
 
+## ficsit metadata correction
+
+The initial 1.1.0 archive was rejected by ficsit.app because its numeric
+`Version` was 2 while `SemVersion` was 1.1.0. The descriptor now uses Version 1,
+matching SemVersion's major component. The release ZIP was repaired without
+recompiling: only the three platform descriptors change, and every other entry
+is verified byte-identical to the original final archive. The earlier SHA256
+above describes that original archive, before this metadata correction.
+`Prepare-Release.ps1` now pins the corrected source and validates this rule;
+future builds therefore retain the corrected metadata.
+
 ## Rollback
 
 Source backups are placed alongside the project in an

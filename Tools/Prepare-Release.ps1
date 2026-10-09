@@ -11,7 +11,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version 2
-$sourceCommit = '4d829ac3ec3a28909f95b23ea50f932c49bafaf0'
+$sourceCommit = '44f6e2546074d77d7c3ab9a321fc4d7d7b58d420'
 $expectedVersion = '1.1.0'
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 
@@ -20,13 +20,13 @@ $payloadFiles = @(
     [pscustomobject]@{ Path = 'Source/SlideMomentum/Private/SlideMomentum.cpp'; Hash = 'cddcde27bb450108693308beacd13ac6e863b04de1893dea8eef1299163c1402' }
     [pscustomobject]@{ Path = 'Source/SlideMomentum/Public/SlideMomentum.h'; Hash = '56056c21073b2493e54ae1f349cda52a1631b95090e7fe03946c55486d586bf8' }
     [pscustomobject]@{ Path = 'Source/SlideMomentum/SlideMomentum.Build.cs'; Hash = '9d494ccf88c7614fa8f9b91c5a883f9c986fb00213b82f613430f4b939c94f84' }
-    [pscustomobject]@{ Path = 'UphillSliding.uplugin'; Hash = 'eab23d1f773348f05401b1dabe8bf9188612e058d8b9856833211b12876ba285' }
+    [pscustomobject]@{ Path = 'UphillSliding.uplugin'; Hash = '71e368215dd73b2012407b153cd9fe64f4f332bda71c78d5bce60ae5ca8f2caf' }
     [pscustomobject]@{ Path = 'Config/Alpakit.ini'; Hash = 'b43633661d4b613628ba141765e10d78cb23d34e94ca2e293c06596b4bd2b144' }
     [pscustomobject]@{ Path = 'Config/AccessTransformers.ini'; Hash = 'bb4ba010358ca2388ba0d28196da09112d23e2c0fd24ec1ad0f376887cbb892f' }
     [pscustomobject]@{ Path = 'Config/PluginSettings.ini'; Hash = 'ac00d3df55b209139799deff29fe5e56da6ca44477e16bd1c4da16a2841877e1' }
-    [pscustomobject]@{ Path = 'README.md'; Hash = 'bace04a4bc32349c4c0046cf831cc7172a56e4fd0c46e67cdd976bdf4728f92b' }
-    [pscustomobject]@{ Path = 'CHANGELOG.md'; Hash = '7ebcb2058c8a64b481b23deaf7227f4657bae92630aa1c491fa9d42d4a241142' }
-    [pscustomobject]@{ Path = 'MULTIPLAYER.md'; Hash = 'acacdabac2565d07a27c4adcb0f02a0fc542d68f9804da413b1967b97dd44c42' }
+    [pscustomobject]@{ Path = 'README.md'; Hash = '27e5c90f32e047faa9727285b346c332ab9b629b3604f55fc7ed7fa5d78c5781' }
+    [pscustomobject]@{ Path = 'CHANGELOG.md'; Hash = '85b0cf161a004a96ce624e2a6b7df930f080d82f3c3f6c502079f58ebfb5c0d2' }
+    [pscustomobject]@{ Path = 'MULTIPLAYER.md'; Hash = '7e9e8da8fd80ebaf108e6118fcefd4c512e1a54665999e7384c5f6f3d2bd38d1' }
     [pscustomobject]@{ Path = 'Tests/CompileGuards.cpp'; Hash = '94e236d2dd3dc81b6b531edaa981b6d1275228fdee46c99526e5c2af5704319b' }
     [pscustomobject]@{ Path = 'Tests/README.md'; Hash = '23b383002615e2c11ae434a1eede84c04741cebf6b3c98af79ba192b5488129e' }
     [pscustomobject]@{ Path = 'Tests/Regression.cpp'; Hash = '309da8a7f249dc6a6a977d09124ec141f4cc54d972247902df3021185a43ea84' }
@@ -58,6 +58,7 @@ function Test-MergedArchive([string]$Path, [string[]]$Platforms) {
             $descriptor = Read-ZipJson $descriptorEntry
             if ($descriptor.SemVersion -ne $expectedVersion -or
                 $descriptor.VersionName -ne $expectedVersion -or
+                $descriptor.Version -ne [int]($expectedVersion.Split('.')[0]) -or
                 $descriptor.RequiredOnRemote -ne $true -or
                 $descriptor.IsBetaVersion -ne $false -or
                 $descriptor.IsExperimentalVersion -ne $false -or

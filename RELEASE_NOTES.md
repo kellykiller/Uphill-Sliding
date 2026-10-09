@@ -32,8 +32,10 @@ and guests need the mod. Use compatible SML versions.
 
 The final 1.1.0 build and archive checks passed for Windows, WindowsServer and
 LinuxServer. The combined `UphillSliding.zip` contains all three platform packages.
-The attached archive was independently checked and matches the final build:
-SHA-256 `ca3d3fd80aef764485ef6080c122b787aa865279adcafd8c5678cd3b8ea2b466`.
+The archive was independently checked. Its descriptor metadata was corrected so
+`Version: 1` matches the major version of `SemVersion: 1.1.0`, as required by
+ficsit.app. All native binaries and cooked content remain byte-identical to the
+tested final build.
 
 [Mod page](https://ficsit.app/mod/FKXKumYqzkUAhw) ·
 [Report a bug](https://github.com/kellykiller/Uphill-Sliding/issues) ·
