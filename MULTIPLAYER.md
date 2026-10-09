@@ -5,6 +5,10 @@ The first real-engine client/server build and archive verification passed on
 beta successfully. The author then joined from the Epic Windows client and
 reported successful uphill sliding. A comparison with both SML and the mod
 removed reproduced the immediate stop on a slight uphill slope.
+The author also completed a Windows Server 2025 dedicated test with the Epic
+Windows client: vanilla uphill sliding stopped as expected, then the matching
+beta worked after installation on client and server. The author reported success
+when asked about joining, retained speed, jitter and position resets.
 The stable 1.0.0 release stays singleplayer only.
 
 ## How movement is applied
@@ -93,6 +97,21 @@ A build/verification failure is not a distributable package. Retain the full log
 Exact copy commands depend on the actual Docker paths and container lifecycle.
 They should be prepared after inspecting the new environment.
 
+## Windows dedicated prototype installation
+
+`Tools/Install-WindowsServer-Prototype.ps1` accepts a plugin-root
+`UphillSliding-WindowsServer.zip` and a dedicated game root containing
+`FactoryServer.exe`. Stop the server first. The script checks beta metadata,
+WindowsServer native manifests/DLLs and cooked packages. If SML is absent, it
+installs the official SML 3.12.0 WindowsServer release with a pinned SHA256;
+an existing SML installation must match this test version and server target.
+Staging and previous-plugin backups stay outside `FactoryGame/Mods`. It does
+not change other mods or automatically start or terminate the server.
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Install-WindowsServer-Prototype.ps1 -ArchivePath D:\SteamCMD\UphillSliding-WindowsServer.zip -GameRoot D:\SteamCMD\GameServers\Satisfactory
+```
+
 ## Acceptance tests
 
 | Test | Expected result |
@@ -107,8 +126,9 @@ They should be prepared after inspecting the new environment.
 | Client lacks beta / server lacks beta / wrong version | SML rejects incompatible connections |
 | Singleplayer regression | Previous uphill behavior still works |
 
-Then repeat on a Windows dedicated server and a listen server, testing both host
-and joining player. Linux success alone does not validate those session types.
+Complete the remaining acceptance tests on Windows and Linux dedicated servers,
+then repeat on a listen server, testing both host and joining player. Dedicated
+server success alone does not validate listen-host and guest behavior.
 
 ## Validation status
 
@@ -118,7 +138,7 @@ and joining player. Linux success alone does not validate those session types.
 | Actual source with `UE_SERVER=1` against mocks | 47 scenarios passed; hooks active |
 | Editor build against minimal mock core headers | Passed; movement hooks excluded |
 | Real Windows clients (Epic and Steam), Shipping | Both builds passed; Epic client join/uphill comparison passed by author report 2026-10-09; Steam runtime pending |
-| Real Windows dedicated, Shipping | Build/archive checks passed 2026-10-09; session pending |
+| Real Windows dedicated, Shipping | Build/archive checks, Windows Server 2025 startup, Epic client join and first uphill comparison passed by author report 2026-10-09; remaining acceptance tests pending |
 | Real Linux dedicated x86_64, Shipping | Build, Docker startup, Epic client join and first uphill comparison passed 2026-10-09; remaining acceptance tests pending |
 | Real listen-server host and guest | Pending |
 | Network correction/ping tests | Pending |
@@ -151,10 +171,20 @@ The movement result is a manual author report, not an independently inspected
 client log, video or network trace. Two simultaneous players, systematic braking,
 collision and respawn checks, and measured correction/latency tests are pending.
 
+The Windows Server 2025 test used game build 502094, SML 3.12.0 and beta
+1.1.0-beta.1. The supplied vanilla startup log showed successful initialization
+and listeners on 7777 and 8888. The author joined and confirmed vanilla uphill
+sliding was not possible. The Windows dedicated installer then validated and
+installed the WindowsServer beta and SML. After client reactivation instructions,
+the author reported that everything worked when asked about retained uphill
+speed, jitter and position resets. No modded Windows server/client log or network
+trace was supplied for independent analysis; this is an initial manual test.
+
 Mock tests establish role routing and algorithm regression behavior. They do not
 establish real packet prediction or multiplayer compatibility. The real Linux
-startup and manual comparison add evidence for the first Linux dedicated test;
-the remaining acceptance tests and other session types are still pending.
+startup and manual comparisons on both dedicated platforms add evidence for
+initial dedicated-server operation; the remaining acceptance tests and listen
+host/guest sessions are still pending.
 Only update the compatibility claims after the corresponding real tests pass.
 
 ## Rollback
