@@ -11,7 +11,7 @@ beta worked after installation on client and server. The author reported success
 when asked about joining, retained speed, jitter and position resets.
 The 1.1.0 release source retains the tested beta movement rules. Diagnostic
 console options and per-slide logs are removed, and release metadata is finalized.
-Final real-engine 1.1.0 packaging is pending; existing beta ZIPs stay beta packages.
+Final real-engine 1.1.0 packaging and archive checks passed on 2026-10-09;\nexisting beta ZIPs remain separate beta packages.
 The published 1.0.0 package remains singleplayer only.
 
 ## How movement is applied
@@ -150,7 +150,7 @@ server success alone does not validate listen-host and guest behavior.
 | Real Linux dedicated x86_64, Shipping | Build, Docker startup, Epic client join and first uphill comparison passed 2026-10-09; remaining acceptance tests pending |
 | Real listen-server host and guest | Pending |
 | Network correction/ping tests | Pending |
-| Final 1.1.0 real-engine build and package checks | Pending; use `Tools/Prepare-Release.ps1 -Build` |
+| Final 1.1.0 real-engine build and package checks | Passed 2026-10-09: Windows, WindowsServer and LinuxServer; final runtime smoke test pending |
 
 The author supplied the complete Windows Alpakit log: `BUILD SUCCESSFUL`,
 AutomationTool exit code 0, and successful archive verification for Windows,
@@ -195,6 +195,25 @@ startup and manual comparisons on both dedicated platforms add evidence for
 initial dedicated-server operation; the remaining acceptance tests and listen
 host/guest sessions are still pending.
 Only update the compatibility claims after the corresponding real tests pass.
+
+## Final 1.1.0 packaging
+
+The author supplied the complete final release build log on 2026-10-09. The
+pinned source revision was `4d829ac3ec3a28909f95b23ea50f932c49bafaf0` and
+version 1.1.0. Alpakit reported `BUILD SUCCESSFUL`, AutomationTool exit code 0,
+and a duration of 2 minutes 4 seconds. The release updater verified 1.1.0
+metadata, native modules and cooked packages for Windows, WindowsServer and
+LinuxServer; all three platform archives were present.
+
+Reported combined `UphillSliding.zip` SHA256:
+`ca3d3fd80aef764485ef6080c122b787aa865279adcafd8c5678cd3b8ea2b466`.
+
+This confirms the final native build and packaging. The binary archives have
+not yet been supplied here for independent inspection or attached to the release.
+Recorded dedicated runtime tests used beta 1.1.0-beta.1; a final 1.1.0 runtime
+smoke test remains pending. `Tools/Install-Windows-Release.ps1` installs the
+final Windows client archive, requiring SML and a closed game, with staging and
+backup outside the Mods directory.
 
 ## Rollback
 

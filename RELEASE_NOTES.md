@@ -29,9 +29,10 @@ collision and respawn checks remain open.
 Install the **same version** on all clients and the server. For co-op, both host
 and guests need the mod. Use compatible SML versions.
 
-The combined `UphillSliding.zip` will contain Windows, WindowsServer and
-LinuxServer packages. This release stays a draft until final 1.1.0 packaging and
-archive checks are complete; beta ZIPs are not final release packages.
+The final 1.1.0 build and archive checks passed for Windows, WindowsServer and
+LinuxServer. The combined `UphillSliding.zip` contains all three platform packages.
+This release stays a draft until the compiled packages are attached and the final
+client smoke test is complete. Beta ZIPs are not final release packages.
 
 [Mod page](https://ficsit.app/mod/FKXKumYqzkUAhw) ·
 [Report a bug](https://github.com/kellykiller/Uphill-Sliding/issues) ·

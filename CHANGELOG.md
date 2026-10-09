@@ -10,7 +10,7 @@
 
 Initial join and uphill comparison tests passed on Windows and Linux dedicated
 servers with the Epic Windows client using 1.1.0-beta.1. Directly hosted co-op is
-supported by the code but has not been tested. Final 1.1.0 packaging is pending.
+supported by the code but has not been tested. Final 1.1.0 builds and archive checks passed for all three platforms. Release\nasset upload and a final runtime smoke test remain pending.
 
 ## 1.0.0 — 2026-10-07
 

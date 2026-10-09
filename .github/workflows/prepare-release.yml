@@ -6,6 +6,7 @@ name: Prepare Uphill Sliding 1.1.0 release
     branches: [main]
     paths:
       - .github/workflows/prepare-release.yml
+      - RELEASE_NOTES.md
 
 permissions: {}
 
