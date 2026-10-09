@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.0 — release prepared 2026-10-09
+## 1.1.0 — 2026-10-09
 
 - Add multiplayer support using matching uphill sliding rules on clients and the server.
 - Add packages for Windows and Linux dedicated servers alongside Windows clients.
@@ -10,7 +10,9 @@
 
 Initial join and uphill comparison tests passed on Windows and Linux dedicated
 servers with the Epic Windows client using 1.1.0-beta.1. Directly hosted co-op is
-supported by the code but has not been tested. Final 1.1.0 builds and archive checks passed for all three platforms. Release\nasset upload and a final runtime smoke test remain pending.
+supported by the code but has not been tested. Final 1.1.0 builds and archive checks passed for all three platforms.
+The final Epic Windows client passed the author's singleplayer uphill-sliding
+smoke test. The combined release archive was independently inspected and attached.
 
 ## 1.0.0 — 2026-10-07
 

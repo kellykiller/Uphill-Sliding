@@ -27,7 +27,7 @@ For directly hosted co-op, install it on both the host and joining players.
 
 | Mode | Test status |
 | --- | --- |
-| Windows singleplayer | Tested in 1.0.0; movement rules retained in 1.1.0 |
+| Windows singleplayer | Final 1.1.0 uphill-sliding smoke test passed |
 | Linux dedicated server | Initial join and uphill comparison tested with the 1.1.0 beta |
 | Windows dedicated server | Initial join and uphill comparison tested with the 1.1.0 beta |
 | Directly hosted co-op | Supported by the code; host/guest session not yet tested |
@@ -43,9 +43,10 @@ Test environment: **Satisfactory 1.2.4.0 (build 502094)** and **SML 3.12.0**.
 [Mod page on ficsit.app](https://ficsit.app/mod/FKXKumYqzkUAhw) ·
 [GitHub releases](https://github.com/kellykiller/Uphill-Sliding/releases)
 
-Install published versions through the **Satisfactory Mod Manager**. The old
-**1.0.0** package supports singleplayer only; use **1.1.0** for multiplayer once
-the compiled release is available.
+The **1.1.0** GitHub release includes Windows clients and Windows/Linux dedicated
+servers in `UphillSliding.zip`. Install versions available on ficsit.app through
+the **Satisfactory Mod Manager** and check the selected version on every client
+and server. The old **1.0.0** package supports singleplayer only.
 
 ## Source code
 

@@ -11,7 +11,8 @@ beta worked after installation on client and server. The author reported success
 when asked about joining, retained speed, jitter and position resets.
 The 1.1.0 release source retains the tested beta movement rules. Diagnostic
 console options and per-slide logs are removed, and release metadata is finalized.
-Final real-engine 1.1.0 packaging and archive checks passed on 2026-10-09;\nexisting beta ZIPs remain separate beta packages.
+Final real-engine 1.1.0 packaging and archive checks passed on 2026-10-09;
+existing beta ZIPs remain separate beta packages.
 The published 1.0.0 package remains singleplayer only.
 
 ## How movement is applied
@@ -150,7 +151,7 @@ server success alone does not validate listen-host and guest behavior.
 | Real Linux dedicated x86_64, Shipping | Build, Docker startup, Epic client join and first uphill comparison passed 2026-10-09; remaining acceptance tests pending |
 | Real listen-server host and guest | Pending |
 | Network correction/ping tests | Pending |
-| Final 1.1.0 real-engine build and package checks | Passed 2026-10-09: Windows, WindowsServer and LinuxServer; final runtime smoke test pending |
+| Final 1.1.0 real-engine build and package checks | Passed 2026-10-09: Windows, WindowsServer and LinuxServer; final Epic Windows client singleplayer uphill-sliding smoke test passed by author report |
 
 The author supplied the complete Windows Alpakit log: `BUILD SUCCESSFUL`,
 AutomationTool exit code 0, and successful archive verification for Windows,
@@ -160,7 +161,7 @@ The PowerShell updater executed successfully on the author's Windows machine.
 Combined `UphillSliding.zip` SHA256 reported by the build script:
 `21833a5d20639e8107f8323c03109c8ccdfd298aef117e46c743d6505f7efd79`.
 
-The artifacts have not been uploaded here for independent binary inspection.
+The historical beta artifacts were not supplied for independent binary inspection.
 The supplied Linux Docker log confirms native module initialization with
 `Uphill Sliding multiplayer prototype loaded (client/server movement rules).`,
 SML 3.12.0, beta 1.1.0-beta.1 and the feature transitioning to `Active`. The
@@ -208,10 +209,15 @@ LinuxServer; all three platform archives were present.
 Reported combined `UphillSliding.zip` SHA256:
 `ca3d3fd80aef764485ef6080c122b787aa865279adcafd8c5678cd3b8ea2b466`.
 
-This confirms the final native build and packaging. The binary archives have
-not yet been supplied here for independent inspection or attached to the release.
-Recorded dedicated runtime tests used beta 1.1.0-beta.1; a final 1.1.0 runtime
-smoke test remains pending. `Tools/Install-Windows-Release.ps1` installs the
+The author uploaded the combined final archive on 2026-10-09. Independent
+inspection confirmed the exact reported SHA256, 38,489,596-byte size, ZIP CRCs,
+safe entry paths, all three 1.1.0 descriptors, matching SML module manifests,
+x86_64 Windows PE DLLs and Linux ELF shared library, and cooked packages.
+The GitHub release attachment was checked against the same SHA256 and size.
+The author then confirmed successful uphill sliding in singleplayer with the
+installed final 1.1.0 Epic Windows client. Recorded dedicated runtime tests still
+used beta 1.1.0-beta.1; dedicated final-package retesting and listen co-op remain
+separate outstanding checks. `Tools/Install-Windows-Release.ps1` installs the
 final Windows client archive, requiring SML and a closed game, with staging and
 backup outside the Mods directory.
 
