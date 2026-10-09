@@ -1,6 +1,6 @@
 {
   "FileVersion": 3,
-  "Version": 2,
+  "Version": 1,
   "VersionName": "1.1.0",
   "FriendlyName": "Uphill Sliding",
   "Description": "Slide uphill while preserving horizontal momentum in singleplayer and multiplayer. Install the same version on every client and server.",

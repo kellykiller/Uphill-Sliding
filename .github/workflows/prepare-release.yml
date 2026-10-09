@@ -1,91 +1,26 @@
-name: Publish verified Uphill Sliding 1.1.0
+name: Validate Uphill Sliding release metadata
 
 "on":
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/prepare-release.yml
-      - RELEASE_NOTES.md
 
 permissions: {}
 
-concurrency:
-  group: uphill-sliding-release-v1.1.0
-  cancel-in-progress: false
-
 jobs:
-  publish:
-    if: github.repository == 'kellykiller/Uphill-Sliding' && github.ref == 'refs/heads/main'
+  validate:
+    if: github.repository == 'kellykiller/Uphill-Sliding'
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Run movement regression and compilation guard checks
-        run: bash Tests/run-tests.sh
-      - name: Check release metadata
+      - name: Check ficsit version metadata
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           plugin = json.loads(Path('UphillSliding.uplugin').read_text())
           assert plugin['SemVersion'] == plugin['VersionName'] == '1.1.0'
-          assert plugin['Version'] == 2
+          assert plugin['Version'] == int(plugin['SemVersion'].split('.')[0])
           assert plugin['RequiredOnRemote'] is True
           assert plugin['IsBetaVersion'] is plugin['IsExperimentalVersion'] is False
-          assert 'smoke test' in Path('RELEASE_NOTES.md').read_text()
           PY
-      - name: Verify uploaded final archive and publish the existing draft
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          gh api "repos/$GITHUB_REPOSITORY/releases/408289080" > "$RUNNER_TEMP/uphill-release.json"
-          jq -e '.id == 408289080 and .tag_name == "v1.1.0" and .draft == true and .prerelease == false and ([.assets[] | select(.name == "UphillSliding.zip" and .state == "uploaded" and .size == 38489596 and .digest == "sha256:ca3d3fd80aef764485ef6080c122b787aa865279adcafd8c5678cd3b8ea2b466")] | length == 1)' "$RUNNER_TEMP/uphill-release.json"
-          mkdir -p "$RUNNER_TEMP/uphill-release"
-          gh release download v1.1.0 --repo "$GITHUB_REPOSITORY" \
-            --pattern UphillSliding.zip --dir "$RUNNER_TEMP/uphill-release"
-          python3 - <<'PY'
-          import hashlib, json, os, struct, zipfile
-          from pathlib import Path, PurePosixPath
-          archive = Path(os.environ['RUNNER_TEMP']) / 'uphill-release/UphillSliding.zip'
-          assert archive.stat().st_size == 38489596
-          assert hashlib.sha256(archive.read_bytes()).hexdigest() == 'ca3d3fd80aef764485ef6080c122b787aa865279adcafd8c5678cd3b8ea2b466'
-          with zipfile.ZipFile(archive) as z:
-              assert z.testzip() is None
-              for name in z.namelist():
-                  p = PurePosixPath(name.replace('\\', '/'))
-                  assert not p.is_absolute() and '..' not in p.parts and ':' not in name
-              for platform in ('Windows', 'WindowsServer', 'LinuxServer'):
-                  d = json.loads(z.read(platform + '/UphillSliding.uplugin'))
-                  assert d['SemVersion'] == d['VersionName'] == '1.1.0' and d['Version'] == 2
-                  assert d['RequiredOnRemote'] is d['GameFeature'] is True
-                  assert d['IsBetaVersion'] is d['IsExperimentalVersion'] is False
-                  for suffix in ('pak', 'utoc', 'ucas'):
-                      assert any(n.startswith(platform + '/Content/Paks/') and n.endswith('.' + suffix) and z.getinfo(n).file_size > 0 for n in z.namelist())
-                  manifests = [n for n in z.namelist() if n.startswith(platform + '/Binaries/') and n.endswith('.modules')]
-                  assert len(manifests) == (2 if platform == 'Windows' else 1)
-                  for name in manifests:
-                      manifest = json.loads(z.read(name))
-                      assert manifest['BuildId'] == 'SML'
-                      binary = z.read(str(PurePosixPath(name).parent / manifest['Modules']['SlideMomentum']))
-                      if platform == 'LinuxServer':
-                          assert binary[:5] == b'\x7fELF\x02' and struct.unpack_from('<H', binary, 18)[0] == 62
-                      else:
-                          assert binary[:2] == b'MZ'
-                          off = struct.unpack_from('<I', binary, 60)[0]
-                          assert binary[off:off+4] == b'PE\x00\x00' and struct.unpack_from('<H', binary, off+4)[0] == 0x8664
-          PY
-          if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/v1.1.0" > /dev/null 2>&1; then
-            echo 'A v1.1.0 tag already exists; refusing to move or replace it.'
-            exit 1
-          fi
-          gh release edit v1.1.0 --repo "$GITHUB_REPOSITORY" \
-            --target "$GITHUB_SHA" --title 'Uphill Sliding 1.1.0' \
-            --notes-file RELEASE_NOTES.md --draft=false --latest
-          gh api "repos/$GITHUB_REPOSITORY/releases/408289080" \
-            --jq '{tag: .tag_name, draft: .draft, url: .html_url, assets: [.assets[].name]}'

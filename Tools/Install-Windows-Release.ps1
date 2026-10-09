@@ -43,6 +43,7 @@ try {
     $reader = New-Object IO.StreamReader($descriptorEntry.Open())
     try { $descriptor = $reader.ReadToEnd() | ConvertFrom-Json } finally { $reader.Dispose() }
     if ($descriptor.SemVersion -ne $expectedVersion -or $descriptor.VersionName -ne $expectedVersion -or
+        $descriptor.Version -ne [int]($expectedVersion.Split('.')[0]) -or
         $descriptor.GameFeature -ne $true -or $descriptor.RequiredOnRemote -ne $true -or
         $descriptor.IsBetaVersion -ne $false -or $descriptor.IsExperimentalVersion -ne $false) { throw 'Falsche Release-Version oder Metadaten im Archiv.' }
     foreach ($target in @('FactoryGameEGS', 'FactoryGameSteam')) {
