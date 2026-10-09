@@ -1,6 +1,7 @@
 # Multiplayer development — 1.1.0-beta.1
 
-The source changes are ready for a first real-engine build and network test.
+The first real-engine client/server build and archive verification passed on
+2026-10-09. The packages are ready for the first network test.
 The stable 1.0.0 release stays singleplayer only.
 
 ## How movement is applied
@@ -113,11 +114,23 @@ and joining player. Linux success alone does not validate those session types.
 | Actual source against mock engine/SML headers | 47 scenarios passed |
 | Actual source with `UE_SERVER=1` against mocks | 47 scenarios passed; hooks active |
 | Editor build against minimal mock core headers | Passed; movement hooks excluded |
-| Real Windows client build and game test | Pending |
-| Real Windows dedicated build and session | Pending |
-| Real Linux dedicated build and Docker session | Pending |
+| Real Windows clients (Epic and Steam), Shipping | Build/archive checks passed 2026-10-09; game tests pending |
+| Real Windows dedicated, Shipping | Build/archive checks passed 2026-10-09; session pending |
+| Real Linux dedicated x86_64, Shipping | Build/archive checks passed 2026-10-09; Docker session pending |
 | Real listen-server host and guest | Pending |
 | Network correction/ping tests | Pending |
+
+The author supplied the complete Windows Alpakit log: `BUILD SUCCESSFUL`,
+AutomationTool exit code 0, and successful archive verification for Windows,
+WindowsServer and LinuxServer. Build duration was 11 minutes 8 seconds.
+The PowerShell updater executed successfully on the author's Windows machine.
+
+Combined `UphillSliding.zip` SHA256 reported by the build script:
+`21833a5d20639e8107f8323c03109c8ccdfd298aef117e46c743d6505f7efd79`.
+
+The artifacts have not been uploaded here for independent binary inspection.
+Successful compilation does not yet confirm native hook installation or movement
+prediction in the running game/server.
 
 Mock tests establish role routing and algorithm regression behavior. They do not
 establish real packet prediction, Linux ABI hooking or multiplayer compatibility.
