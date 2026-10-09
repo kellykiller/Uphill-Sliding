@@ -1,7 +1,8 @@
 # Multiplayer development — 1.1.0-beta.1
 
 The first real-engine client/server build and archive verification passed on
-2026-10-09. The packages are ready for the first network test.
+2026-10-09. The Linux Docker server subsequently loaded the native module and activated the
+beta successfully. Client connection and movement tests are still pending.
 The stable 1.0.0 release stays singleplayer only.
 
 ## How movement is applied
@@ -116,7 +117,7 @@ and joining player. Linux success alone does not validate those session types.
 | Editor build against minimal mock core headers | Passed; movement hooks excluded |
 | Real Windows clients (Epic and Steam), Shipping | Build/archive checks passed 2026-10-09; game tests pending |
 | Real Windows dedicated, Shipping | Build/archive checks passed 2026-10-09; session pending |
-| Real Linux dedicated x86_64, Shipping | Build/archive checks passed 2026-10-09; Docker session pending |
+| Real Linux dedicated x86_64, Shipping | Build/archive checks and Docker module startup passed 2026-10-09; client join/movement pending |
 | Real listen-server host and guest | Pending |
 | Network correction/ping tests | Pending |
 
@@ -129,11 +130,19 @@ Combined `UphillSliding.zip` SHA256 reported by the build script:
 `21833a5d20639e8107f8323c03109c8ccdfd298aef117e46c743d6505f7efd79`.
 
 The artifacts have not been uploaded here for independent binary inspection.
-Successful compilation does not yet confirm native hook installation or movement
-prediction in the running game/server.
+The supplied Linux Docker log confirms native module initialization with
+`Uphill Sliding multiplayer prototype loaded (client/server movement rules).`,
+SML 3.12.0, beta 1.1.0-beta.1 and the feature transitioning to `Active`. The
+container remained running with restart count 0 and exit code 0. This test profile
+contains SML plus the manually installed beta; SmartFoundations is not installed.
+Startup emitted localization and primary-asset warnings before the successful
+`Active` transition. Client joining, movement prediction and server corrections
+have not yet been tested.
 
 Mock tests establish role routing and algorithm regression behavior. They do not
-establish real packet prediction, Linux ABI hooking or multiplayer compatibility.
+establish real packet prediction or multiplayer compatibility. The real Linux
+startup adds evidence of native module initialization, but movement behavior
+still requires the network tests above.
 Only update the compatibility claims after the corresponding real tests pass.
 
 ## Rollback
