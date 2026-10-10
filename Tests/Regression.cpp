@@ -55,7 +55,7 @@ void CalculateVelocity(Movement& movement, float dt = .016f, bool fluid = false)
     {
         scope(&movement, dt, 8.f, fluid, 100.f);
     }
-    EXPECT(movement.originalCalls == before+1);
+    EXPECT(movement.originalCalls == before + 1);
 }
 
 float ReadMaxSpeed(Movement& movement, std::function<float(const Movement*)> original = {})
@@ -168,7 +168,7 @@ int main(int argc, char** argv)
     RunScenario("gentle uphill slope", [&]
     {
         Movement movement;
-        movement.CurrentFloor.HitResult.ImpactNormal = {-.0002, 0, std::sqrt(1-.0002*.0002)};
+        movement.CurrentFloor.HitResult.ImpactNormal = {-.0002, 0, std::sqrt(1 - .0002 * .0002)};
         CalculateVelocity(movement);
         EXPECT(NearlyEqual(movement.Velocity.X, 1000));
     });
@@ -197,17 +197,17 @@ int main(int argc, char** argv)
     RunScenario("turn beyond 60 degrees", [&]
     {
         Movement movement;
-        movement.turnRadians = PI/3+.01;
+        movement.turnRadians = PI / 3 + .01;
         CalculateVelocity(movement);
         EXPECT(NearlyEqual(movement.Velocity.Size2D(), 400));
     });
     RunScenario("ordinary steering", [&]
     {
         Movement movement;
-        movement.turnRadians = PI/6;
+        movement.turnRadians = PI / 6;
         CalculateVelocity(movement);
         EXPECT(NearlyEqual(movement.Velocity.Size2D(), 1000));
-        EXPECT(NearlyEqual(std::atan2(movement.Velocity.Y, movement.Velocity.X), PI/6));
+        EXPECT(NearlyEqual(std::atan2(movement.Velocity.Y, movement.Velocity.X), PI / 6));
     });
     RunScenario("original acceleration is retained", [&]
     {

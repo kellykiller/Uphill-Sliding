@@ -1,7 +1,7 @@
 #include "../Source/UphillSliding/Private/UphillSliding.cpp"
 int main()
 {
-    FUphillSlidingModule mod;
-    mod.StartupModule();
-    mod.ShutdownModule();
+    FUphillSlidingModule module;
+    module.StartupModule();
+    module.ShutdownModule();
 }
