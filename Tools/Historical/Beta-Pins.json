@@ -1,0 +1,95 @@
+{
+  "sourceCommit": "9be59dddbf5b3cb98d192124bb16783824697f71",
+  "version": "1.1.0-beta.1",
+  "moduleName": "SlideMomentum",
+  "files": [
+    {
+      "Path": "Source/SlideMomentum/Private/SlideMomentum.cpp",
+      "Hash": "3af6dae35a20e23705fcf6acad89b3a629a7b303f5846a3ea1e21608053d0c67"
+    },
+    {
+      "Path": "Source/SlideMomentum/Public/SlideMomentum.h",
+      "Hash": "7de77642ed0a94348a5fb74a34a81b4721ada036c61ad7e4a78fc2dd150b7bb6"
+    },
+    {
+      "Path": "Source/SlideMomentum/SlideMomentum.Build.cs",
+      "Hash": "9d494ccf88c7614fa8f9b91c5a883f9c986fb00213b82f613430f4b939c94f84"
+    },
+    {
+      "Path": "UphillSliding.uplugin",
+      "Hash": "506faaf06c7c242c6c2d6e133087e7f68a75f057de06c79df19efbe87309ff75"
+    },
+    {
+      "Path": "Config/Alpakit.ini",
+      "Hash": "b43633661d4b613628ba141765e10d78cb23d34e94ca2e293c06596b4bd2b144"
+    },
+    {
+      "Path": "Config/AccessTransformers.ini",
+      "Hash": "bb4ba010358ca2388ba0d28196da09112d23e2c0fd24ec1ad0f376887cbb892f"
+    },
+    {
+      "Path": "Config/PluginSettings.ini",
+      "Hash": "ac00d3df55b209139799deff29fe5e56da6ca44477e16bd1c4da16a2841877e1"
+    },
+    {
+      "Path": "README.md",
+      "Hash": "74ca057fe40ba12ca53b9d93697609353cf4ccb8f087b5eaeb609a17873bb9b6"
+    },
+    {
+      "Path": "CHANGELOG.md",
+      "Hash": "0f8bc74aeaebb26e45be9353600e09ce8328d5a21298c7df7a13d703c06ec167"
+    },
+    {
+      "Path": "MULTIPLAYER.md",
+      "Hash": "1d05d65161d8791a0b4ce3a792b40c6686ced5a95042c166412419e0e7125ea7"
+    },
+    {
+      "Path": "Tests/CompileGuards.cpp",
+      "Hash": "94e236d2dd3dc81b6b531edaa981b6d1275228fdee46c99526e5c2af5704319b"
+    },
+    {
+      "Path": "Tests/README.md",
+      "Hash": "23b383002615e2c11ae434a1eede84c04741cebf6b3c98af79ba192b5488129e"
+    },
+    {
+      "Path": "Tests/Regression.cpp",
+      "Hash": "309da8a7f249dc6a6a977d09124ec141f4cc54d972247902df3021185a43ea84"
+    },
+    {
+      "Path": "Tests/run-tests.sh",
+      "Hash": "37bca929703511a7cc1930fc49088ed73c7f921aebeb5c34df997ad5b36fd5c9"
+    },
+    {
+      "Path": "Tests/stubs/CoreMinimal.h",
+      "Hash": "a957089c6a6c74225bf7c9a779c4bcce04affc0514dda2e689e5939febfc566a"
+    },
+    {
+      "Path": "Tests/stubs/Engine/World.h",
+      "Hash": "f515b1136a1743382242e6acb0fa7054e2d7307c92674f18d831d9bb6bd4b61b"
+    },
+    {
+      "Path": "Tests/stubs/FGCharacterMovementComponent.h",
+      "Hash": "7d44312606ae7257387122abedb6ad64f2b74f318e84b54028351bc374a76bc6"
+    },
+    {
+      "Path": "Tests/stubs/GameFramework/Character.h",
+      "Hash": "13233eb1082b83e8d30276c0325cd93c2a94a1aaf0d4591b2726b05a50012831"
+    },
+    {
+      "Path": "Tests/stubs/HAL/IConsoleManager.h",
+      "Hash": "7713311f75ae21222ee990df1aee663e260b32cd778ed8de0fb204b3c0193583"
+    },
+    {
+      "Path": "Tests/stubs/Modules/ModuleManager.h",
+      "Hash": "03e7a8c28cca430e6622769ee4cb9fe78a43c70ed0d60357a3d30383294234a7"
+    },
+    {
+      "Path": "Tests/stubs/Patching/NativeHookManager.h",
+      "Hash": "124f215aa21e6435d2ce6515a0cd2bf8f2b31867ff7616b84d9ed3deb34f2e09"
+    },
+    {
+      "Path": "Tests/stubs/Templates/UnrealTemplate.h",
+      "Hash": "7713311f75ae21222ee990df1aee663e260b32cd778ed8de0fb204b3c0193583"
+    }
+  ]
+}
