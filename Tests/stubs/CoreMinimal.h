@@ -4,7 +4,6 @@
 #include <functional>
 #include <type_traits>
 #include <string>
-#include <cassert>
 using int32=int;
 #ifndef WITH_EDITOR
 #define WITH_EDITOR 0
