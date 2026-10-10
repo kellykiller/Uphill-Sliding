@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# HISTORICAL/BETA or completed one-off repair only; not for current releases.
 """Install a local LinuxServer prototype ZIP; retain existing SML/other mods."""
 import argparse
 import datetime

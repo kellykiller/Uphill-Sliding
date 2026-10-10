@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# HISTORICAL/BETA or completed one-off repair only; not for current releases.
 """Repair only the three 1.1.0 descriptor Version fields in the known release ZIP."""
 import argparse
 import copy

@@ -1,42 +1,22 @@
-# Uphill Sliding 1.1.0
+# Uphill Sliding 1.1.1 — draft, unreleased
 
-Keep your speed when the terrain turns uphill — now in multiplayer.
+Internal naming and repository cleanup. Uphill sliding, braking, steering,
+slide-jump behavior and multiplayer movement rules are unchanged.
 
-Slide across walkable uphill slopes without abruptly losing horizontal momentum.
-Carry your downhill speed into the next incline and chain Satisfactory's existing
-slide jumps across uneven terrain.
+- Native module and log names now consistently use UphillSliding.
+- Regression checks remain active in release-style test builds; CI added.
+- Preparation scripts consolidated, historical beta tools isolated, MIT license added.
+- Documentation records final 1.1.0 Windows/Linux dedicated tests correctly.
 
-## What's new
+The module rename changes native binary names. Build fresh Windows, WindowsServer
+and LinuxServer packages and repeat singleplayer/dedicated acceptance checks
+before tagging or uploading 1.1.1. Install the same new version on all clients
+and the server. Existing 1.0.0 and 1.1.0 assets and tags remain untouched.
 
-- Multiplayer movement rules on clients and the server.
-- Windows and Linux dedicated-server packages.
-- Matching mod versions required on every client and server.
-- Normal crouch/jump controls, braking and steering; no configuration needed.
+Final **1.1.0** was tested on **2026-10-09** on Windows dedicated and Linux Docker
+with an Epic Windows client: joining and uphill speed retention passed, with
+no noticeable jitter or position resets. Those reports do not validate 1.1.1.
+Directly hosted co-op and Steam runtime remain untested.
 
-Existing slide-jump boosts and downhill acceleration remain unchanged.
-
-## Compatibility
-
-Initial join and uphill comparison tests passed on **Windows and Linux dedicated
-servers** with the **Epic Games Windows client**, Satisfactory **1.2.4.0 (502094)**
-and **SML 3.12.0**, using the 1.1.0 beta. The final release retains those movement
-rules and removes diagnostic logging. The final **1.1.0 Epic Windows client**
-also passed the author's singleplayer uphill-sliding smoke test.
-
-**Directly hosted co-op is supported by the code but has not been tested.** Steam
-client builds passed; Steam runtime testing and broader two-player, latency,
-collision and respawn checks remain open.
-
-Install the **same version** on all clients and the server. For co-op, both host
-and guests need the mod. Use compatible SML versions.
-
-The final 1.1.0 build and archive checks passed for Windows, WindowsServer and
-LinuxServer. The combined `UphillSliding.zip` contains all three platform packages.
-The archive was independently checked. Its descriptor metadata was corrected so
-`Version: 1` matches the major version of `SemVersion: 1.1.0`, as required by
-ficsit.app. All native binaries and cooked content remain byte-identical to the
-tested final build.
-
-[Mod page](https://ficsit.app/mod/FKXKumYqzkUAhw) ·
-[Report a bug](https://github.com/kellykiller/Uphill-Sliding/issues) ·
-[Test results](https://github.com/kellykiller/Uphill-Sliding/blob/main/MULTIPLAYER.md)
+[Build instructions](BUILDING.md) · [Test status](TESTING.md) ·
+[Report a bug](https://github.com/kellykiller/Uphill-Sliding/issues)

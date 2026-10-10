@@ -1,4 +1,4 @@
-#include "SlideMomentum.h"
+#include "UphillSliding.h"
 
 #if !WITH_EDITOR
 
@@ -8,10 +8,14 @@
 #include "Templates/UnrealTemplate.h"
 #include "Patching/NativeHookManager.h"
 
-DEFINE_LOG_CATEGORY_STATIC(LogSlideMomentum, Log, All);
+DEFINE_LOG_CATEGORY_STATIC(LogUphillSliding, Log, All);
 
 namespace
 {
+    // Keep the exact original thresholds; do not substitute a float epsilon.
+    constexpr double MinimumUphillDotMagnitude = 0.0001;
+    constexpr double MinimumRetainedDirectionDot = 0.5; // cos(60 degrees).
+
     bool IsUphillCrouch(const UFGCharacterMovementComponent* Movement)
     {
         if (Movement == nullptr || !Movement->bWantsToCrouch ||
@@ -46,7 +50,7 @@ namespace
         // This also rejects flat ground, downhill travel and traversal modes such as tubes.
         return Normal.Z > KINDA_SMALL_NUMBER &&
             !Direction.IsNearlyZero() &&
-            FVector::DotProduct(Direction, Normal) < -0.0001;
+            FVector::DotProduct(Direction, Normal) < -MinimumUphillDotMagnitude;
     }
 
     bool IsUphillSlide(const UFGCharacterMovementComponent* Movement)
@@ -56,7 +60,7 @@ namespace
 }
 
 template <typename TScope>
-void FSlideMomentumModule::CallWithWideSlideAngle(
+void FUphillSlidingModule::CallWithWideSlideAngle(
     TScope& Scope, const UFGCharacterMovementComponent* Movement)
 {
     if (!IsUphillCrouch(Movement))
@@ -75,7 +79,7 @@ void FSlideMomentumModule::CallWithWideSlideAngle(
 
 #endif // !WITH_EDITOR
 
-void FSlideMomentumModule::StartupModule()
+void FUphillSlidingModule::StartupModule()
 {
 #if !WITH_EDITOR
     // The editor uses FactoryGame stubs. Game and dedicated-server builds install
@@ -149,7 +153,7 @@ void FSlideMomentumModule::StartupModule()
             // Keep ordinary steering, but do not turn a reversal into a speed boost.
             FVector Direction = AfterSpeed > KINDA_SMALL_NUMBER
                 ? After / AfterSpeed : Before / BeforeSpeed;
-            if (FVector::DotProduct(Direction, Before / BeforeSpeed) < 0.5)
+            if (FVector::DotProduct(Direction, Before / BeforeSpeed) < MinimumRetainedDirectionDot)
             {
                 return;
             }
@@ -161,12 +165,12 @@ void FSlideMomentumModule::StartupModule()
 
         });
 
-    UE_LOG(LogSlideMomentum, Display,
+    UE_LOG(LogUphillSliding, Display,
         TEXT("Uphill Sliding loaded (client/server movement rules)."));
 #endif
 }
 
-void FSlideMomentumModule::ShutdownModule()
+void FUphillSlidingModule::ShutdownModule()
 {
 #if !WITH_EDITOR
     // SML 3.12 removes handlers directly; its unsubscribe macros do not fetch a CDO.
@@ -194,4 +198,4 @@ void FSlideMomentumModule::ShutdownModule()
 #endif
 }
 
-IMPLEMENT_MODULE(FSlideMomentumModule, SlideMomentum)
+IMPLEMENT_MODULE(FUphillSlidingModule, UphillSliding)
