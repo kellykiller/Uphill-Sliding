@@ -12,11 +12,42 @@ param(
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version 2
-# RELEASE_PINS_BEGIN: regenerated after the source changes are committed.
-$sourceCommit = 'PENDING_SOURCE_COMMIT'
+# RELEASE_PINS_BEGIN: immutable source and exact Git blob hashes.
+$sourceCommit = '363e632a2cf8bcfb8f2b469c4cabd7225d4c5257'
 $expectedVersion = '1.1.1'
 $moduleName = 'UphillSliding'
-$payloadFiles = @()
+$payloadFiles = @(
+    [pscustomobject]@{ Path = 'BUILDING.md'; Hash = 'b8ab0be23d141fc338fa3d6a14f4b32aa37b52c59b5e8c207362aa4e2a20a543' }
+    [pscustomobject]@{ Path = 'CHANGELOG.md'; Hash = '55a52058c3bda9f66fae0f4806bf5be3f4a17fe2bd518b38f60525d9c8a2a745' }
+    [pscustomobject]@{ Path = 'Config/AccessTransformers.ini'; Hash = 'ad4cfbce58cca963d7387644c09b81ebc9b123ce20ec602683a512c37c67b67d' }
+    [pscustomobject]@{ Path = 'Config/Alpakit.ini'; Hash = 'b43633661d4b613628ba141765e10d78cb23d34e94ca2e293c06596b4bd2b144' }
+    [pscustomobject]@{ Path = 'Config/PluginSettings.ini'; Hash = 'ac00d3df55b209139799deff29fe5e56da6ca44477e16bd1c4da16a2841877e1' }
+    [pscustomobject]@{ Path = 'Docs/History/1.1.0-release-notes.md'; Hash = '15c2dc9ccf6277bf461328441c8c3fbbe4b79d73c45d40fbabd607c0f4d1b8fe' }
+    [pscustomobject]@{ Path = 'Docs/History/1.1.0-validation.md'; Hash = '659d7cca6ee684dcacb42a34454cdc115ad04f10ed4a3ffa53b18995507133d0' }
+    [pscustomobject]@{ Path = 'LICENSE'; Hash = '77ab5fc59deb9a9b6f1a3161c02ba44ab8ed51e4e04e25462171225042f0d2d6' }
+    [pscustomobject]@{ Path = 'MULTIPLAYER.md'; Hash = '6b62a9f72c5b228662508100fbbea9316d71b125a4d473127ae4f046e3b36c2c' }
+    [pscustomobject]@{ Path = 'README.md'; Hash = '57ffb6cccdb53066e9ab9c0dfff7338616885283611886718cefce155ff644e7' }
+    [pscustomobject]@{ Path = 'RELEASE_NOTES.md'; Hash = '5280f42aacae93f4b9989deb89c338bf9950695b7af8b5e70693e712fbb81869' }
+    [pscustomobject]@{ Path = 'Source/UphillSliding/Private/UphillSliding.cpp'; Hash = '21af12b6bc67ccdcca4a35c9f6d7456deea69a4a265e1a4956626f64c3868d74' }
+    [pscustomobject]@{ Path = 'Source/UphillSliding/Private/UphillSliding.h'; Hash = 'b7608c4f1803785f28bff3be799137b795ad46c7ed990f6a2f15a0520063e11a' }
+    [pscustomobject]@{ Path = 'Source/UphillSliding/UphillSliding.Build.cs'; Hash = '940f0d8a7c5660fed7778b321ec749dc761a36be99f91866a6ec8d298f194833' }
+    [pscustomobject]@{ Path = 'TESTING.md'; Hash = '98793ae27a39b055e87e1d101fdb9810ba415e419d361591931cdef9da71ea9b' }
+    [pscustomobject]@{ Path = 'Tests/CompileGuards.cpp'; Hash = 'b377d65c01a500236b04eb6720fba5bc95ef0fc6ff5398eafa9563ae29980991' }
+    [pscustomobject]@{ Path = 'Tests/README.md'; Hash = '3c20a5e66e07f1a9972d9ba7c44b42dcfe3aa0dccb35eeec5f7b419f37af9b98' }
+    [pscustomobject]@{ Path = 'Tests/Regression.cpp'; Hash = '12cac5a93e00908fa9cef6f1df7b790bd93eaf8ff3368e1a6ad75def70a4080d' }
+    [pscustomobject]@{ Path = 'Tests/TestSupport.h'; Hash = '85cec0f985fd117f1e00b12c93fa9cb715253ea4e05e42f1ad10ba4079a9970e' }
+    [pscustomobject]@{ Path = 'Tests/check-metadata.py'; Hash = 'b5dc5680d3b33f28ddf383a7e780253a6437cec1b8d3bab620e968c105089c49' }
+    [pscustomobject]@{ Path = 'Tests/run-tests.sh'; Hash = '5873886b2cd79350caef953b409e948be80f62381db1b969cc282f231a61473b' }
+    [pscustomobject]@{ Path = 'Tests/stubs/CoreMinimal.h'; Hash = '866dd14b19d9d95b97d10ad2d59b9d1a8de3140374e87fee2b3f1515ae59ecd5' }
+    [pscustomobject]@{ Path = 'Tests/stubs/Engine/World.h'; Hash = 'd8d8bbef3fbf594d2214509fcc1068645c2e5b272f86607f0bed118f0819e557' }
+    [pscustomobject]@{ Path = 'Tests/stubs/FGCharacterMovementComponent.h'; Hash = 'd7c22460d1035cbf051185a9c7f5832b2242549faf1239e4323a3e694f0d9b55' }
+    [pscustomobject]@{ Path = 'Tests/stubs/GameFramework/Character.h'; Hash = '72b9c5e5d3e7eec7ef16c4dfa04dd300142391a68c10b0a31fae82931a5308f5' }
+    [pscustomobject]@{ Path = 'Tests/stubs/HAL/IConsoleManager.h'; Hash = '7713311f75ae21222ee990df1aee663e260b32cd778ed8de0fb204b3c0193583' }
+    [pscustomobject]@{ Path = 'Tests/stubs/Modules/ModuleManager.h'; Hash = '3eb71c91b80a17d5caf08ef16bdff26cafd85bc5be14c79d921eb22aa2241dcb' }
+    [pscustomobject]@{ Path = 'Tests/stubs/Patching/NativeHookManager.h'; Hash = '8b4cf66ce210f3b3354288e226e6a1ef78b3183ed61cd0d34c01625925650572' }
+    [pscustomobject]@{ Path = 'Tests/stubs/Templates/UnrealTemplate.h'; Hash = '7713311f75ae21222ee990df1aee663e260b32cd778ed8de0fb204b3c0193583' }
+    [pscustomobject]@{ Path = 'UphillSliding.uplugin'; Hash = 'dba8d9dbc25f5920ae642b1aceb22cc4c5dd2a264cdf30f895dc4768c64254a2' }
+)
 # RELEASE_PINS_END
 $legacyModuleName = 'SlideMomentum' # Migration and historical beta only.
 $isHistoricalBeta = $Channel -eq 'HistoricalBeta'
