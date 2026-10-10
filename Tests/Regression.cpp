@@ -1,5 +1,5 @@
 // Compile the actual implementation. These mocks do not simulate UE collision physics.
-#include "../Source/SlideMomentum/Private/SlideMomentum.cpp"
+#include "../Source/UphillSliding/Private/UphillSliding.cpp"
 #include <iostream>
 
 using Movement=UFGCharacterMovementComponent;
@@ -7,7 +7,7 @@ using CalcScope=Scope<void,Movement*,float,float,bool,float>;
 using BoolScope=Scope<bool,const Movement*>;
 using SpeedScope=Scope<float,const Movement*>;
 
-struct SlideMomentumTestHarness
+struct UphillSlidingTestHarness
 {
     static bool Slide(Movement& m, bool start, std::function<bool(const Movement*)> original={})
     {
@@ -58,7 +58,7 @@ bool Near(double a,double b){return std::abs(a-b)<0.00001;}
 
 int main()
 {
-    FSlideMomentumModule mod;
+    FUphillSlidingModule mod;
     mod.StartupModule();
     int scenarios=0;
     auto CheckGate=[&](const char* name, auto change)
@@ -100,10 +100,10 @@ int main()
     { Movement m;Calc(m);m.Velocity={0,0,0};Calc(m);assert(m.Velocity.Size()==0);++scenarios; }
     { Movement m;m.Velocity={50,0,-123};Calc(m);assert(Near(m.Velocity.X,50));assert(m.Velocity.Z==-123);assert(MaxSpeed(m)==100);++scenarios; }
     { Movement m;const float speed=MaxSpeed(m,[&](const Movement*){m.bWantsToCrouch=false;return 100.f;});assert(speed==100);++scenarios; }
-    { Movement m;const float angle=m.OriginalAngle();assert(SlideMomentumTestHarness::Slide(m,false));assert(m.OriginalAngle()==angle);assert(SlideMomentumTestHarness::Slide(m,true));assert(m.OriginalAngle()==angle);++scenarios; }
-    { Movement m;m.eligible=false;const float angle=m.OriginalAngle();assert(!SlideMomentumTestHarness::Slide(m,false));assert(m.OriginalAngle()==angle);assert(!SlideMomentumTestHarness::Slide(m,true));assert(m.OriginalAngle()==angle);++scenarios; }
-    { Movement m;const float angle=m.OriginalAngle();assert(SlideMomentumTestHarness::Slide(m,false,[&](const Movement*){assert(m.OriginalAngle()==PI);const bool result=SlideMomentumTestHarness::Slide(m,true);assert(m.OriginalAngle()==PI);return result;}));assert(m.OriginalAngle()==angle);++scenarios; }
-    { Movement m;m.bWantsToCrouch=false;assert(!SlideMomentumTestHarness::Slide(m,false));assert(!SlideMomentumTestHarness::Slide(m,true));++scenarios; }
+    { Movement m;const float angle=m.OriginalAngle();assert(UphillSlidingTestHarness::Slide(m,false));assert(m.OriginalAngle()==angle);assert(UphillSlidingTestHarness::Slide(m,true));assert(m.OriginalAngle()==angle);++scenarios; }
+    { Movement m;m.eligible=false;const float angle=m.OriginalAngle();assert(!UphillSlidingTestHarness::Slide(m,false));assert(m.OriginalAngle()==angle);assert(!UphillSlidingTestHarness::Slide(m,true));assert(m.OriginalAngle()==angle);++scenarios; }
+    { Movement m;const float angle=m.OriginalAngle();assert(UphillSlidingTestHarness::Slide(m,false,[&](const Movement*){assert(m.OriginalAngle()==PI);const bool result=UphillSlidingTestHarness::Slide(m,true);assert(m.OriginalAngle()==PI);return result;}));assert(m.OriginalAngle()==angle);++scenarios; }
+    { Movement m;m.bWantsToCrouch=false;assert(!UphillSlidingTestHarness::Slide(m,false));assert(!UphillSlidingTestHarness::Slide(m,true));++scenarios; }
     auto CheckNetworkRole = [&](const char* name, NetMode mode, ENetRole role, bool local)
     {
         Movement m;
@@ -112,8 +112,8 @@ int main()
         m.owner.local = local;
         assert(IsUphillCrouch(&m));
         const float angle = m.OriginalAngle();
-        assert(SlideMomentumTestHarness::Slide(m, true));
-        assert(SlideMomentumTestHarness::Slide(m, false));
+        assert(UphillSlidingTestHarness::Slide(m, true));
+        assert(UphillSlidingTestHarness::Slide(m, false));
         assert(m.OriginalAngle() == angle);
         assert(MaxSpeed(m) == 1000);
         Calc(m);
@@ -144,8 +144,8 @@ int main()
         if (scenario == 6) { client.interrupt = server.interrupt = true; }
         for (int step = 0; step < 8; ++step)
         {
-            assert(SlideMomentumTestHarness::Slide(client, true) == SlideMomentumTestHarness::Slide(server, true));
-            assert(SlideMomentumTestHarness::Slide(client, false) == SlideMomentumTestHarness::Slide(server, false));
+            assert(UphillSlidingTestHarness::Slide(client, true) == UphillSlidingTestHarness::Slide(server, true));
+            assert(UphillSlidingTestHarness::Slide(client, false) == UphillSlidingTestHarness::Slide(server, false));
             assert(Near(MaxSpeed(client), MaxSpeed(server)));
             const Movement before = client;
             Calc(client);
@@ -165,13 +165,13 @@ int main()
     assert(!IsUphillSlide(nullptr));
     ++scenarios;
     mod.ShutdownModule();
-    SlideMomentumTestHarness::AssertRemoved();
+    UphillSlidingTestHarness::AssertRemoved();
     mod.ShutdownModule();
-    SlideMomentumTestHarness::AssertRemoved();
+    UphillSlidingTestHarness::AssertRemoved();
     ++scenarios;
     mod.StartupModule();
     { Movement m;Calc(m);assert(Near(m.Velocity.X,1000));++scenarios; }
     mod.ShutdownModule();
-    SlideMomentumTestHarness::AssertRemoved();
+    UphillSlidingTestHarness::AssertRemoved();
     std::cout << scenarios << " regression scenarios passed (mock engine/SML).\n";
 }

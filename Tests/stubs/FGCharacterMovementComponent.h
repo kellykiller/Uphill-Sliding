@@ -3,8 +3,8 @@
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
 class UFGCharacterMovementComponent final {
-    friend class FSlideMomentumModule;
-    friend struct SlideMomentumTestHarness;
+    friend class FUphillSlidingModule;
+    friend struct UphillSlidingTestHarness;
     float mMaxSlideAngle=1.65f;
     bool CanSlide() const {return eligible && std::acos(FVector::DotProduct(FVector(Velocity.X,Velocity.Y,0).GetSafeNormal(),CurrentFloor.HitResult.ImpactNormal))<=mMaxSlideAngle;}
     bool CanStartSlide()const{return eligible && CanSlide();}

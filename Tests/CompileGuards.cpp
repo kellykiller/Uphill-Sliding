@@ -1,7 +1,7 @@
-#include "../Source/SlideMomentum/Private/SlideMomentum.cpp"
+#include "../Source/UphillSliding/Private/UphillSliding.cpp"
 int main()
 {
-    FSlideMomentumModule mod;
+    FUphillSlidingModule mod;
     mod.StartupModule();
     mod.ShutdownModule();
 }
