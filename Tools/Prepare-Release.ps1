@@ -54,6 +54,7 @@ function Test-MergedArchive([string]$Path, [string[]]$Platforms) {
             $descriptor = Read-ZipJson $descriptorEntry
             if ($descriptor.SemVersion -ne $expectedVersion -or
                 $descriptor.VersionName -ne $expectedVersion -or
+                @($descriptor.Modules).Count -ne 1 -or $descriptor.Modules[0].Name -ne $moduleName -or
                 (-not $isHistoricalBeta -and $descriptor.Version -ne [int]($expectedVersion.Split('.')[0])) -or
                 $descriptor.RequiredOnRemote -ne $true -or
                 (-not $isHistoricalBeta -and $descriptor.IsBetaVersion -ne $false) -or

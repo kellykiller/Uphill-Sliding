@@ -17,10 +17,10 @@ $sml = Get-Content -LiteralPath $smlPath -Raw | ConvertFrom-Json
 if ($sml.SemVersion -notmatch '^3\.(\d+)\.' -or [int]$Matches[1] -lt 12) { throw 'SML 3.12.x or a compatible later 3.x version is required.' }
 $running = @(Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -like 'FactoryGame*' })
 if ($running.Count -gt 0) { throw 'Close Satisfactory before installing.' }
+# SlideMomentum below is only a legacy-directory migration guard.
 foreach ($legacy in @((Join-Path $modsRoot 'UphillSliding'), (Join-Path $modsRoot 'GameFeatures\SlideMomentum'))) {
     if (Test-Path -LiteralPath $legacy) { throw "Additional legacy mod directory found: $legacy" }
 }
-# SlideMomentum below is only a legacy-directory migration guard.
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $archive = [IO.Compression.ZipFile]::OpenRead($ArchivePath)
 try {
@@ -36,7 +36,7 @@ try {
     try { $descriptor = $reader.ReadToEnd() | ConvertFrom-Json } finally { $reader.Dispose() }
     if ($descriptor.SemVersion -ne $expectedVersion -or $descriptor.VersionName -ne $expectedVersion -or
         $descriptor.Version -ne [int]($expectedVersion.Split('.')[0]) -or
-        $descriptor.Modules[0].Name -ne 'UphillSliding' -or $descriptor.GameFeature -ne $true -or $descriptor.RequiredOnRemote -ne $true -or
+        @($descriptor.Modules).Count -ne 1 -or $descriptor.Modules[0].Name -ne 'UphillSliding' -or $descriptor.GameFeature -ne $true -or $descriptor.RequiredOnRemote -ne $true -or
         $descriptor.IsBetaVersion -ne $false -or $descriptor.IsExperimentalVersion -ne $false) { throw 'Incorrect release version or archive metadata.' }
     foreach ($target in @('FactoryGameEGS', 'FactoryGameSteam')) {
         $manifestEntry = $archive.GetEntry("Binaries/Win64/$target-Win64-Shipping.modules")
