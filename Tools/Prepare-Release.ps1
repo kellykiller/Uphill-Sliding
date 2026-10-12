@@ -139,6 +139,7 @@ $projectPath = Join-Path $ProjectRoot 'FactoryGame.uproject'
 $pluginRoot = Join-Path $ProjectRoot 'Mods\GameFeatures\UphillSliding'
 $descriptorPath = Join-Path $pluginRoot 'UphillSliding.uplugin'
 $runUat = Join-Path $EngineRoot 'Engine\Build\BatchFiles\RunUAT.bat'
+$editorBuildScript = Join-Path $EngineRoot 'Engine\Build\BatchFiles\Build.bat'
 $engineVersionPath = Join-Path $EngineRoot 'Engine\Build\Build.version'
 foreach ($path in @($projectPath, $descriptorPath, $engineVersionPath,
     (Join-Path $pluginRoot 'Content\UphillSliding.uasset'),
@@ -162,7 +163,7 @@ if (-not (Test-Path -LiteralPath $currentBuildRules -PathType Leaf)) {
 }
 
 if ($Build -or $CheckOnly) {
-    foreach ($path in @($runUat, (Join-Path $ProjectRoot 'Mods\Alpakit\Source\Alpakit.Automation\PackagePlugin.cs'))) {
+    foreach ($path in @($runUat, $editorBuildScript, (Join-Path $ProjectRoot 'Mods\Alpakit\Source\Alpakit.Automation\PackagePlugin.cs'))) {
         if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { throw "Build tool missing: $path" }
     }
     if (-not $WindowsOnly) {
@@ -273,12 +274,25 @@ try {
     # Launch through a fresh Windows PowerShell process: native stderr is logged as
     # text rather than becoming a terminating NativeCommandError in PowerShell ISE.
     $runnerArgsPath = Join-Path $stageRoot 'Build-Arguments.clixml'
-    @{ RunUat = $runUat; UatArgs = $uatArgs } | Export-Clixml -LiteralPath $runnerArgsPath
+    @{
+        RunUat = $runUat
+        UatArgs = $uatArgs
+        EditorBuildScript = $editorBuildScript
+        EditorArgs = @('FactoryEditor', 'Win64', 'Development', "-Project=$projectPath", '-WaitMutex')
+    } | Export-Clixml -LiteralPath $runnerArgsPath
     $launcher = Join-Path $stageRoot 'Launch-Build.ps1'
     $launcherText = @'
     param([string]$ArgumentsFile)
     $ErrorActionPreference = 'Continue'
     $arguments = Import-Clixml -LiteralPath $ArgumentsFile
+    # Cooking loads editor DLLs even when the requested packages are Shipping.
+    # Build the renamed module after applying source and before running Alpakit.
+    $editorBuildScript = $arguments.EditorBuildScript
+    $editorArgs = $arguments.EditorArgs
+    Write-Output 'Building FactoryEditor before Shipping packages and cooking...'
+    & $editorBuildScript @editorArgs 2>&1 | ForEach-Object { $_.ToString() }
+    $editorExitCode = $LASTEXITCODE
+    if ($editorExitCode -ne 0) { exit $editorExitCode }
     $runUat = $arguments.RunUat
     $uatArgs = $arguments.UatArgs
     & $runUat @uatArgs 2>&1 | ForEach-Object { $_.ToString() }

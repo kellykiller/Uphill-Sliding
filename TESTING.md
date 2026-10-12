@@ -53,6 +53,21 @@ Mocks do not establish compatibility with real FactoryGame headers or native ABI
 packaging, collision physics, saved moves, replication or packet delivery.
 The 1.1.0 reports above must not be presented as tests of 1.1.1.
 
+### Author-supplied native build log — 2026-10-12
+
+The supplied log for pinned runtime source `363e632a2cf8bcfb8f2b469c4cabd7225d4c5257`
+shows successful Shipping compilation/linking of the renamed module for Epic,
+Steam, WindowsServer and LinuxServer, with UBT result `Succeeded` and exit code 0.
+This provides actual-header/native-build evidence for the Private source layout
+and dependencies on those targets.
+
+Packaging then failed during cooking: `UphillSliding` could not be loaded by
+UnrealEditor-Cmd because its editor module was missing (AutomationTool exit 25).
+The updater previously cleared plugin binaries and skipped compiling the editor;
+it now builds FactoryEditor explicitly before Alpakit. A successful editor build,
+complete archive validation and new in-game tests are still pending.
+These compiled Shipping binaries alone are not distributable packages.
+
 Before publishing 1.1.1, the author must:
 
 1. Build with Alpakit for Windows clients, WindowsServer and LinuxServer.

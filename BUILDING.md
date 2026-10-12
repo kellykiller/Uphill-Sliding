@@ -39,8 +39,13 @@ and report the log and previous archives. Existing feature assets, other mods,
 game installations and server containers are not updated by this script.
 Temporary downloads are removed on exit.
 
-After the native module rename, regenerate IDE project files. PackagePlugin uses
-`-nocompileeditor`; build the editor target separately before reopening the editor:
+With `-Build`, the updater now builds `FactoryEditor Win64 Development` after
+applying source and before running Alpakit. The cooker loads editor DLLs even
+when packaging Shipping clients/servers; `-nocompileeditor` is only used after
+that explicit editor build has succeeded.
+
+After the native module rename, regenerate IDE project files. If applying source
+without `-Build`, build the editor target yourself before cooking or reopening UE:
 
 ```powershell
 $buildScript = Join-Path $engineRoot "Engine\Build\BatchFiles\Build.bat"

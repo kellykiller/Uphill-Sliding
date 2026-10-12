@@ -34,10 +34,19 @@ workflows passed on the review branch.
 
 No real Engine build, Alpakit run, Windows PowerShell 5.1 execution or in-game
 1.1.1 test was possible here. Script changes were reviewed statically. The source
-updater pins immutable commit `363e632a2cf8bcfb8f2b469c4cabd7225d4c5257` with regenerated SHA256
-hashes for all payload files. The updater itself is excluded from its payload to
+updater records its immutable sourceCommit and regenerated SHA256 hashes for
+all payload files in Tools/Prepare-Release.ps1. The updater itself is excluded from its payload to
 avoid a circular self-hash. New compiled ZIP hashes do not exist until the author
 builds them. Existing stable release hashes were not changed.
+
+### Follow-up build evidence — 2026-10-12
+
+The author's supplied log confirms successful native Shipping builds for Epic,
+Steam, WindowsServer and LinuxServer. Cooking then failed because the renamed
+editor DLL was absent. The updater now explicitly builds FactoryEditor before
+Alpakit; successful editor compilation, full packaging and runtime tests remain
+pending. See TESTING.md for the exact scope. Earlier mock-only statements above
+describe execution in this assistant environment, not the author's machine.
 
 ## Open questions and author actions
 
@@ -47,7 +56,7 @@ confirmed the final 1.1.0 test facts. Remaining work is validation evidence:
 1. Review this draft before applying changes to the Windows development project.
 2. Run the updated PowerShell 5.1 updater with explicit paths and `-CheckOnly`.
 3. Apply and build all three platforms with Alpakit; regenerate IDE files and
-   separately rebuild FactoryEditor before opening the renamed module in UE.
+   confirm that its automatic FactoryEditor build succeeds before cooking.
 4. Confirm the Private header/dependencies and renamed AccessTransformers friend
    against actual FactoryGame/SML headers; inspect all packaged module names.
 5. Retest singleplayer and Windows/Linux dedicated sessions with matching new
