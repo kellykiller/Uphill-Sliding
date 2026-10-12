@@ -13,11 +13,11 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version 2
 # RELEASE_PINS_BEGIN: immutable source and exact Git blob hashes.
-$sourceCommit = '3ad24b7cba53a630db67b647b114e739c7607720'
+$sourceCommit = '183f7609de2eac4cd823df735a44460a3bacbb09'
 $expectedVersion = '1.1.1'
 $moduleName = 'UphillSliding'
 $payloadFiles = @(
-    [pscustomobject]@{ Path = 'BUILDING.md'; Hash = 'ff6460ebcecec208462a62559ee4f283e34af24eee442ec57f57fd5281339965' }
+    [pscustomobject]@{ Path = 'BUILDING.md'; Hash = 'c8ff79055be7ecc9cb8579117601c4da07759aa3caafb00b8d6fd6851ae284ba' }
     [pscustomobject]@{ Path = 'CHANGELOG.md'; Hash = '55a52058c3bda9f66fae0f4806bf5be3f4a17fe2bd518b38f60525d9c8a2a745' }
     [pscustomobject]@{ Path = 'Config/AccessTransformers.ini'; Hash = 'ad4cfbce58cca963d7387644c09b81ebc9b123ce20ec602683a512c37c67b67d' }
     [pscustomobject]@{ Path = 'Config/Alpakit.ini'; Hash = 'b43633661d4b613628ba141765e10d78cb23d34e94ca2e293c06596b4bd2b144' }
@@ -31,7 +31,7 @@ $payloadFiles = @(
     [pscustomobject]@{ Path = 'Source/UphillSliding/Private/UphillSliding.cpp'; Hash = '21af12b6bc67ccdcca4a35c9f6d7456deea69a4a265e1a4956626f64c3868d74' }
     [pscustomobject]@{ Path = 'Source/UphillSliding/Private/UphillSliding.h'; Hash = 'b7608c4f1803785f28bff3be799137b795ad46c7ed990f6a2f15a0520063e11a' }
     [pscustomobject]@{ Path = 'Source/UphillSliding/UphillSliding.Build.cs'; Hash = '940f0d8a7c5660fed7778b321ec749dc761a36be99f91866a6ec8d298f194833' }
-    [pscustomobject]@{ Path = 'TESTING.md'; Hash = 'ebbfa2e3be775803db6ab331b1fe39b15fd5de8118ac890ee97ba64164704123' }
+    [pscustomobject]@{ Path = 'TESTING.md'; Hash = 'b917c16f02bec5ad07d5b2feaab8dd5f9699f15d609db7defa49dabff985d2a9' }
     [pscustomobject]@{ Path = 'Tests/CompileGuards.cpp'; Hash = 'b377d65c01a500236b04eb6720fba5bc95ef0fc6ff5398eafa9563ae29980991' }
     [pscustomobject]@{ Path = 'Tests/README.md'; Hash = '3c20a5e66e07f1a9972d9ba7c44b42dcfe3aa0dccb35eeec5f7b419f37af9b98' }
     [pscustomobject]@{ Path = 'Tests/Regression.cpp'; Hash = '12cac5a93e00908fa9cef6f1df7b790bd93eaf8ff3368e1a6ad75def70a4080d' }
