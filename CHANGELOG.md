@@ -2,18 +2,7 @@
 
 ## 1.1.1 — unreleased
 
-- Rename the native module, source paths, class and logging to UphillSliding.
-- Preserve all existing movement conditions, network routing, thresholds and hook cleanup.
-- Add readable regression tests that remain active with NDEBUG and minimal CI.
-- Unify preparation scripts, remove personal paths and archive historical tools.
-- Add MIT licensing and split build instructions from documented test results.
-- Record confirmed final 1.1.0 dedicated-server tests accurately.
-- Record successful 1.1.1 Windows/Linux dedicated functional tests reported by
-  the author on 2026-10-12 after the game update.
-
-Native builds, Alpakit packaging and both dedicated functional tests passed by
-author evidence. Fresh singleplayer testing and remaining archive checks are
-pending before publication. Old releases, tags and asset hashes remain unchanged.
+Code cleanup and internal improvements.
 
 ## 1.1.0 — 2026-10-09
 
