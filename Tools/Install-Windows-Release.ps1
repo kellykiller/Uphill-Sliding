@@ -2,32 +2,24 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)][string]$ArchivePath,
-    [Parameter(Mandatory = $true)][string]$GameRoot,
-    [string]$RequireSmartFoundationsVersion = ''
+    [Parameter(Mandatory = $true)][string]$GameRoot
 )
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version 2
-$expectedVersion = '1.1.0'
+$expectedVersion = '1.1.1'
 $modsRoot = Join-Path $GameRoot 'FactoryGame\Mods'
 $smlPath = Join-Path $modsRoot 'SML\SML.uplugin'
-if (-not (Test-Path -LiteralPath $ArchivePath -PathType Leaf)) { throw "Archiv fehlt: $ArchivePath" }
+if (-not (Test-Path -LiteralPath $ArchivePath -PathType Leaf)) { throw "Archive missing: $ArchivePath" }
 if (-not (Test-Path -LiteralPath $smlPath -PathType Leaf)) {
-    throw 'SML fehlt auf dem Client. Im Mod Manager zuerst ein Testprofil mit SML und den Server-Mods einrichten.'
+    throw 'SML is missing on the client. Set up a Mod Manager test profile with SML and matching server mods first.'
 }
 $sml = Get-Content -LiteralPath $smlPath -Raw | ConvertFrom-Json
-if ($sml.SemVersion -notmatch '^3\.(\d+)\.' -or [int]$Matches[1] -lt 12) { throw 'SML 3.12.x oder eine kompatible neuere 3.x-Version wird benoetigt.' }
-if ($RequireSmartFoundationsVersion) {
-    $smartPath = Join-Path $modsRoot 'GameFeatures\SmartFoundations\SmartFoundations.uplugin'
-    if (-not (Test-Path -LiteralPath $smartPath -PathType Leaf)) {
-        throw "Auf dem Server ist SmartFoundations $RequireSmartFoundationsVersion installiert. Bitte dieselbe Version zuerst im Mod Manager auf dem Client installieren."
-    }
-    $smart = Get-Content -LiteralPath $smartPath -Raw | ConvertFrom-Json
-    if ($smart.SemVersion -ne $RequireSmartFoundationsVersion) { throw "SmartFoundations-Version muss $RequireSmartFoundationsVersion sein; gefunden: $($smart.SemVersion)" }
-}
+if ($sml.SemVersion -notmatch '^3\.(\d+)\.' -or [int]$Matches[1] -lt 12) { throw 'SML 3.12.x or a compatible later 3.x version is required.' }
 $running = @(Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -like 'FactoryGame*' })
-if ($running.Count -gt 0) { throw 'Bitte Satisfactory vor der Installation schliessen.' }
+if ($running.Count -gt 0) { throw 'Close Satisfactory before installing.' }
+# SlideMomentum below is only a legacy-directory migration guard.
 foreach ($legacy in @((Join-Path $modsRoot 'UphillSliding'), (Join-Path $modsRoot 'GameFeatures\SlideMomentum'))) {
-    if (Test-Path -LiteralPath $legacy) { throw "Zusaetzlicher alter Mod-Ordner gefunden: $legacy" }
+    if (Test-Path -LiteralPath $legacy) { throw "Additional legacy mod directory found: $legacy" }
 }
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $archive = [IO.Compression.ZipFile]::OpenRead($ArchivePath)
@@ -35,26 +27,26 @@ try {
     foreach ($entry in $archive.Entries) {
         $name = $entry.FullName.Replace('\', '/')
         if ($name.StartsWith('/') -or $name.Contains(':') -or @($name.Split('/') | Where-Object { $_ -eq '..' }).Count -gt 0) {
-            throw "Ungueltiger Archivpfad: $name"
+            throw "Invalid archive path: $name"
         }
     }
     $descriptorEntry = $archive.GetEntry('UphillSliding.uplugin')
-    if ($null -eq $descriptorEntry) { throw 'Bitte das Windows-Plattformarchiv verwenden, nicht das kombinierte Archiv.' }
+    if ($null -eq $descriptorEntry) { throw 'Use the Windows platform archive instead of the combined archive.' }
     $reader = New-Object IO.StreamReader($descriptorEntry.Open())
     try { $descriptor = $reader.ReadToEnd() | ConvertFrom-Json } finally { $reader.Dispose() }
     if ($descriptor.SemVersion -ne $expectedVersion -or $descriptor.VersionName -ne $expectedVersion -or
         $descriptor.Version -ne [int]($expectedVersion.Split('.')[0]) -or
-        $descriptor.GameFeature -ne $true -or $descriptor.RequiredOnRemote -ne $true -or
-        $descriptor.IsBetaVersion -ne $false -or $descriptor.IsExperimentalVersion -ne $false) { throw 'Falsche Release-Version oder Metadaten im Archiv.' }
+        @($descriptor.Modules).Count -ne 1 -or $descriptor.Modules[0].Name -ne 'UphillSliding' -or $descriptor.GameFeature -ne $true -or $descriptor.RequiredOnRemote -ne $true -or
+        $descriptor.IsBetaVersion -ne $false -or $descriptor.IsExperimentalVersion -ne $false) { throw 'Incorrect release version or archive metadata.' }
     foreach ($target in @('FactoryGameEGS', 'FactoryGameSteam')) {
         $manifestEntry = $archive.GetEntry("Binaries/Win64/$target-Win64-Shipping.modules")
-        if ($null -eq $manifestEntry) { throw "Client-Manifest fehlt: $target" }
+        if ($null -eq $manifestEntry) { throw "Client manifest missing: $target" }
         $reader = New-Object IO.StreamReader($manifestEntry.Open())
         try { $manifest = $reader.ReadToEnd() | ConvertFrom-Json } finally { $reader.Dispose() }
-        $module = [string]$manifest.Modules.SlideMomentum
-        if ($manifest.BuildId -ne 'SML' -or -not $module.EndsWith('.dll') -or $module.Contains('/') -or $module.Contains('\')) { throw "Ungueltiges Client-Modul: $target" }
+        $module = [string]$manifest.Modules.UphillSliding
+        if ($manifest.BuildId -ne 'SML' -or -not $module.EndsWith('.dll') -or $module.Contains('/') -or $module.Contains('\')) { throw "Invalid client module: $target" }
         $binaryEntry = $archive.GetEntry("Binaries/Win64/$module")
-        if ($null -eq $binaryEntry -or $binaryEntry.Length -eq 0) { throw "Client-DLL fehlt: $module" }
+        if ($null -eq $binaryEntry -or $binaryEntry.Length -eq 0) { throw "Client DLL missing: $module" }
     }
 } finally { $archive.Dispose() }
 $backupRoot = Join-Path (Split-Path $GameRoot -Parent) ('UphillSliding-Release-Client-Backup-' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
@@ -72,6 +64,6 @@ catch {
     }
     throw
 }
-Write-Host "Client-Release $expectedVersion installiert: $targetRoot"
-Write-Host "Sicherung: $backupRoot"
-Write-Host 'Satisfactory kann jetzt gestartet werden. Bei einer erneuten Profil-Anwendung kann der Mod Manager das manuell installierte Paket ersetzen.'
+Write-Host "Client release $expectedVersion installed: $targetRoot"
+Write-Host "Backup: $backupRoot"
+Write-Host 'Satisfactory can now be started. Reapplying a Mod Manager profile may replace this manually installed package.'

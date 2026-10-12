@@ -27,23 +27,25 @@ For directly hosted co-op, install it on both the host and joining players.
 
 | Mode | Test status |
 | --- | --- |
-| Windows singleplayer | Final 1.1.0 uphill-sliding smoke test passed |
-| Linux dedicated server | Initial join and uphill comparison tested with the 1.1.0 beta |
-| Windows dedicated server | Initial join and uphill comparison tested with the 1.1.0 beta |
+| Windows singleplayer | 1.1.0 smoke test passed; 1.1.1 has not been separately retested |
+| Linux dedicated server | 1.1.1 functional test passed on 2026-10-12 |
+| Windows dedicated server | 1.1.1 functional test passed on 2026-10-12 |
 | Directly hosted co-op | Supported by the code; host/guest session not yet tested |
 
-Dedicated-server sessions were tested using the Epic Games Windows client.
-The Steam client package builds successfully; Steam runtime testing is pending.
-Additional latency, two-player, collision and respawn testing is still welcome.
-
-Test environment: **Satisfactory 1.2.4.0 (build 502094)** and **SML 3.12.0**.
+Both 1.1.1 dedicated tests used the **Epic Games Windows client** after updating
+client/server installations. The observed client game build was **513885**;
+server runtime build numbers were not separately captured. SML **3.12.0** was
+used, and the combined release archive passed independent structural checks.
+Steam client builds passed; Steam runtime, co-op and broader latency, two-player,
+collision and respawn testing remain unconfirmed. See [TESTING.md](TESTING.md)
+for version-specific evidence and the earlier 1.1.0 results.
 
 ## Download
 
 [Mod page on ficsit.app](https://ficsit.app/mod/FKXKumYqzkUAhw) ·
 [GitHub releases](https://github.com/kellykiller/Uphill-Sliding/releases)
 
-The **1.1.0** GitHub release includes Windows clients and Windows/Linux dedicated
+The **1.1.1** GitHub release includes Windows clients and Windows/Linux dedicated
 servers in `UphillSliding.zip`. Install versions available on ficsit.app through
 the **Satisfactory Mod Manager** and check the selected version on every client
 and server. The old **1.0.0** package supports singleplayer only.
@@ -53,7 +55,12 @@ and server. The old **1.0.0** package supports singleplayer only.
 This repository contains the complete mod plugin, C++ source and assets.
 Place it in `Mods/GameFeatures/UphillSliding` inside a compatible Satisfactory
 Modding project using **Unreal Engine 5.6.1-CSS** and matching SML headers.
-See [MULTIPLAYER.md](MULTIPLAYER.md) for development, build steps and test results.
+See [BUILDING.md](BUILDING.md) for build/setup and [TESTING.md](TESTING.md) for
+version-specific test results. Source code is licensed under [MIT](LICENSE).
+
+Version **1.1.1** renames the native module to `UphillSliding` without changing
+gameplay. Native builds, Alpakit packaging, archive checks and both dedicated
+functional tests passed. Existing 1.0.0 and 1.1.0 release packages remain unchanged.
 
 ## Bug reports
 

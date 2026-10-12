@@ -7,7 +7,7 @@
 class UFGCharacterMovementComponent;
 #endif
 
-class FSlideMomentumModule : public IModuleInterface
+class FUphillSlidingModule : public IModuleInterface
 {
 public:
     virtual void StartupModule() override;

@@ -1,15 +1,15 @@
 using UnrealBuildTool;
 
-public class SlideMomentum : ModuleRules
+public class UphillSliding : ModuleRules
 {
-	public SlideMomentum(ReadOnlyTargetRules Target) : base(Target)
+	public UphillSliding(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		CppStandard = CppStandardVersion.Cpp20;
 
 		// FactoryGame transitive dependencies
 		// Keep the starter project's dependencies required by FactoryGame headers.
-		PublicDependencyModuleNames.AddRange(new string[] {
+		PrivateDependencyModuleNames.AddRange(new string[] {
 			"Core", "CoreUObject",
 			"Engine",
 			"DeveloperSettings",
@@ -31,14 +31,14 @@ public class SlideMomentum : ModuleRules
 		});
 
 		// Header stubs
-		PublicDependencyModuleNames.AddRange(new string[] {
+		PrivateDependencyModuleNames.AddRange(new string[] {
 			"DummyHeaders",
 		});
 
 		if (Target.Type == TargetRules.TargetType.Editor) {
-			PublicDependencyModuleNames.AddRange(new string[] {"AnimGraph"});
+			PrivateDependencyModuleNames.AddRange(new string[] {"AnimGraph"});
 		}
-		PublicDependencyModuleNames.AddRange(new string[] {"FactoryGame", "SML"});
+		PrivateDependencyModuleNames.AddRange(new string[] {"FactoryGame", "SML"});
 		
 	}
 }

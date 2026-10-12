@@ -1,7 +1,7 @@
 {
   "FileVersion": 3,
   "Version": 1,
-  "VersionName": "1.1.0",
+  "VersionName": "1.1.1",
   "FriendlyName": "Uphill Sliding",
   "Description": "Slide uphill while preserving horizontal momentum in singleplayer and multiplayer. Install the same version on every client and server.",
   "Category": "Modding",
@@ -16,7 +16,7 @@
   "Installed": false,
   "Modules": [
     {
-      "Name": "SlideMomentum",
+      "Name": "UphillSliding",
       "Type": "Runtime",
       "LoadingPhase": "Default"
     }
@@ -29,7 +29,7 @@
       "SemVersion": "^3.12.0"
     }
   ],
-  "SemVersion": "1.1.0",
+  "SemVersion": "1.1.1",
   "GameVersion": ">=502094",
   "RequiredOnRemote": true
 }

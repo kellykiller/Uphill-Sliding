@@ -1,18 +1,17 @@
-# Regression checks
+# Regression tests
 
-Run `bash Tests/run-tests.sh` with a C++20-capable g++.
-The tests compile the actual mod source against small mock engine/SML headers.
+Run `bash Tests/run-tests.sh` with g++ (C++20) and Python 3 installed.
+The runner uses `-Wall -Wextra -Werror`, exercises client and `UE_SERVER`
+builds both with and without `-DNDEBUG`, and checks editor exclusion.
+Expectations remain active with `NDEBUG`; an intentional failing expectation
+must terminate every regression binary with a nonzero exit status.
+Scenario totals are counted automatically after each successful scenario.
 
-47 scenarios run in both a normal game build and a `UE_SERVER=1` build:
-movement gates, server authority for remote players, owning-client prediction,
-simulated proxy exclusion, original-call forwarding, private member access,
-angle restoration, speed retention, braking and hook cleanup. Seven paired
-client/server input sequences compare all four hook decisions and velocities,
-including repeat evaluation from a copied pre-move state.
+The tests compile the actual mod implementation against small engine/SML stubs.
+They cover eligibility gates, network roles, braking, direction limits, original
+call counts, temporary angle restoration, hook cleanup and deterministic replay
+with identical supplied state. Descriptor metadata is also checked generically.
 
-The editor exclusion compiles separately without FactoryGame/SML hook headers.
-
-These mocks do not reproduce real UE saved moves, network transport, collision
-physics or native hook installation. They cannot establish multiplayer support
-or binary compatibility. Real platform builds and network tests are tracked in
-[MULTIPLAYER.md](../MULTIPLAYER.md).
+These tests do **not** validate actual FactoryGame headers, native ABI, packaging,
+UE collision physics, saved moves, replication, packets or latency. A real
+Alpakit build and the in-game checks in [TESTING.md](../TESTING.md) are required.
