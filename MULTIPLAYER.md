@@ -16,8 +16,10 @@ has not yet been tested.
   Final release tested on both dedicated platforms with the Epic Windows client:
   joining and uphill speed retention passed, with no noticeable jitter or resets.
 - **1.1.1 (unreleased):** consistent native module naming and repository cleanup.
-  Gameplay unchanged. Real Alpakit builds and singleplayer/dedicated retesting
-  are required because binary names change.
+  Gameplay unchanged. Native builds and Alpakit packaging passed. The author
+  confirmed successful Windows dedicated and Linux Docker dedicated functional
+  tests with the Epic Windows client on 2026-10-12 after the game update.
+  Fresh singleplayer testing and remaining archive checks are pending.
 
 Keep these version-specific results separate. Passing 1.1.0 runtime tests does
 not validate a newly compiled 1.1.1 package.

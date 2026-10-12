@@ -8,10 +8,12 @@ slide-jump behavior and multiplayer movement rules are unchanged.
 - Preparation scripts consolidated, historical beta tools isolated, MIT license added.
 - Documentation records final 1.1.0 Windows/Linux dedicated tests correctly.
 
-The module rename changes native binary names. Build fresh Windows, WindowsServer
-and LinuxServer packages and repeat singleplayer/dedicated acceptance checks
-before tagging or uploading 1.1.1. Install the same new version on all clients
-and the server. Existing 1.0.0 and 1.1.0 assets and tags remain untouched.
+The module rename changes native binary names. Fresh native builds and Alpakit
+packaging passed. The author confirmed successful **1.1.1 Windows dedicated and
+Linux Docker dedicated functional tests on 2026-10-12**, using the Epic Windows
+client after the game update. Fresh singleplayer testing and remaining archive
+checks are pending before tagging or uploading. Install the same new version on
+all clients and the server. Existing 1.0.0 and 1.1.0 assets and tags remain untouched.
 
 Final **1.1.0** was tested on **2026-10-09** on Windows dedicated and Linux Docker
 with an Epic Windows client: joining and uphill speed retention passed, with

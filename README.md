@@ -39,6 +39,13 @@ Additional latency, two-player, collision and respawn testing is still welcome.
 
 Test environment: **Satisfactory 1.2.4.0 (build 502094)** and **SML 3.12.0**.
 
+For the unreleased **1.1.1**, the author confirmed successful functional tests on
+**Windows dedicated and Linux Docker dedicated servers on 2026-10-12**, using
+the Epic Windows client after updating the game. Joining and uphill sliding
+worked. The client showed game build **513885**; server runtime build numbers
+were not separately captured. Fresh 1.1.1 singleplayer testing remains pending.
+See [TESTING.md](TESTING.md) for the limits of these reports.
+
 ## Download
 
 [Mod page on ficsit.app](https://ficsit.app/mod/FKXKumYqzkUAhw) ·
@@ -58,9 +65,10 @@ See [BUILDING.md](BUILDING.md) for build/setup and [TESTING.md](TESTING.md) for
 version-specific test results. Source code is licensed under [MIT](LICENSE).
 
 The proposed **1.1.1** source renames the native module to `UphillSliding` without
-changing gameplay. It is **unreleased** and still requires a real Alpakit build
-and renewed singleplayer/dedicated tests. Existing 1.0.0 and 1.1.0 release packages
-remain unchanged.
+changing gameplay. It is **unreleased**. Native builds, Alpakit packaging and
+both dedicated-server functional tests passed by author reports. A fresh
+singleplayer test and remaining archive checks are pending. Existing 1.0.0
+and 1.1.0 release packages remain unchanged.
 
 ## Bug reports
 

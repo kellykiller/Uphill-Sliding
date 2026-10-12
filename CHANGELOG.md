@@ -8,9 +8,12 @@
 - Unify preparation scripts, remove personal paths and archive historical tools.
 - Add MIT licensing and split build instructions from documented test results.
 - Record confirmed final 1.1.0 dedicated-server tests accurately.
+- Record successful 1.1.1 Windows/Linux dedicated functional tests reported by
+  the author on 2026-10-12 after the game update.
 
-Real Alpakit builds and renewed singleplayer/dedicated tests are required before
-publishing 1.1.1. Old releases, tags and asset hashes remain unchanged.
+Native builds, Alpakit packaging and both dedicated functional tests passed by
+author evidence. Fresh singleplayer testing and remaining archive checks are
+pending before publication. Old releases, tags and asset hashes remain unchanged.
 
 ## 1.1.0 — 2026-10-09
 

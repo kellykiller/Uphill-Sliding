@@ -47,7 +47,11 @@ editor DLL was absent. The updater now explicitly builds FactoryEditor before
 Alpakit; successful editor compilation, full packaging and runtime tests remain
 pending at that point. A subsequent supplied log confirms successful editor
 build and full Alpakit packaging, with all four expected archives present.
-New 1.1.1 runtime checks and independent archive inspection remain pending.
+The author subsequently confirmed successful Windows dedicated and Linux Docker
+dedicated functional tests on 2026-10-12 with the Epic Windows client after the
+game update. Fresh singleplayer testing and independent archive inspection
+remain pending; the brief confirmations do not establish broader acceptance
+test or measured network results.
 A WindowsServer release installer now validates renamed 1.1.1 packages and backs
 up the previous plugin. See TESTING.md for the exact scope. Earlier mock-only statements above
 describe execution in this assistant environment, not the author's machine.
@@ -63,9 +67,10 @@ confirmed the final 1.1.0 test facts. Remaining work is validation evidence:
    confirm that its automatic FactoryEditor build succeeds before cooking.
 4. Confirm the Private header/dependencies and renamed AccessTransformers friend
    against actual FactoryGame/SML headers; inspect all packaged module names.
-5. Retest singleplayer and Windows/Linux dedicated sessions with matching new
-   1.1.1 packages. Record joining, momentum, braking, sharp turns, slide jumps,
-   jitter/resets and clean shutdown. See TESTING for the remaining broader checks.
+5. Complete the fresh singleplayer test and unreported broader acceptance checks
+   with matching 1.1.1 packages. Windows/Linux dedicated functional tests passed
+   on 2026-10-12. Record braking, sharp turns, slide jumps, jitter/resets and clean
+   shutdown only when explicitly tested. See TESTING for the remaining checks.
 6. Keep co-op, Steam runtime and measured latency/packet loss marked untested
    until those specific tests are performed.
 7. Only after passing native builds/runtime tests, merge and create a **new**

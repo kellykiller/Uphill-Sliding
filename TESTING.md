@@ -73,8 +73,27 @@ The subsequent supplied recovery log on **2026-10-12** shows successful
 by successful Alpakit build/cook/staging/archiving (AutomationTool exit 0).
 All four expected archive paths were present according to the recovery script.
 The archives themselves have not been supplied for independent binary inspection,
-and renamed 1.1.1 runtime tests are still pending. Platform installer validation
+and runtime results are recorded below. Platform installer validation
 checks descriptor versions and native module manifests before installation.
+
+### Author-confirmed dedicated functional tests — 2026-10-12
+
+| Package and session | Client | Result |
+| --- | --- | --- |
+| Renamed 1.1.1, Windows dedicated server | Epic Windows | Author confirmed successful mod functional test; joining and uphill sliding worked |
+| Renamed 1.1.1, Linux Docker dedicated server | Epic Windows | Author confirmed successful mod functional test; joining and uphill sliding worked |
+
+The servers and client were updated before these sessions. The observed client
+game build was **513885**. The Windows installation manifest reported Steam
+BuildID **25782485**; a Steam BuildID is not a game runtime build number. Server
+runtime build numbers and the new ZIP hashes have not been separately supplied.
+SML **3.12.0** was explicitly reinstalled on Linux before the mod installation.
+
+These are manual author confirmations, not independent recordings or network
+measurements. Do not infer separately documented results for clean shutdown,
+collision/respawn, two players or latency/packet loss from the brief reports.
+Fresh renamed 1.1.1 singleplayer testing, Steam runtime, listen-server/co-op
+testing and independent archive inspection remain pending.
 
 Before publishing 1.1.1, the author must:
 
@@ -82,8 +101,9 @@ Before publishing 1.1.1, the author must:
 2. Check that all `.modules` manifests name `UphillSliding` and that no legacy
    `SlideMomentum` binaries or source directories remain in the new archives.
 3. Install matching 1.1.1 packages on every participating client and server.
-4. Retest singleplayer and both dedicated server platforms: joining, uphill
-   speed, reverse-input braking, sharp turns, slide jumps and normal shutdown.
+4. Complete the fresh singleplayer test and any unreported acceptance checks:
+   reverse-input braking, sharp turns, slide jumps and normal shutdown. Both
+   dedicated functional tests have passed; broader checks are still welcome.
    Watch for jitter and position resets, and compare with the mod disabled.
 5. Record the actual packages, platform/client, date and observed results here.
    Keep co-op and Steam runtime marked untested until those sessions are run.
