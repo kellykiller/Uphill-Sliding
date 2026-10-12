@@ -13,25 +13,25 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version 2
 # RELEASE_PINS_BEGIN: immutable source and exact Git blob hashes.
-$sourceCommit = '183f7609de2eac4cd823df735a44460a3bacbb09'
+$sourceCommit = '961dbc95a64f5b8fe99626e99561b9e8f3aa7fa0'
 $expectedVersion = '1.1.1'
 $moduleName = 'UphillSliding'
 $payloadFiles = @(
     [pscustomobject]@{ Path = 'BUILDING.md'; Hash = 'c8ff79055be7ecc9cb8579117601c4da07759aa3caafb00b8d6fd6851ae284ba' }
-    [pscustomobject]@{ Path = 'CHANGELOG.md'; Hash = '55a52058c3bda9f66fae0f4806bf5be3f4a17fe2bd518b38f60525d9c8a2a745' }
+    [pscustomobject]@{ Path = 'CHANGELOG.md'; Hash = '659cd8685b10905a7ee423f0a11ed6abbd5c172f0b4a464743f9316ea84cf932' }
     [pscustomobject]@{ Path = 'Config/AccessTransformers.ini'; Hash = 'ad4cfbce58cca963d7387644c09b81ebc9b123ce20ec602683a512c37c67b67d' }
     [pscustomobject]@{ Path = 'Config/Alpakit.ini'; Hash = 'b43633661d4b613628ba141765e10d78cb23d34e94ca2e293c06596b4bd2b144' }
     [pscustomobject]@{ Path = 'Config/PluginSettings.ini'; Hash = 'ac00d3df55b209139799deff29fe5e56da6ca44477e16bd1c4da16a2841877e1' }
     [pscustomobject]@{ Path = 'Docs/History/1.1.0-release-notes.md'; Hash = '15c2dc9ccf6277bf461328441c8c3fbbe4b79d73c45d40fbabd607c0f4d1b8fe' }
     [pscustomobject]@{ Path = 'Docs/History/1.1.0-validation.md'; Hash = '659d7cca6ee684dcacb42a34454cdc115ad04f10ed4a3ffa53b18995507133d0' }
     [pscustomobject]@{ Path = 'LICENSE'; Hash = '77ab5fc59deb9a9b6f1a3161c02ba44ab8ed51e4e04e25462171225042f0d2d6' }
-    [pscustomobject]@{ Path = 'MULTIPLAYER.md'; Hash = '6b62a9f72c5b228662508100fbbea9316d71b125a4d473127ae4f046e3b36c2c' }
-    [pscustomobject]@{ Path = 'README.md'; Hash = '57ffb6cccdb53066e9ab9c0dfff7338616885283611886718cefce155ff644e7' }
-    [pscustomobject]@{ Path = 'RELEASE_NOTES.md'; Hash = '5280f42aacae93f4b9989deb89c338bf9950695b7af8b5e70693e712fbb81869' }
+    [pscustomobject]@{ Path = 'MULTIPLAYER.md'; Hash = 'bdbb3178d80335fa8b0da6e7cf3fcdb49168bb63195148f9238d582018c47a3d' }
+    [pscustomobject]@{ Path = 'README.md'; Hash = '933650da9addc39126f344e1f7e4a7cd652ebed60e6f534494c98b5f31884811' }
+    [pscustomobject]@{ Path = 'RELEASE_NOTES.md'; Hash = '657df96195f410922e32564f802b9f362e91d49bc0e5c32107bd339c34214646' }
     [pscustomobject]@{ Path = 'Source/UphillSliding/Private/UphillSliding.cpp'; Hash = '21af12b6bc67ccdcca4a35c9f6d7456deea69a4a265e1a4956626f64c3868d74' }
     [pscustomobject]@{ Path = 'Source/UphillSliding/Private/UphillSliding.h'; Hash = 'b7608c4f1803785f28bff3be799137b795ad46c7ed990f6a2f15a0520063e11a' }
     [pscustomobject]@{ Path = 'Source/UphillSliding/UphillSliding.Build.cs'; Hash = '940f0d8a7c5660fed7778b321ec749dc761a36be99f91866a6ec8d298f194833' }
-    [pscustomobject]@{ Path = 'TESTING.md'; Hash = 'b917c16f02bec5ad07d5b2feaab8dd5f9699f15d609db7defa49dabff985d2a9' }
+    [pscustomobject]@{ Path = 'TESTING.md'; Hash = '15458eee944c77d9a5a4bb3d696a85938e22c1e1e92ee357fe2e35509f340675' }
     [pscustomobject]@{ Path = 'Tests/CompileGuards.cpp'; Hash = 'b377d65c01a500236b04eb6720fba5bc95ef0fc6ff5398eafa9563ae29980991' }
     [pscustomobject]@{ Path = 'Tests/README.md'; Hash = '3c20a5e66e07f1a9972d9ba7c44b42dcfe3aa0dccb35eeec5f7b419f37af9b98' }
     [pscustomobject]@{ Path = 'Tests/Regression.cpp'; Hash = '12cac5a93e00908fa9cef6f1df7b790bd93eaf8ff3368e1a6ad75def70a4080d' }
