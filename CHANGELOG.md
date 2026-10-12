@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.1 — unreleased
+## 1.1.1 — 2026-10-12
 
 Code cleanup and internal improvements.
 

@@ -1,7 +1,7 @@
-# Review implementation and handoff — proposed 1.1.1
+# Review implementation and handoff — 1.1.1
 
-Branch: `review/uphill-sliding-1.1.1`. This is an unreleased review, not a
-replacement for stable 1.0.0 or 1.1.0. No old tags or release assets were modified.
+Development branch: `review/uphill-sliding-1.1.1`. Version 1.1.1 is a separate
+maintenance release. No old tags or release assets were modified.
 
 ## Decisions
 
@@ -36,8 +36,7 @@ No real Engine build, Alpakit run, Windows PowerShell 5.1 execution or in-game
 1.1.1 test was possible here. Script changes were reviewed statically. The source
 updater records its immutable sourceCommit and regenerated SHA256 hashes for
 all payload files in Tools/Prepare-Release.ps1. The updater itself is excluded from its payload to
-avoid a circular self-hash. New compiled ZIP hashes do not exist until the author
-builds them. Existing stable release hashes were not changed.
+avoid a circular self-hash. The verified combined ZIP hash is recorded in TESTING.md. Existing stable release hashes were not changed.
 
 ### Follow-up build evidence — 2026-10-12
 
@@ -62,7 +61,7 @@ describe execution in this assistant environment, not the author's machine.
 No licensing or historical-result questions remain: the author selected MIT and
 confirmed the final 1.1.0 test facts. Remaining work is validation evidence:
 
-1. Review this draft before applying changes to the Windows development project.
+1. Review the source before applying it to a Windows development project.
 2. Run the updated PowerShell 5.1 updater with explicit paths and `-CheckOnly`.
 3. Apply and build all three platforms with Alpakit; regenerate IDE files and
    confirm that its automatic FactoryEditor build succeeds before cooking.
@@ -74,8 +73,9 @@ confirmed the final 1.1.0 test facts. Remaining work is validation evidence:
    shutdown only when explicitly tested. See TESTING for the remaining checks.
 6. Keep co-op, Steam runtime and measured latency/packet loss marked untested
    until those specific tests are performed.
-7. Only after passing native builds/runtime tests, merge and create a **new**
-   v1.1.1 tag/release and ficsit version with new assets/hashes.
+7. Version 1.1.1 is published as a new release on the author's explicit instruction.
+   Native builds, packaging, archive checks and both dedicated functional tests
+   passed; a fresh singleplayer result remains unconfirmed.
 
 Build steps: [BUILDING.md](BUILDING.md). Version-specific results: [TESTING.md](TESTING.md).
 

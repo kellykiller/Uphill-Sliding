@@ -37,7 +37,7 @@ The complete beta/build chronology, original hashes, log observations and the
 metadata repair are preserved in [the historical record](Docs/History/1.1.0-validation.md).
 Neither existing release assets nor tags are changed by this review.
 
-## Proposed 1.1.1 validation
+## 1.1.1 validation
 
 The native module, class, logging category and binary names are now `UphillSliding`.
 Gameplay conditions, thresholds, network routing, hook order and cleanup remain
@@ -65,7 +65,7 @@ Packaging then failed during cooking: `UphillSliding` could not be loaded by
 UnrealEditor-Cmd because its editor module was missing (AutomationTool exit 25).
 The updater previously cleared plugin binaries and skipped compiling the editor;
 it now builds FactoryEditor explicitly before Alpakit. A successful editor build,
-complete archive validation and new in-game tests are still pending.
+complete archive validation and new in-game tests were pending at that point.
 Those compiled Shipping binaries alone were not distributable packages.
 
 The subsequent supplied recovery log on **2026-10-12** shows successful
@@ -100,7 +100,8 @@ byte equality with separately installed packages whose hashes were not supplied.
 The servers and client were updated before these sessions. The observed client
 game build was **513885**. The Windows installation manifest reported Steam
 BuildID **25782485**; a Steam BuildID is not a game runtime build number. Server
-runtime build numbers and the new ZIP hashes have not been separately supplied.
+runtime build numbers and separate platform ZIP hashes were not supplied; the
+combined archive hash is recorded above.
 SML **3.12.0** was explicitly reinstalled on Linux before the mod installation.
 
 These are manual author confirmations, not independent recordings or network
@@ -109,7 +110,11 @@ collision/respawn, two players or latency/packet loss from the brief reports.
 Fresh renamed 1.1.1 singleplayer testing, Steam runtime and listen-server/co-op
 testing remain pending. The combined archive inspection above has passed.
 
-Before publishing 1.1.1, the author must:
+### Build checks and ongoing acceptance testing
+
+The author authorized publication on 2026-10-12. A fresh 1.1.1 singleplayer
+result remains unconfirmed; publication does not establish that test result.
+The following records the build procedure and remaining acceptance checks:
 
 1. Build with Alpakit for Windows clients, WindowsServer and LinuxServer.
 2. Check that all `.modules` manifests name `UphillSliding` and that no legacy

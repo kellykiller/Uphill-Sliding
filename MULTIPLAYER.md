@@ -15,7 +15,7 @@ has not yet been tested.
 - **1.1.0 (2026-10-09):** multiplayer support and Windows/Linux dedicated packages.
   Final release tested on both dedicated platforms with the Epic Windows client:
   joining and uphill speed retention passed, with no noticeable jitter or resets.
-- **1.1.1 (unreleased):** consistent native module naming and repository cleanup.
+- **1.1.1 (2026-10-12):** consistent native module naming and repository cleanup.
   Gameplay unchanged. Native builds and Alpakit packaging passed. The author
   confirmed successful Windows dedicated and Linux Docker dedicated functional
   tests with the Epic Windows client on 2026-10-12 after the game update.

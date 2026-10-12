@@ -10,12 +10,12 @@ For Linux dedicated support on a Windows build machine, install Epic's
 - [Satisfactory modding requirements](https://docs.ficsit.app/satisfactory-modding/latest/Development/BeginnersGuide/dependencies.html#_clang_toolchain_for_linux_dedicated_server_support)
 - [Epic UE 5.6 toolchain requirements](https://dev.epicgames.com/documentation/en-us/unreal-engine/linux-development-requirements-for-unreal-engine?application_version=5.6)
 
-## Apply the proposed 1.1.1 source update
+## Apply the 1.1.1 source update
 
 `Tools/Prepare-Release.ps1` supports Windows PowerShell 5.1. `ProjectRoot` and
 `EngineRoot` are mandatory; no personal directory is embedded in the script.
 It downloads a pinned source revision and verifies every payload hash before
-changing the existing plugin. Run the script from the completed review branch.
+changing the existing plugin. Run the script from the current repository checkout.
 
 ```powershell
 $projectRoot = "D:\SatisfactoryModding"

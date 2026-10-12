@@ -1,4 +1,4 @@
-# Uphill Sliding 1.1.1 — draft, unreleased
+# Uphill Sliding 1.1.1
 
 Code cleanup and internal improvements.
 
