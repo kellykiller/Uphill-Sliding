@@ -45,7 +45,11 @@ The author's supplied log confirms successful native Shipping builds for Epic,
 Steam, WindowsServer and LinuxServer. Cooking then failed because the renamed
 editor DLL was absent. The updater now explicitly builds FactoryEditor before
 Alpakit; successful editor compilation, full packaging and runtime tests remain
-pending. See TESTING.md for the exact scope. Earlier mock-only statements above
+pending at that point. A subsequent supplied log confirms successful editor
+build and full Alpakit packaging, with all four expected archives present.
+New 1.1.1 runtime checks and independent archive inspection remain pending.
+A WindowsServer release installer now validates renamed 1.1.1 packages and backs
+up the previous plugin. See TESTING.md for the exact scope. Earlier mock-only statements above
 describe execution in this assistant environment, not the author's machine.
 
 ## Open questions and author actions
@@ -119,3 +123,4 @@ not listed. Renames explicitly list both original and new paths.
 | Updated | `Tools/Prepare-Release.ps1` |
 | Updated | `UphillSliding.uplugin` |
 | Added | `REVIEW_NOTES.md` |
+| Added | `Tools/Install-WindowsServer-Release.ps1` |

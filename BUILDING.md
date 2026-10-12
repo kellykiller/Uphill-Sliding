@@ -103,9 +103,19 @@ with staging and previous-plugin backup outside `FactoryGame/Mods`.
 & .\Tools\Install-Windows-Release.ps1 -ArchivePath "D:\Packages\UphillSliding-Windows.zip" -GameRoot "D:\Games\Satisfactory"
 ```
 
-For dedicated servers, install the matching platform package through the normal
-server mod workflow or replace only the stopped server's plugin directory with
-that platform ZIP's contents. Inspect the actual paths before copying.
+`Tools/Install-WindowsServer-Release.ps1` installs the **1.1.1 WindowsServer ZIP**
+with the same module/version checks and a previous-plugin backup outside Mods.
+Stop the server first. Existing compatible SML is retained; if absent, it installs
+the official SML 3.12.0 WindowsServer package with its pinned hash. No server process
+is started or terminated by the installer.
+
+```powershell
+& .\Tools\Install-WindowsServer-Release.ps1 -ArchivePath "D:\Packages\UphillSliding-WindowsServer.zip" -GameRoot "D:\Servers\Satisfactory"
+```
+
+For Linux dedicated servers, install the matching platform package through the
+normal server mod workflow or replace only the stopped server's plugin directory
+with that platform ZIP's contents. Inspect the actual paths before copying.
 
 ## Historical reproduction and rollback
 

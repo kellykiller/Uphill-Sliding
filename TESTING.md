@@ -66,7 +66,15 @@ UnrealEditor-Cmd because its editor module was missing (AutomationTool exit 25).
 The updater previously cleared plugin binaries and skipped compiling the editor;
 it now builds FactoryEditor explicitly before Alpakit. A successful editor build,
 complete archive validation and new in-game tests are still pending.
-These compiled Shipping binaries alone are not distributable packages.
+Those compiled Shipping binaries alone were not distributable packages.
+
+The subsequent supplied recovery log on **2026-10-12** shows successful
+`FactoryEditor` compilation/linking of `UnrealEditor-UphillSliding.dll`, followed
+by successful Alpakit build/cook/staging/archiving (AutomationTool exit 0).
+All four expected archive paths were present according to the recovery script.
+The archives themselves have not been supplied for independent binary inspection,
+and renamed 1.1.1 runtime tests are still pending. Platform installer validation
+checks descriptor versions and native module manifests before installation.
 
 Before publishing 1.1.1, the author must:
 
