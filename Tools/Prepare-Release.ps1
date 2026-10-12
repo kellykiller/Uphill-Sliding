@@ -13,12 +13,12 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version 2
 # RELEASE_PINS_BEGIN: immutable source and exact Git blob hashes.
-$sourceCommit = '961dbc95a64f5b8fe99626e99561b9e8f3aa7fa0'
+$sourceCommit = '39ba6a797d4c596e2d5caba05e87fc7b8ba9015e'
 $expectedVersion = '1.1.1'
 $moduleName = 'UphillSliding'
 $payloadFiles = @(
     [pscustomobject]@{ Path = 'BUILDING.md'; Hash = 'c8ff79055be7ecc9cb8579117601c4da07759aa3caafb00b8d6fd6851ae284ba' }
-    [pscustomobject]@{ Path = 'CHANGELOG.md'; Hash = '659cd8685b10905a7ee423f0a11ed6abbd5c172f0b4a464743f9316ea84cf932' }
+    [pscustomobject]@{ Path = 'CHANGELOG.md'; Hash = '7f3f16c4bfc099557b50737eebc634318857dae6a6199589ab05df11fad48203' }
     [pscustomobject]@{ Path = 'Config/AccessTransformers.ini'; Hash = 'ad4cfbce58cca963d7387644c09b81ebc9b123ce20ec602683a512c37c67b67d' }
     [pscustomobject]@{ Path = 'Config/Alpakit.ini'; Hash = 'b43633661d4b613628ba141765e10d78cb23d34e94ca2e293c06596b4bd2b144' }
     [pscustomobject]@{ Path = 'Config/PluginSettings.ini'; Hash = 'ac00d3df55b209139799deff29fe5e56da6ca44477e16bd1c4da16a2841877e1' }
@@ -27,7 +27,7 @@ $payloadFiles = @(
     [pscustomobject]@{ Path = 'LICENSE'; Hash = '77ab5fc59deb9a9b6f1a3161c02ba44ab8ed51e4e04e25462171225042f0d2d6' }
     [pscustomobject]@{ Path = 'MULTIPLAYER.md'; Hash = 'bdbb3178d80335fa8b0da6e7cf3fcdb49168bb63195148f9238d582018c47a3d' }
     [pscustomobject]@{ Path = 'README.md'; Hash = '933650da9addc39126f344e1f7e4a7cd652ebed60e6f534494c98b5f31884811' }
-    [pscustomobject]@{ Path = 'RELEASE_NOTES.md'; Hash = '657df96195f410922e32564f802b9f362e91d49bc0e5c32107bd339c34214646' }
+    [pscustomobject]@{ Path = 'RELEASE_NOTES.md'; Hash = '9c7a05f57e4ab1d2049effe8f7d5433dcd9dc2d4def0d525bb9f59e5d821e07e' }
     [pscustomobject]@{ Path = 'Source/UphillSliding/Private/UphillSliding.cpp'; Hash = '21af12b6bc67ccdcca4a35c9f6d7456deea69a4a265e1a4956626f64c3868d74' }
     [pscustomobject]@{ Path = 'Source/UphillSliding/Private/UphillSliding.h'; Hash = 'b7608c4f1803785f28bff3be799137b795ad46c7ed990f6a2f15a0520063e11a' }
     [pscustomobject]@{ Path = 'Source/UphillSliding/UphillSliding.Build.cs'; Hash = '940f0d8a7c5660fed7778b321ec749dc761a36be99f91866a6ec8d298f194833' }
