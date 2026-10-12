@@ -283,7 +283,7 @@ try {
     $uatArgs = $arguments.UatArgs
     & $runUat @uatArgs 2>&1 | ForEach-Object { $_.ToString() }
     exit $LASTEXITCODE
-    '@
+'@
     [IO.File]::WriteAllText($launcher, $launcherText, $utf8)
     & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $launcher $runnerArgsPath | Tee-Object -FilePath $logPath
     $buildExitCode = $LASTEXITCODE
