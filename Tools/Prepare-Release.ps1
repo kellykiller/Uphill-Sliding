@@ -13,7 +13,7 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version 2
 # RELEASE_PINS_BEGIN: immutable source and exact Git blob hashes.
-$sourceCommit = '39ba6a797d4c596e2d5caba05e87fc7b8ba9015e'
+$sourceCommit = 'a8c8891b0388701ec0440d4527cdc37dc6f97e8a'
 $expectedVersion = '1.1.1'
 $moduleName = 'UphillSliding'
 $payloadFiles = @(
@@ -25,13 +25,13 @@ $payloadFiles = @(
     [pscustomobject]@{ Path = 'Docs/History/1.1.0-release-notes.md'; Hash = '15c2dc9ccf6277bf461328441c8c3fbbe4b79d73c45d40fbabd607c0f4d1b8fe' }
     [pscustomobject]@{ Path = 'Docs/History/1.1.0-validation.md'; Hash = '659d7cca6ee684dcacb42a34454cdc115ad04f10ed4a3ffa53b18995507133d0' }
     [pscustomobject]@{ Path = 'LICENSE'; Hash = '77ab5fc59deb9a9b6f1a3161c02ba44ab8ed51e4e04e25462171225042f0d2d6' }
-    [pscustomobject]@{ Path = 'MULTIPLAYER.md'; Hash = 'bdbb3178d80335fa8b0da6e7cf3fcdb49168bb63195148f9238d582018c47a3d' }
-    [pscustomobject]@{ Path = 'README.md'; Hash = '933650da9addc39126f344e1f7e4a7cd652ebed60e6f534494c98b5f31884811' }
+    [pscustomobject]@{ Path = 'MULTIPLAYER.md'; Hash = 'ade9dda0455574121787f7c4345f938c266ef436fd872ee3b6c72c4a9edadbc6' }
+    [pscustomobject]@{ Path = 'README.md'; Hash = '8af8053e23b5afdf1c4c01035b91b0993c19a8c0787167e7f298563e6ad755d0' }
     [pscustomobject]@{ Path = 'RELEASE_NOTES.md'; Hash = '9c7a05f57e4ab1d2049effe8f7d5433dcd9dc2d4def0d525bb9f59e5d821e07e' }
     [pscustomobject]@{ Path = 'Source/UphillSliding/Private/UphillSliding.cpp'; Hash = '21af12b6bc67ccdcca4a35c9f6d7456deea69a4a265e1a4956626f64c3868d74' }
     [pscustomobject]@{ Path = 'Source/UphillSliding/Private/UphillSliding.h'; Hash = 'b7608c4f1803785f28bff3be799137b795ad46c7ed990f6a2f15a0520063e11a' }
     [pscustomobject]@{ Path = 'Source/UphillSliding/UphillSliding.Build.cs'; Hash = '940f0d8a7c5660fed7778b321ec749dc761a36be99f91866a6ec8d298f194833' }
-    [pscustomobject]@{ Path = 'TESTING.md'; Hash = '15458eee944c77d9a5a4bb3d696a85938e22c1e1e92ee357fe2e35509f340675' }
+    [pscustomobject]@{ Path = 'TESTING.md'; Hash = 'f46697eded7dd35720e7fa3c278879d1f3b087eea46d1c2ffb0f2c135f7f07fb' }
     [pscustomobject]@{ Path = 'Tests/CompileGuards.cpp'; Hash = 'b377d65c01a500236b04eb6720fba5bc95ef0fc6ff5398eafa9563ae29980991' }
     [pscustomobject]@{ Path = 'Tests/README.md'; Hash = '3c20a5e66e07f1a9972d9ba7c44b42dcfe3aa0dccb35eeec5f7b419f37af9b98' }
     [pscustomobject]@{ Path = 'Tests/Regression.cpp'; Hash = '12cac5a93e00908fa9cef6f1df7b790bd93eaf8ff3368e1a6ad75def70a4080d' }
