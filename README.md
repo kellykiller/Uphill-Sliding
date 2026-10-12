@@ -27,7 +27,7 @@ For directly hosted co-op, install it on both the host and joining players.
 
 | Mode | Test status |
 | --- | --- |
-| Windows singleplayer | 1.1.0 smoke test passed; 1.1.1 has not been separately retested |
+| Windows singleplayer | 1.1.1 functional test passed on 2026-10-12 |
 | Linux dedicated server | 1.1.1 functional test passed on 2026-10-12 |
 | Windows dedicated server | 1.1.1 functional test passed on 2026-10-12 |
 | Directly hosted co-op | Supported by the code; host/guest session not yet tested |
