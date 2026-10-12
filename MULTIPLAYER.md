@@ -19,7 +19,7 @@ has not yet been tested.
   Gameplay unchanged. Native builds and Alpakit packaging passed. The author
   confirmed successful Windows dedicated and Linux Docker dedicated functional
   tests with the Epic Windows client on 2026-10-12 after the game update.
-  Fresh singleplayer testing and remaining archive checks are pending.
+  Combined archive inspection passed. Fresh singleplayer testing is pending.
 
 Keep these version-specific results separate. Passing 1.1.0 runtime tests does
 not validate a newly compiled 1.1.1 package.

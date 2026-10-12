@@ -49,8 +49,9 @@ pending at that point. A subsequent supplied log confirms successful editor
 build and full Alpakit packaging, with all four expected archives present.
 The author subsequently confirmed successful Windows dedicated and Linux Docker
 dedicated functional tests on 2026-10-12 with the Epic Windows client after the
-game update. Fresh singleplayer testing and independent archive inspection
-remain pending; the brief confirmations do not establish broader acceptance
+game update. The supplied combined archive subsequently passed independent
+CRC/path/metadata/native-header/cooked-content checks; its hash is in TESTING.md.
+Fresh singleplayer testing remains pending; the brief confirmations do not establish broader acceptance
 test or measured network results.
 A WindowsServer release installer now validates renamed 1.1.1 packages and backs
 up the previous plugin. See TESTING.md for the exact scope. Earlier mock-only statements above

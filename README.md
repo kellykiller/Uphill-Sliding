@@ -66,8 +66,8 @@ version-specific test results. Source code is licensed under [MIT](LICENSE).
 
 The proposed **1.1.1** source renames the native module to `UphillSliding` without
 changing gameplay. It is **unreleased**. Native builds, Alpakit packaging and
-both dedicated-server functional tests passed by author reports. A fresh
-singleplayer test and remaining archive checks are pending. Existing 1.0.0
+both dedicated-server functional tests passed by author reports. Independent
+combined archive checks also passed. A fresh singleplayer test is pending. Existing 1.0.0
 and 1.1.0 release packages remain unchanged.
 
 ## Bug reports

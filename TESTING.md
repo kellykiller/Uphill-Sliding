@@ -72,9 +72,23 @@ The subsequent supplied recovery log on **2026-10-12** shows successful
 `FactoryEditor` compilation/linking of `UnrealEditor-UphillSliding.dll`, followed
 by successful Alpakit build/cook/staging/archiving (AutomationTool exit 0).
 All four expected archive paths were present according to the recovery script.
-The archives themselves have not been supplied for independent binary inspection,
-and runtime results are recorded below. Platform installer validation
-checks descriptor versions and native module manifests before installation.
+The combined archive was subsequently supplied for independent inspection;
+results are recorded below. Platform installer validation checks descriptor
+versions and native module manifests before installation.
+
+### Independent combined archive inspection — 2026-10-12
+
+The supplied `UphillSliding.zip` is **38,485,762 bytes**. SHA256:
+`8947abf480c7204cb47863cae274fbde35584a362d5719ddcf24930a48586227`.
+
+ZIP integrity and path-safety checks passed. All three platform descriptors name
+native module `UphillSliding`, version 1.1.1 / numeric Version 1, GameFeature true
+and RequiredOnRemote true, with release flags. Four SML module manifests resolve
+to the Epic/Steam Windows client DLLs, Windows dedicated DLL and Linux dedicated
+shared library. PE64 x86_64 DLL and ELF64 x86_64 shared-library headers passed;
+all nine expected nonempty pak/utoc/ucas files are present. No legacy-name entries
+remain. This validates archive structure and native headers, not execution or
+byte equality with separately installed packages whose hashes were not supplied.
 
 ### Author-confirmed dedicated functional tests — 2026-10-12
 
@@ -92,8 +106,8 @@ SML **3.12.0** was explicitly reinstalled on Linux before the mod installation.
 These are manual author confirmations, not independent recordings or network
 measurements. Do not infer separately documented results for clean shutdown,
 collision/respawn, two players or latency/packet loss from the brief reports.
-Fresh renamed 1.1.1 singleplayer testing, Steam runtime, listen-server/co-op
-testing and independent archive inspection remain pending.
+Fresh renamed 1.1.1 singleplayer testing, Steam runtime and listen-server/co-op
+testing remain pending. The combined archive inspection above has passed.
 
 Before publishing 1.1.1, the author must:
 
