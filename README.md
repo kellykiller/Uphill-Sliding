@@ -27,14 +27,14 @@ For directly hosted co-op, install it on both the host and joining players.
 
 | Mode | Test status |
 | --- | --- |
-| Windows singleplayer | 1.1.1 passed on 2026-10-12, Epic Windows; uphill sliding worked with no reported issues |
+| Windows singleplayer | 1.1.1 passed on 2026-10-12, Epic Windows |
 | Linux dedicated server | 1.1.1 functional test passed on 2026-10-12 |
 | Windows dedicated server | 1.1.1 functional test passed on 2026-10-12 |
 | Directly hosted co-op | Supported by the code; host/guest session not yet tested |
 
 All three 1.1.1 tests were completed on **2026-10-12** with the **Epic Games
 Windows client**, **Satisfactory 1.2.4.1 (build 513885)** and **SML 3.12.0**.
-These are manual author confirmations, not independent recordings. Steam client
+Steam client
 builds passed; Steam runtime, co-op, systematic latency/packet loss, two simultaneous
 players, collision and respawn remain untested. See [TESTING.md](TESTING.md) for
 version-specific evidence and the earlier 1.1.0 results.
