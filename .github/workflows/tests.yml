@@ -1,7 +1,8 @@
-name: Movement regression tests
+name: Repository checks
 
 on:
   push:
+    branches: [main]
   pull_request:
 
 permissions:
@@ -15,4 +16,30 @@ jobs:
         with:
           persist-credentials: false
       - name: Run C++20 mock regression tests
+        env:
+          UPHILL_PIN_CHECK_SEPARATE_JOB: '1'
         run: bash Tests/run-tests.sh
+
+  powershell-parse:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [pwsh, powershell]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Parse every Tools PowerShell file without executing installers
+        shell: ${{ matrix.shell }}
+        run: ./Tools/Check-PowerShellSyntax.ps1
+
+  release-pins:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Check build-input hashes against pinned Git contents
+        run: python3 Tools/Check-Release-Pins.py

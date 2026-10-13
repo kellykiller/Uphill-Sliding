@@ -7,6 +7,15 @@ Expectations remain active with `NDEBUG`; an intentional failing expectation
 must terminate every regression binary with a nonzero exit status.
 Scenario totals are counted automatically after each successful scenario.
 
+The default local runner also verifies release build-input hashes. In CI,
+`UPHILL_PIN_CHECK_SEPARATE_JOB=1` skips only that hash check in the regression
+job because the dedicated release-pins job runs it with full Git history.
+The separate metadata workflow was removed: `check-metadata.py` already runs
+once in the regression runner, so metadata validation stays available locally.
+CI runs on pushes to main and pull requests, rather than twice on PR branches.
+All Tools PowerShell files are parsed in both pwsh and Windows PowerShell 5.1;
+the parser does not execute installers or invoke an Engine build.
+
 The tests compile the actual mod implementation against small engine/SML stubs.
 They cover eligibility gates, network roles, braking, direction limits, original
 call counts, temporary angle restoration, hook cleanup and deterministic replay
