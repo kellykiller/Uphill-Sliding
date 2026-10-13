@@ -9,7 +9,7 @@ foreach ($toolFile in $toolFiles) {
     $null = [System.Management.Automation.Language.Parser]::ParseFile(
         $toolFile.FullName, [ref]$tokens, [ref]$parseErrors
     )
-    foreach ($parseError in @($parseErrors)) {
+    foreach ($parseError in $parseErrors) {
         Write-Host ('FAIL {0}:{1}:{2}: {3}' -f $toolFile.FullName,
             $parseError.Extent.StartLineNumber, $parseError.Extent.StartColumnNumber,
             $parseError.Message)

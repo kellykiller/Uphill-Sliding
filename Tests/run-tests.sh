@@ -23,7 +23,7 @@ guards=(-std=c++20 -Wall -Wextra -Werror -I"$test_build_dir/guard-stubs" -I"$tes
 g++ "${guards[@]}" -DWITH_EDITOR=1 "$test_dir/CompileGuards.cpp" -o "$test_build_dir/editor"
 "$test_build_dir/editor"
 python3 "$test_dir/check-metadata.py"
-python3 "$test_dir/LinuxInstallerSelfTest.py"
+python3 -B "$test_dir/LinuxInstallerSelfTest.py"
 if [[ "${UPHILL_PIN_CHECK_SEPARATE_JOB:-0}" != 1 ]]; then
     python3 "$test_dir/../Tools/Check-Release-Pins.py"
 fi
