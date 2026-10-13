@@ -21,6 +21,12 @@ They cover eligibility gates, network roles, braking, direction limits, original
 call counts, temporary angle restoration, hook cleanup and deterministic replay
 with identical supplied state. Descriptor metadata is also checked generically.
 
+The runner includes `LinuxInstallerSelfTest.py`: synthetic platform ZIPs, a
+temporary game/SML layout and a fake container controller exercise archive
+rejection, backups, rollback and lifecycle failures. No game, Docker daemon or
+real server is started. These tests do not establish real Linux-server support
+for the new installer.
+
 These tests do **not** validate actual FactoryGame headers, native ABI, packaging,
 UE collision physics, saved moves, replication, packets or latency. A real
 Alpakit build and the in-game checks in [TESTING.md](../TESTING.md) are required.
