@@ -1,4 +1,4 @@
-# Multiplayer support
+# Release history
 
 Uphill Sliding 1.1.1 supports matching movement rules on clients and servers.
 Install the same mod version on every client and server with compatible SML.
@@ -9,7 +9,7 @@ has not yet been tested.
 - [Confirmed results, remaining checks and acceptance tests](TESTING.md)
 - [Complete historical beta/build record](Docs/History/1.1.0-validation.md)
 
-## Release history
+## Versions
 
 - **1.0.0:** standalone singleplayer only.
 - **1.1.0 (2026-10-09):** multiplayer support and Windows/Linux dedicated packages.

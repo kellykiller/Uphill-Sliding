@@ -55,7 +55,9 @@ This repository contains the complete mod plugin, C++ source and assets.
 Place it in `Mods/GameFeatures/UphillSliding` inside a compatible Satisfactory
 Modding project using **Unreal Engine 5.6.1-CSS** and matching SML headers.
 See [BUILDING.md](BUILDING.md) for build/setup and [TESTING.md](TESTING.md) for
-version-specific test results. Source code is licensed under [MIT](LICENSE).
+version-specific test results. [Release history](RELEASES.md) and
+[movement rules](Docs/HOW-IT-WORKS.md) are documented separately. Source code
+is licensed under [MIT](LICENSE).
 
 Version **1.1.1** renames the native module to `UphillSliding` without changing
 gameplay. Native builds, Alpakit packaging, archive checks and singleplayer/dedicated

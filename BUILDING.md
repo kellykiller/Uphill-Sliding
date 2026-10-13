@@ -129,6 +129,9 @@ For Linux dedicated servers, install the matching platform package through the
 normal server mod workflow or replace only the stopped server's plugin directory
 with that platform ZIP's contents. Inspect the actual paths before copying.
 
+[Release history](RELEASES.md) · [Movement rules](Docs/HOW-IT-WORKS.md) ·
+[Historical 1.1.1 review](Docs/History/1.1.1-review-notes.md)
+
 ## Historical reproduction and rollback
 
 `Tools/Historical` retains the 1.1.0-beta.1 installers, immutable beta pins and the
