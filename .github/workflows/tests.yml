@@ -22,16 +22,15 @@ jobs:
 
   powershell-parse:
     runs-on: windows-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        shell: [pwsh, powershell]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Parse every Tools PowerShell file without executing installers
-        shell: ${{ matrix.shell }}
+      - name: Parse every Tools PowerShell file in pwsh
+        shell: pwsh
+        run: ./Tools/Check-PowerShellSyntax.ps1
+      - name: Parse every Tools PowerShell file in Windows PowerShell 5.1
+        shell: powershell
         run: ./Tools/Check-PowerShellSyntax.ps1
 
   release-pins:
