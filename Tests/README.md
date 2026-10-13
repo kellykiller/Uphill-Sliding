@@ -7,10 +7,25 @@ Expectations remain active with `NDEBUG`; an intentional failing expectation
 must terminate every regression binary with a nonzero exit status.
 Scenario totals are counted automatically after each successful scenario.
 
+The default local runner also verifies release build-input hashes. In CI,
+`UPHILL_PIN_CHECK_SEPARATE_JOB=1` skips only that hash check in the regression
+job because the dedicated release-pins job runs it with full Git history.
+The separate metadata workflow was removed: `check-metadata.py` already runs
+once in the regression runner, so metadata validation stays available locally.
+CI runs on pushes to main and pull requests, rather than twice on PR branches.
+All Tools PowerShell files are parsed in both pwsh and Windows PowerShell 5.1;
+the parser does not execute installers or invoke an Engine build.
+
 The tests compile the actual mod implementation against small engine/SML stubs.
 They cover eligibility gates, network roles, braking, direction limits, original
 call counts, temporary angle restoration, hook cleanup and deterministic replay
 with identical supplied state. Descriptor metadata is also checked generically.
+
+The runner includes `LinuxInstallerSelfTest.py`: synthetic platform ZIPs, a
+temporary game/SML layout and a fake container controller exercise archive
+rejection, backups, rollback and lifecycle failures. No game, Docker daemon or
+real server is started. These tests do not establish real Linux-server support
+for the new installer.
 
 These tests do **not** validate actual FactoryGame headers, native ABI, packaging,
 UE collision physics, saved moves, replication, packets or latency. A real

@@ -4,6 +4,10 @@
 
 Code cleanup and internal improvements.
 
+Gameplay is unchanged. The native module is now named `UphillSliding`, and an
+MIT license was added. Update all clients and servers to **1.1.1 together**;
+do not mix 1.1.1 with 1.1.0, 1.0.0 or beta packages.
+
 ## 1.1.0 — 2026-10-09
 
 - Add multiplayer support using matching uphill sliding rules on clients and the server.

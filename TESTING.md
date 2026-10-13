@@ -90,42 +90,40 @@ all nine expected nonempty pak/utoc/ucas files are present. No legacy-name entri
 remain. This validates archive structure and native headers, not execution or
 byte equality with separately installed packages whose hashes were not supplied.
 
-### Author-confirmed dedicated functional tests — 2026-10-12
+### Author-confirmed 1.1.1 functional tests — 2026-10-12
 
-| Package and session | Client | Result |
-| --- | --- | --- |
-| Renamed 1.1.1, Windows dedicated server | Epic Windows | Author confirmed successful mod functional test; joining and uphill sliding worked |
-| Renamed 1.1.1, Linux Docker dedicated server | Epic Windows | Author confirmed successful mod functional test; joining and uphill sliding worked |
+| Package and session | Date | Client | Result |
+| --- | --- | --- | --- |
+| 1.1.1, Windows singleplayer | 2026-10-12 | Epic Windows | Uphill sliding worked; no reported issues |
+| 1.1.1, Windows dedicated server | 2026-10-12 | Epic Windows | Successful functional test |
+| 1.1.1, Linux Docker dedicated server | 2026-10-12 | Epic Windows | Successful functional test |
 
-The servers and client were updated before these sessions. The observed client
-game build was **513885**. The Windows installation manifest reported Steam
-BuildID **25782485**; a Steam BuildID is not a game runtime build number. Server
-runtime build numbers and separate platform ZIP hashes were not supplied; the
-combined archive hash is recorded above.
-SML **3.12.0** was explicitly reinstalled on Linux before the mod installation.
+Environment confirmed by the author: **Satisfactory 1.2.4.1 (build 513885)** and
+**SML 3.12.0**. The Windows installation manifest separately reported Steam
+BuildID **25782485**; a Steam BuildID is not the game build number. Separate
+platform ZIP hashes were not supplied; the combined archive hash is recorded above.
 
 These are manual author confirmations, not independent recordings or network
-measurements. Do not infer separately documented results for clean shutdown,
-collision/respawn, two players or latency/packet loss from the brief reports.
-Fresh renamed 1.1.1 singleplayer testing, Steam runtime and listen-server/co-op
-testing remain pending. The combined archive inspection above has passed.
+measurements. The singleplayer test was completed on the release date; its client
+and result details were explicitly confirmed on 2026-10-13. No additional dedicated
+result details are inferred. Still untested: listen-server/co-op, Steam runtime,
+systematic latency/packet loss, two simultaneous players, collision and respawn.
 
 ### Build checks and ongoing acceptance testing
 
-The author authorized publication on 2026-10-12. A fresh 1.1.1 singleplayer
-result remains unconfirmed; publication does not establish that test result.
-The following records the build procedure and remaining acceptance checks:
+Version 1.1.1 was released on 2026-10-12. Native builds, packaging, archive checks,
+singleplayer and both dedicated functional tests passed within the scope above.
+No new build or release is needed for these documentation/tooling updates.
+For future builds and broader validation:
 
 1. Build with Alpakit for Windows clients, WindowsServer and LinuxServer.
-2. Check that all `.modules` manifests name `UphillSliding` and that no legacy
-   `SlideMomentum` binaries or source directories remain in the new archives.
-3. Install matching 1.1.1 packages on every participating client and server.
-4. Complete the fresh singleplayer test and any unreported acceptance checks:
-   reverse-input braking, sharp turns, slide jumps and normal shutdown. Both
-   dedicated functional tests have passed; broader checks are still welcome.
-   Watch for jitter and position resets, and compare with the mod disabled.
-5. Record the actual packages, platform/client, date and observed results here.
-   Keep co-op and Steam runtime marked untested until those sessions are run.
+2. Check module names, descriptors, native headers and cooked content in every archive.
+3. Install matching versions on every participating client and server.
+4. Exercise any unreported acceptance checks below, including braking, sharp turns,
+   slide jumps, shutdown, collisions, respawn, multiple players and network conditions.
+   Watch for jitter and position resets; compare with the mod disabled where useful.
+5. Record only confirmed package/platform/client/date/results. Keep co-op and Steam
+   runtime marked untested until those sessions are performed.
 
 ## Acceptance tests
 
@@ -145,24 +143,4 @@ Complete the remaining acceptance tests on Windows and Linux dedicated servers,
 then repeat on a listen server, testing both host and joining player. Dedicated
 server success alone does not validate listen-host and guest behavior.
 
-## How movement is applied
-
-The same four hooks run on the owning client's autonomous proxy (prediction and
-re-evaluation) and on authority-controlled player characters, including remote
-players on dedicated and listen servers. Client simulated proxies are excluded;
-other players are displayed through normal replicated movement.
-
-The calculation uses crouch input, acceleration, velocity, sliding state and the
-walkable floor. It adds no persistent movement state or custom RPCs. FactoryGame
-already declares saved slide state and compressed-flag handling in its movement
-implementation. This makes using the existing movement pipeline a reasonable
-first implementation; real server corrections must still be measured.
-
-The normal collision solver and position validation stay enabled. Walkability,
-reverse-input braking, sharp-turn checks, and original slide eligibility remain.
-The former local Enabled console variable is removed to prevent divergent rules.
-There are no player configuration or diagnostic console options in 1.1.0.
-
-`RequiredOnRemote` is true. `RemoteVersionRange` is omitted, so SML requires the
-exact same mod version on both sides. Do not mix 1.1.0, its beta packages or 1.0.0 in a session.
-
+[How movement is applied](Docs/HOW-IT-WORKS.md) · [Release history](RELEASES.md)

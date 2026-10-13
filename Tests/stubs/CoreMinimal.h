@@ -16,7 +16,6 @@ using TCHAR = char;
 #define TEXT(x) x
 #define PI 3.14159265358979323846f
 #define KINDA_SMALL_NUMBER 0.0001
-#define ECVF_Default 0
 #define DEFINE_LOG_CATEGORY_STATIC(...)
 template <class... Args>
 void MockLog(const char*, Args...) {}
@@ -68,16 +67,4 @@ struct TGuardValue
         value = replacement;
     }
     ~TGuardValue() { ref = old; }
-};
-
-template <class T>
-struct TAutoConsoleVariable
-{
-    inline static std::string LastName;
-    T value;
-    TAutoConsoleVariable(const char* name, T initial, const char*, int) : value(initial)
-    {
-        LastName = name;
-    }
-    T GetValueOnGameThread() const { return value; }
 };

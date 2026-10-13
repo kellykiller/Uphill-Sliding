@@ -27,18 +27,17 @@ For directly hosted co-op, install it on both the host and joining players.
 
 | Mode | Test status |
 | --- | --- |
-| Windows singleplayer | 1.1.1 functional test passed on 2026-10-12 |
+| Windows singleplayer | 1.1.1 passed on 2026-10-12, Epic Windows; uphill sliding worked with no reported issues |
 | Linux dedicated server | 1.1.1 functional test passed on 2026-10-12 |
 | Windows dedicated server | 1.1.1 functional test passed on 2026-10-12 |
 | Directly hosted co-op | Supported by the code; host/guest session not yet tested |
 
-Both 1.1.1 dedicated tests used the **Epic Games Windows client** after updating
-client/server installations. The observed client game build was **513885**;
-server runtime build numbers were not separately captured. SML **3.12.0** was
-used, and the combined release archive passed independent structural checks.
-Steam client builds passed; Steam runtime, co-op and broader latency, two-player,
-collision and respawn testing remain unconfirmed. See [TESTING.md](TESTING.md)
-for version-specific evidence and the earlier 1.1.0 results.
+All three 1.1.1 tests were completed on **2026-10-12** with the **Epic Games
+Windows client**, **Satisfactory 1.2.4.1 (build 513885)** and **SML 3.12.0**.
+These are manual author confirmations, not independent recordings. Steam client
+builds passed; Steam runtime, co-op, systematic latency/packet loss, two simultaneous
+players, collision and respawn remain untested. See [TESTING.md](TESTING.md) for
+version-specific evidence and the earlier 1.1.0 results.
 
 ## Download
 
@@ -56,10 +55,12 @@ This repository contains the complete mod plugin, C++ source and assets.
 Place it in `Mods/GameFeatures/UphillSliding` inside a compatible Satisfactory
 Modding project using **Unreal Engine 5.6.1-CSS** and matching SML headers.
 See [BUILDING.md](BUILDING.md) for build/setup and [TESTING.md](TESTING.md) for
-version-specific test results. Source code is licensed under [MIT](LICENSE).
+version-specific test results. [Release history](RELEASES.md) and
+[movement rules](Docs/HOW-IT-WORKS.md) are documented separately. Source code
+is licensed under [MIT](LICENSE).
 
 Version **1.1.1** renames the native module to `UphillSliding` without changing
-gameplay. Native builds, Alpakit packaging, archive checks and both dedicated
+gameplay. Native builds, Alpakit packaging, archive checks and singleplayer/dedicated
 functional tests passed. Existing 1.0.0 and 1.1.0 release packages remain unchanged.
 
 ## Bug reports

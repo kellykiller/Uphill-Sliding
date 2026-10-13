@@ -17,6 +17,18 @@ For Linux dedicated support on a Windows build machine, install Epic's
 It downloads a pinned source revision and verifies every payload hash before
 changing the existing plugin. Run the script from the current repository checkout.
 
+The current release payload pins only seven build-input files: `Source/*`,
+`Config/*` and `UphillSliding.uplugin`. Hashes are SHA-256 of file contents,
+not Git blob IDs. Documentation and tests are maintained in the repository;
+editing them does not require refreshing the build pins. The pinned revision
+remains `499f32100879569bd8434b3c3f7edaaece077de3`; those build inputs match the
+built source revision `363e632a2cf8bcfb8f2b469c4cabd7225d4c5257` and current source.
+The existing `Content/UphillSliding.uasset` is required and retained in the local
+project, rather than downloaded by this script. HistoricalBeta still loads all
+22 original files/hashes from its unchanged `Tools/Historical/Beta-Pins.json`.
+This tooling update is for future invocations; it does not rebuild or replace
+any published release, tag or package.
+
 ```powershell
 $projectRoot = "D:\SatisfactoryModding"
 $engineRoot = "C:\Program Files\Unreal Engine - CSS"
@@ -116,6 +128,40 @@ is started or terminated by the installer.
 For Linux dedicated servers, install the matching platform package through the
 normal server mod workflow or replace only the stopped server's plugin directory
 with that platform ZIP's contents. Inspect the actual paths before copying.
+
+`Tools/Install-LinuxServer-Release.py` checks the **1.1.1 LinuxServer platform ZIP**:
+safe/unique paths, ZIP integrity, release descriptor, renamed SML manifest,
+ELF64 x86_64 shared library and nonempty Linux cooked content. Compatible Linux
+SML must already be installed; it and other mods are retained. Staging and the
+previous plugin backup stay outside Mods; a failed replacement restores the old
+plugin. Files are readable (0644), directories traversable (0755).
+
+**This new installer has not been tested against a real Linux server.** Its
+synthetic self-tests exercise validation, installation, rollback and simulated
+container lifecycle only; they do not validate Docker, SML or game startup.
+The author's successful 1.1.1 Linux gameplay test used earlier installation
+commands and is not a test of this new script.
+
+For Docker, provide the actual host game path and container name:
+
+```bash
+python3 Tools/Install-LinuxServer-Release.py /path/to/UphillSliding-LinuxServer.zip /path/to/gamefiles --container satisfactory-server
+```
+
+An initially running container is stopped and restarted; an initially stopped
+container stays stopped. Check the startup log before joining. A start failure
+leaves the validated installation and previous-plugin backup available.
+For a native server, stop it yourself first, then explicitly acknowledge that:
+
+```bash
+python3 Tools/Install-LinuxServer-Release.py /path/to/UphillSliding-LinuxServer.zip /path/to/gamefiles --server-stopped
+```
+
+Neither mode changes Compose, SKIPUPDATE, SML or release assets. Use the full
+repository checkout; `bash Tests/run-tests.sh` includes the Python synthetic tests.
+
+[Release history](RELEASES.md) · [Movement rules](Docs/HOW-IT-WORKS.md) ·
+[Historical 1.1.1 review](Docs/History/1.1.1-review-notes.md)
 
 ## Historical reproduction and rollback
 
