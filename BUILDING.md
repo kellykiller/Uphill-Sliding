@@ -17,6 +17,18 @@ For Linux dedicated support on a Windows build machine, install Epic's
 It downloads a pinned source revision and verifies every payload hash before
 changing the existing plugin. Run the script from the current repository checkout.
 
+The current release payload pins only seven build-input files: `Source/*`,
+`Config/*` and `UphillSliding.uplugin`. Hashes are SHA-256 of file contents,
+not Git blob IDs. Documentation and tests are maintained in the repository;
+editing them does not require refreshing the build pins. The pinned revision
+remains `499f32100879569bd8434b3c3f7edaaece077de3`; those build inputs match the
+built source revision `363e632a2cf8bcfb8f2b469c4cabd7225d4c5257` and current source.
+The existing `Content/UphillSliding.uasset` is required and retained in the local
+project, rather than downloaded by this script. HistoricalBeta still loads all
+22 original files/hashes from its unchanged `Tools/Historical/Beta-Pins.json`.
+This tooling update is for future invocations; it does not rebuild or replace
+any published release, tag or package.
+
 ```powershell
 $projectRoot = "D:\SatisfactoryModding"
 $engineRoot = "C:\Program Files\Unreal Engine - CSS"
