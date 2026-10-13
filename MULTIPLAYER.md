@@ -1,6 +1,6 @@
 # Multiplayer support
 
-Uphill Sliding 1.1.0 supports matching movement rules on clients and servers.
+Uphill Sliding 1.1.1 supports matching movement rules on clients and servers.
 Install the same mod version on every client and server with compatible SML.
 For directly hosted co-op, both host and guests need the mod; that session mode
 has not yet been tested.
@@ -19,7 +19,10 @@ has not yet been tested.
   Gameplay unchanged. Native builds and Alpakit packaging passed. The author
   confirmed successful Windows dedicated and Linux Docker dedicated functional
   tests with the Epic Windows client on 2026-10-12 after the game update.
-  Combined archive inspection passed. Fresh singleplayer testing is pending.
+  Combined archive inspection passed. The 1.1.1 singleplayer test also passed on
+  2026-10-12 with Epic Windows: uphill sliding worked with no reported issues.
+  All three sessions used Satisfactory 1.2.4.1 (513885) and SML 3.12.0.
+  These are manual author confirmations, not independent recordings.
 
 Keep these version-specific results separate. Passing 1.1.0 runtime tests does
 not validate a newly compiled 1.1.1 package.

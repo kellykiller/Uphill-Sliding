@@ -50,8 +50,10 @@ The author subsequently confirmed successful Windows dedicated and Linux Docker
 dedicated functional tests on 2026-10-12 with the Epic Windows client after the
 game update. The supplied combined archive subsequently passed independent
 CRC/path/metadata/native-header/cooked-content checks; its hash is in TESTING.md.
-Fresh singleplayer testing remains pending; the brief confirmations do not establish broader acceptance
-test or measured network results.
+The author confirmed the 1.1.1 singleplayer test on 2026-10-12, Epic Windows:
+uphill sliding worked with no reported issues. All three sessions used
+Satisfactory 1.2.4.1 (513885) and SML 3.12.0. These manual confirmations do not
+establish broader acceptance or measured network results.
 A WindowsServer release installer now validates renamed 1.1.1 packages and backs
 up the previous plugin. See TESTING.md for the exact scope. Earlier mock-only statements above
 describe execution in this assistant environment, not the author's machine.
@@ -67,15 +69,14 @@ confirmed the final 1.1.0 test facts. Remaining work is validation evidence:
    confirm that its automatic FactoryEditor build succeeds before cooking.
 4. Confirm the Private header/dependencies and renamed AccessTransformers friend
    against actual FactoryGame/SML headers; inspect all packaged module names.
-5. Complete the fresh singleplayer test and unreported broader acceptance checks
-   with matching 1.1.1 packages. Windows/Linux dedicated functional tests passed
-   on 2026-10-12. Record braking, sharp turns, slide jumps, jitter/resets and clean
+5. Complete unreported broader acceptance checks with matching 1.1.1 packages.
+   Singleplayer and Windows/Linux dedicated functional tests passed on 2026-10-12. Record braking, sharp turns, slide jumps, jitter/resets and clean
    shutdown only when explicitly tested. See TESTING for the remaining checks.
 6. Keep co-op, Steam runtime and measured latency/packet loss marked untested
    until those specific tests are performed.
 7. Version 1.1.1 is published as a new release on the author's explicit instruction.
    Native builds, packaging, archive checks and both dedicated functional tests
-   passed; a fresh singleplayer result remains unconfirmed.
+   passed; singleplayer was also confirmed successful for 2026-10-12.
 
 Build steps: [BUILDING.md](BUILDING.md). Version-specific results: [TESTING.md](TESTING.md).
 
